@@ -6,11 +6,9 @@
 #define COMP345_RESOURCES_H
 
 
-
 class Resources {
 
 };
-
 
 
 #endif //COMP345_RESOURCES_H

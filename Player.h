@@ -6,11 +6,9 @@
 #define COMP345_PLAYER_H
 
 
-
 class Player {
 
 };
-
 
 
 #endif //COMP345_PLAYER_H

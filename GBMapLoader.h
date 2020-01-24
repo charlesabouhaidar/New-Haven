@@ -6,11 +6,9 @@
 #define COMP345_GBMAPLOADER_H
 
 
-
 class GBMapLoader {
 
 };
-
 
 
 #endif //COMP345_GBMAPLOADER_H

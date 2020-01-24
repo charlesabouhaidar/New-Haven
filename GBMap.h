@@ -7,10 +7,5 @@
 
 
 
-class GBMap {
-
-};
-
-
 
 #endif //COMP345_GBMAP_H
