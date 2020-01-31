@@ -27,9 +27,29 @@ class Deck{
         double draw();
 };
 
-class Hand{ //?
+class Hand{
     public:
-        exchange(); //?
+        exchange();
+};
+
+class Tile{
+    private:
+        int[2][2]* resources;
+
+    public:
+        Tile(int topLeft, int topRight, int bottomLeft, int bottomRight);
+        int* getResources();
+};
+
+class Building{
+    private:
+        int* type;
+        int* cost;
+
+    public:
+        Building(int type, int cost);
+        int getType();
+        int getCost();
 };
 
 #endif //COMP345_RESOURCES_H
