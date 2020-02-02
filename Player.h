@@ -1,7 +1,3 @@
-//
-// Created by Charles Abou Haidar on 2020-01-22.
-//
-
 #ifndef COMP345_PLAYER_H
 #define COMP345_PLAYER_H
 
@@ -10,37 +6,34 @@ using namespace std;//change to individual usings
 class Player {
     private:
         VGMap* village;
-        vector<Tile>* harvestTiles;
-        vector<Building>* buildings;
-        int* resourceMarkers[4];
+        Hand* hand;
+        int* resourceTracker[4];
         ResourceGatherer* resourceGatherer;
         ScoreCounter* scoreCounter;
 
     public:
         Player(string villageName);
-        PlaceHarvestTile(Tile tile, int location,8 int orientation);
-        DrawBuilding();
-        DrawHarvestTile();
-        ResourceTracker(); //?
-        BuildVillage(Building building, int location, bool flipped);
-        CalculateResources(int newTileLocation); //?
-        VGMAP getVillage();
-        vector<Tile> getHarvestTiles();
-        vector<Building> getBuildings();
-        int* getResourceMarkers();
-        setResourceMarkers(int[4] markers);
+        ~Player();
+        void PlaceHarvestTile(Tile tile, int location, int orientation);
+        void DrawBuilding();
+        void DrawHarvestTile();
+        int* ResourceTracker();
+        void BuildVillage(Building building, int location, bool flipped);
+        void CalculateResources(int newTileLocation);
+        VGMap getVillage();
+        Hand getHand();
 };
 
 class ResourceGatherer{
     public:
         ResourceGatherer();
-        CollectResources(int newTileLocation); //?
+        int* CollectResources(int newTileLocation);
 };
 
 class ScoreCounter{
     public:
         ScoreCounter();
-        int CalculateScore(VGMap village);
+        int CalculateScore();
 };
 
 #endif //COMP345_PLAYER_H

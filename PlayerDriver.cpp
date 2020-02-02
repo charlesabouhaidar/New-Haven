@@ -1,4 +1,3 @@
-//
-// Created by Charles Abou Haidar on 2020-01-22.
-//
+//driver for player
 
+//driver for resource collection and scoring
