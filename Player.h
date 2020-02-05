@@ -14,7 +14,7 @@ class Player {
     public:
         Player(string villageName);
         ~Player();
-        void PlaceHarvestTile(Tile tile, int location, int orientation);
+        void PlaceHarvestTile(GBMap board, Tile tile, int location, int orientation);
         void DrawBuilding();
         void DrawHarvestTile();
         int* ResourceTracker();
@@ -26,14 +26,12 @@ class Player {
 
 class ResourceGatherer{
     public:
-        ResourceGatherer();
-        int* CollectResources(int newTileLocation);
+        int* CollectResources(GBMap board, int newTileLocation);
 };
 
 class ScoreCounter{
     public:
-        ScoreCounter();
-        int CalculateScore();
+        int CalculateScore(VGMap village);
 };
 
 #endif //COMP345_PLAYER_H

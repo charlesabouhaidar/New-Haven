@@ -16,9 +16,9 @@ Player::~Player() {
     delete scoreCounter;
 }
 
-void Player::PlaceHarvestTile(Tile tile, int location, int orientation) {
-    //validate placement or UI side?
-    hand->exchange(tile, location, orientation);
+void Player::PlaceHarvestTile(GBMap board, Tile tile, int location, int orientation) {
+    //Check if location is unoccupied
+    hand->exchange(board, tile, location, orientation);
     CalculateResources(location);
 }
 
@@ -35,9 +35,9 @@ int* Player::ResourceTracker() {
 }
 
 void Player::BuildVillage(Building building, int location, bool flipped) {
-    //hand->getBuilding(); remove building from hand
-    //check valid placement of building on board? done on UI side?
+    //check valid placement of building on board
     //update village if valid and place building
+    //hand->getBuilding();? remove building from hand
 }
 
 void Player::CalculateResources(int newTileLocation) {
@@ -52,14 +52,10 @@ Hand Player::getHand() {
     return hand;
 }
 
-ResourceGatherer::ResourceGatherer() {}//needed?
-
-int* ResourceGatherer::CollectResources(int newTileLocation) {
+int* ResourceGatherer::CollectResources(GBMap board, int newTileLocation) {
     //...
 }
 
-ScoreCounter::ScoreCounter() {}//needed?
-
-int ScoreCounter::CalculateScore() {
+int ScoreCounter::CalculateScore(VGMap village) {
     //...
 }

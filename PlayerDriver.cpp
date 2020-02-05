@@ -1,3 +1,5 @@
-//driver for player
+//player
 
-//driver for resource collection and scoring
+
+//resource collection and scoring
+
