@@ -1,5 +1,13 @@
 #include "Player.h"
 
+Player::Player(){
+    village = new VGMap("Unspecified");
+    hand = new Hand();
+    resourceTracker = {0,0,0,0};
+    resourceGatherer = new ResourceGatherer();
+    scoreCounter = new ScoreCounter();
+}
+
 Player::Player(string villageName) {
     village = new VGMap(villageName);
     hand = new Hand();
@@ -17,7 +25,7 @@ Player::~Player() {
 }
 
 void Player::PlaceHarvestTile(GBMap board, Tile tile, int location, int orientation) {
-    //Check if location is unoccupied
+    //Check if location is unoccupied, function in GBMap?
     hand->exchange(board, tile, location, orientation);
     CalculateResources(location);
 }
@@ -35,9 +43,9 @@ int* Player::ResourceTracker() {
 }
 
 void Player::BuildVillage(Building building, int location, bool flipped) {
-    //check valid placement of building on board
-    //update village if valid and place building
+    //check valid placement of building on board, function in VGMap?
     //hand->getBuilding();? remove building from hand
+    //update village if valid and place building, function in VGMap?
 }
 
 void Player::CalculateResources(int newTileLocation) {
@@ -53,9 +61,14 @@ Hand Player::getHand() {
 }
 
 int* ResourceGatherer::CollectResources(GBMap board, int newTileLocation) {
-    //...
+    //graph traversal
+    //nested behavior in tiles
+    //mark passed over resources
+    //save values in array and return at end
 }
 
 int ScoreCounter::CalculateScore(VGMap village) {
-    //...
+    //calculate based on rows, double if none flipped
+    //calculate based on columns, double if none flipped
+    //sum and return total
 }
