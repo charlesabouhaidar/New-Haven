@@ -1,7 +1,10 @@
 #ifndef COMP345_PLAYER_H
 #define COMP345_PLAYER_H
 
-using namespace std::string;
+#include <string>
+#include "VGMap.h"
+#include "Resources.h"
+#include "GBMap.h"
 
 /**
  * Tracks player information and behavior

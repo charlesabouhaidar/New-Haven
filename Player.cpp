@@ -1,4 +1,5 @@
 #include "Player.h"
+using std::string;
 
 Player::Player(){
     village = new VGMap("Unspecified");
