@@ -1,55 +1,70 @@
 //
-// Created by Charles Abou Haidar on 2020-01-22.
+// Resources.h
+// Assignment 1 Part 5
+// Created by Alexandre Briere on 02-12-2020
 //
-
 #ifndef COMP345_RESOURCES_H
 #define COMP345_RESOURCES_H
+#include <string>
+#include <vector>
 
 using namespace std;
 
-class Resources {
-    private:
-        Deck* tiles;
-        Deck* buildings;
+class HarvestTile {
+private:
+	string topLeft;
+	string topRight;
+	string bottomLeft;
+	stringbottomRight;
 
-    public:
-        Resources();
-        Deck getTiles();
-        Deck getBuildings();
+public:
+	HarvestTile();
+	~HarvestTile();
+	HarvestTile(int index);
+	string* getTopLeftResource();
+	string* getTopRightResource();
+	string* getBottomLeftResource();
+	string* getBottomRightResource();
 };
 
-class Deck{
-    private:
-        vector<double>* deckContents;
-
-    public:
-        Deck(vector<double> contents);
-        double draw();
+class HarvestTileDeck {
+private:
+	vector<HarvestTile*> harvestTiles;
+public:
+	HarvestTileDeck();
+	~HarvestTileDeck();
+	HarvestTile* drawHarvestTile();
+	int howManyHarvestTiles();
 };
 
-class Hand{
-    public:
-        exchange();
+class Building {
+private:
+	int number;
+	string color;
+	string label;
+
+public:
+	Building();
+	~Building();
+	Building(int index);
+	int* getNumber();
+	string* getColor();
+	string* getLabel();
 };
 
-class Tile{
-    private:
-        int[2][2]* resources;
+class BuildingDeck {
+private:
+	vector<Building*> buildings;
+public:
+	BuildingDeck();
+	~BuildingDeck();
+	Building* drawBuilding();
+	int howManyBuildings();
+}
 
-    public:
-        Tile(int topLeft, int topRight, int bottomLeft, int bottomRight);
-        int* getResources();
+class HandObject {
+public:
+	exchange();
 };
 
-class Building{
-    private:
-        int* type;
-        int* cost;
-
-    public:
-        Building(int type, int cost);
-        int getType();
-        int getCost();
-};
-
-#endif //COMP345_RESOURCES_H
+#endif //COMP345_RESOURCES_H    
