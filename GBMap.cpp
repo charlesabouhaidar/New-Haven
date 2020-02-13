@@ -3,6 +3,7 @@
 //
 
 #include <vector>
+#include <iostream>
 #include "GBMap.h"
 #include "Cpp-Graph-Library-master/Graph.h"
 #include "Cpp-Graph-Library-master/Node.h"
