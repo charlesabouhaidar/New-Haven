@@ -6,19 +6,17 @@
 #define COMP345_GBMAP_H
 
 #include <iostream>
-#include "Cpp-Graph-Library-master/Graph.cpp"
 #include "Cpp-Graph-Library-master/Graph.h"
-#include "Cpp-Graph-Library-master/Node.cpp"
 #include "Cpp-Graph-Library-master/Node.h"
 #include <vector>
+using std::string;
+using std::vector;
 
-using namespace std;
-
-class BoardGame{
+class GBMap{
 public:
-     int fromNode, toSouthNode, toNorthNode, toEastNode, toWestNode;
-     static void createBoardGame(int numOfPlayers);
-
+    static Graph board;
+    static int fromNode, toSouthNode, toNorthNode, toEastNode, toWestNode, nodeName, i, j, k, l, m, n, o, p, q, r, s, t;
+    static void createBoardGame(int numOfPlayers);
+    static vector<string> reachableNodes;
 };
-
 #endif //COMP345_GBMAP_H
