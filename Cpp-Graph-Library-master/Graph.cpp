@@ -1,5 +1,6 @@
 //Min Chang
 //Github: Minyc510
+//Changed addNode() methods to return Node object (Charles Abou Haidar, Saturday February 15 2020)
 
 #include "Graph.h"
 #include <algorithm>
