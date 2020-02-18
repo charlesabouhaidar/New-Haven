@@ -120,6 +120,7 @@ void GBMap::createBoardGame(int numOfPlayers) {
             for (n = 0; n < reachableNodes.size(); n++) {
                 cout << reachableNodes.at(n) << endl;
             }
+            cout << board.getInfo();
             break;
         }
         case 4: {
@@ -201,6 +202,7 @@ void GBMap::createBoardGame(int numOfPlayers) {
             for (t = 0; t < reachableNodes.size(); t++) {
                 cout << reachableNodes.at(t) << endl;
             }
+            cout << board.getInfo();
             break;
         }
         default:
