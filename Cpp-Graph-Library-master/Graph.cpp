@@ -1,7 +1,6 @@
 //Min Chang
 //Github: Minyc510
-//Changed addNode() methods to return Node object (Charles Abou Haidar, Saturday February 15 2020)
-
+#include "GBMap.hpp"
 #include "Graph.h"
 #include <algorithm>
 #include <iostream>
@@ -97,7 +96,7 @@ Graph::~Graph() {
   for (auto iter : nodeMap) { delete iter.second; }
 }
 
-Node Graph::addNode(double data, std::string name) {
+bool Graph::addNode(double data, std::string name) {
   //If node already exists, return false
   if (nodeMap.find(name) != nodeMap.end()) { return false; }
 
@@ -108,7 +107,7 @@ Node Graph::addNode(double data, std::string name) {
   return true;
 }
 
-Node Graph::addNode(std::string name) {
+bool Graph::addNode(std::string name) {
   return addNode(1, name);
 }
 
@@ -194,14 +193,14 @@ bool Graph::deleteEdge(std::string fromNode, std::string toNode, double weight) 
 
   //If the Graph is undirected, also delete the "Inverse-Edge"
   if (!directed) {
-	  std::unordered_map<std::string, std::multiset<double>>& neighborMapRef1 = *(nodeMap[toNode]->getMapPtr());
+      std::unordered_map<std::string, std::multiset<double>>& neighborMapRef1 = *(nodeMap[toNode]->getMapPtr());
 
-	  //Delete weight from multiset
-	  std::multiset<double>& set1 = neighborMapRef1[fromNode];
-	  set1.erase(weight);
+      //Delete weight from multiset
+      std::multiset<double>& set1 = neighborMapRef1[fromNode];
+      set1.erase(weight);
 
-	  //If that was the last edge from fromNode to toNode, delete that (key,value) pair from getMapPtr()
-	  if (set1.empty()) { neighborMapRef1.erase(fromNode);}
+      //If that was the last edge from fromNode to toNode, delete that (key,value) pair from getMapPtr()
+      if (set1.empty()) { neighborMapRef1.erase(fromNode);}
   }
 
   return true;
@@ -735,10 +734,10 @@ std::string Graph::getInfo() {
   ss << "\n\nGraph Info: " << std::endl;
   //For Every Node
   for (auto iterA : nodeMap) {
-    ss << "[" << iterA.first << ": " << iterA.second->getData() << "] ";
+    ss << "Node [" << iterA.first << "] : Value = " << iterA.second->getData() << " --> ";
     //For Every Neighbor of Node
     for (auto iterB : *(iterA.second->getMapPtr())) {
-      ss << "("<< iterB.first << "): ";
+      ss << "Node ["<< iterB.first << "] : Value = ";
       //Print Each Edge of Neighbor
       for (auto weight : iterB.second) {
         ss << weight << ", ";
@@ -850,7 +849,6 @@ bool Graph::saveGraph(std::string outputFileName) {
   for (auto tuple : getEdges()) {
     output << std::get<0>(tuple) << separator << std::get<1>(tuple) << separator << std::get<2>(tuple) << std::endl;
   }
-
   //Close .txt  file
   output.close();
 }
