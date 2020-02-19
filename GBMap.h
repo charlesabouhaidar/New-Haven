@@ -1,3 +1,4 @@
+
 //
 // Created by Charles Abou Haidar on 2020-01-22.
 //
@@ -7,12 +8,17 @@
 
 #include <iostream>
 #include <vector>
-#include "Graph.h"
+#include "Cpp-Graph-Library-master/Graph.h"
 using namespace std;
 
-class GBMap : public Graph{
+class GBMap{
+
+private:
+    Graph *board;
 public:
-    static void createBoardGame(int numOfPlayers);
+    int numOfPlayers;
+    GBMap();
+    GBMap(int numOfPlayers);
 };
 
 
