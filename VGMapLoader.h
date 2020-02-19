@@ -6,11 +6,9 @@
 #define COMP345_VGMAPLOADER_H
 
 
-
 class VGMapLoader {
 
 };
-
 
 
 #endif //COMP345_VGMAPLOADER_H

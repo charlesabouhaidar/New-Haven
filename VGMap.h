@@ -6,11 +6,9 @@
 #define COMP345_VGMAP_H
 
 
-
 class VGMap {
 
 };
-
 
 
 #endif //COMP345_VGMAP_H

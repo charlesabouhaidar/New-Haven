@@ -1,6 +1,6 @@
 //Min Chang
 //Github: Minyc510
-
+#include "GBMap.hpp"
 #include "Graph.h"
 #include <algorithm>
 #include <iostream>
@@ -193,14 +193,14 @@ bool Graph::deleteEdge(std::string fromNode, std::string toNode, double weight) 
 
   //If the Graph is undirected, also delete the "Inverse-Edge"
   if (!directed) {
-	  std::unordered_map<std::string, std::multiset<double>>& neighborMapRef1 = *(nodeMap[toNode]->getMapPtr());
+      std::unordered_map<std::string, std::multiset<double>>& neighborMapRef1 = *(nodeMap[toNode]->getMapPtr());
 
-	  //Delete weight from multiset
-	  std::multiset<double>& set1 = neighborMapRef1[fromNode];
-	  set1.erase(weight);
+      //Delete weight from multiset
+      std::multiset<double>& set1 = neighborMapRef1[fromNode];
+      set1.erase(weight);
 
-	  //If that was the last edge from fromNode to toNode, delete that (key,value) pair from getMapPtr()
-	  if (set1.empty()) { neighborMapRef1.erase(fromNode);}
+      //If that was the last edge from fromNode to toNode, delete that (key,value) pair from getMapPtr()
+      if (set1.empty()) { neighborMapRef1.erase(fromNode);}
   }
 
   return true;
@@ -734,10 +734,10 @@ std::string Graph::getInfo() {
   ss << "\n\nGraph Info: " << std::endl;
   //For Every Node
   for (auto iterA : nodeMap) {
-    ss << "[" << iterA.first << ": " << iterA.second->getData() << "] ";
+    ss << "Node [" << iterA.first << "] : Value = " << iterA.second->getData() << " --> ";
     //For Every Neighbor of Node
     for (auto iterB : *(iterA.second->getMapPtr())) {
-      ss << "("<< iterB.first << "): ";
+      ss << "Node ["<< iterB.first << "] : Value = ";
       //Print Each Edge of Neighbor
       for (auto weight : iterB.second) {
         ss << weight << ", ";
@@ -849,7 +849,6 @@ bool Graph::saveGraph(std::string outputFileName) {
   for (auto tuple : getEdges()) {
     output << std::get<0>(tuple) << separator << std::get<1>(tuple) << separator << std::get<2>(tuple) << std::endl;
   }
-
   //Close .txt  file
   output.close();
 }

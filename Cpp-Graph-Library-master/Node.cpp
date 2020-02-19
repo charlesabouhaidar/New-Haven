@@ -4,6 +4,7 @@
 #include "Node.h"
 #include <utility>
 
+
 Node::Node(double data, std::string name) {
   this->data = data;
   this->name = name;
