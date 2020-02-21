@@ -15,7 +15,7 @@ private:
 	string topLeft;
 	string topRight;
 	string bottomLeft;
-	stringbottomRight;
+	string bottomRight;
 
 public:
 	HarvestTile();
@@ -60,11 +60,11 @@ public:
 	~BuildingDeck();
 	Building* drawBuilding();
 	int howManyBuildings();
-}
+};
 
-class HandObject {
+class Hand {
 public:
-	exchange();
+	void exchange();
 };
 
 #endif //COMP345_RESOURCES_H    
