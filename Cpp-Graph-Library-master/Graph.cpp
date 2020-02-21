@@ -1,6 +1,5 @@
 //Min Chang
 //Github: Minyc510
-#include "GBMap.hpp"
 #include "Graph.h"
 #include <algorithm>
 #include <iostream>
@@ -851,4 +850,13 @@ bool Graph::saveGraph(std::string outputFileName) {
   }
   //Close .txt  file
   output.close();
+  return true;
+}
+
+double Graph::getNodeValue(std::string name) {
+    return nodeMap.at(name)->getData();
+}
+
+void Graph::setNodeValue(std::string name, double value){
+    nodeMap.at(name)->setData(value);
 }

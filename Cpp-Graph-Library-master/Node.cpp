@@ -38,3 +38,7 @@ std::unordered_map<std::string, std::multiset<double>>* Node::getMapPtr() {
 }
 
 std::unordered_set<std::string>& Node::getSetRef() { return neighborOfSet; }
+
+void Node::setData(double d) {
+    data = d;
+}
