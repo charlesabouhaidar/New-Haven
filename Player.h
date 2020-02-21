@@ -2,6 +2,7 @@
 #define COMP345_PLAYER_H
 
 #include <string>
+#include <vector>
 #include "VGMap.h"
 #include "Resources.h"
 #include "GBMap.h"
@@ -17,7 +18,7 @@ class ResourceGatherer{
          * @param newTileLocation The location of the placed tile
          * @return A resource tracker with the gathered resources
          */
-        int* CollectResources(GBMap board, int newTileLocation);
+        vector<int>* CollectResources(GBMap board, int newTileLocation);
 };
 
 /**
@@ -37,14 +38,14 @@ class ScoreCounter{
  * Tracks player information and behavior
  */
 class Player {
+    friend int main();
     private:
         int* playerID;
         VGMap* village;
-        Hand* hand;
-        int* resourceTracker[4];
+        //Hand* hand;
+        vector<int>* resourceTracker;
         ResourceGatherer* resourceGatherer;
         ScoreCounter* scoreCounter;
-
     public:
         /**
          * Constructs a new player with an unspecified village name and ID zero
@@ -86,7 +87,7 @@ class Player {
          * Gets the player's resource tracker
          * @return The player's resource tracker
          */
-        int* ResourceTracker();
+        vector<int>* ResourceTracker();
 
         /**
          * Places a building tile onto the player's village board
@@ -100,18 +101,18 @@ class Player {
          * Calculates and adds resources to the resource tracker for a tile placement
          * @param newTileLocation The location of the placed tile
          */
-        void CalculateResources(int newTileLocation);
+        void CalculateResources(GBMap board, int newTileLocation);
 
         /**
          * Gets the player's village board
          * @return The player's village board
          */
-        VGMap getVillage();
+        //VGMap getVillage();
 
         /**
          * Gets the player's hand
          * @return The player's hand
          */
-        Hand getHand();
+        //Hand getHand();
 };
 #endif //COMP345_PLAYER_H
