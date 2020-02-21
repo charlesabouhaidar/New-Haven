@@ -1,6 +1,8 @@
 //Min Chang
 //Github: Minyc510
 
+//Additions made for needed functionality
+
 #ifndef GRAPH_H
 #define GRAPH_H
 
@@ -87,6 +89,8 @@ public:
   //Persistent Graph Functions
   bool saveGraph(std::string outputFileName);
 
+  double getNodeValue(std::string name);
+  void setNodeValue(std::string name, double value);
 };
 
 #endif // GRAPH_H
