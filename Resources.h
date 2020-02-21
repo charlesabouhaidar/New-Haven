@@ -12,15 +12,15 @@ using namespace std;
 
 class HarvestTile {
 private:
-	string topLeft;
-	string topRight;
-	string bottomLeft;
-	string bottomRight;
+	string* topLeft;
+	string* topRight;
+	string* bottomLeft;
+	string* bottomRight;
 
 public:
 	HarvestTile();
 	~HarvestTile();
-	HarvestTile(int index);
+	HarvestTile(int indexOfHT);
 	string* getTopLeftResource();
 	string* getTopRightResource();
 	string* getBottomLeftResource();
@@ -34,19 +34,19 @@ public:
 	HarvestTileDeck();
 	~HarvestTileDeck();
 	HarvestTile* drawHarvestTile();
-	int howManyHarvestTiles();
+	int* howManyHarvestTiles();
 };
 
 class Building {
 private:
-	int number;
-	string color;
-	string label;
+	int* number;
+	string* color;
+	string* label;
 
 public:
 	Building();
 	~Building();
-	Building(int index);
+	Building(int indexOfB);
 	int* getNumber();
 	string* getColor();
 	string* getLabel();
@@ -59,12 +59,19 @@ public:
 	BuildingDeck();
 	~BuildingDeck();
 	Building* drawBuilding();
-	int howManyBuildings();
+	int* howManyBuildings();
 };
 
-class Hand {
+class HandObject {
+private:
+	static HarvestTile* displayHarvestTiles[2];
+	static Building* displayBuildings[];
 public:
-	void exchange();
+	HandObject();
+	HarvestTile* exchange(int row, int column);
+	~HandObject();
+	void toString();
+
 };
 
 #endif //COMP345_RESOURCES_H    
