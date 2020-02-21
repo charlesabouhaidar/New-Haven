@@ -42,16 +42,12 @@ int main(int argc, const char * argv[]) {
 
 	hand->toString();
 
-	HarvestTile* harvestTile = harvestTileDeck->drawHarvestTile();
-	Building* building = buildingDeck->drawBuilding();
-
-	hand->toString();
-
-
 	// Exchange method test
   
-  hand->exchange(...);
+	/***
+    hand->exchange(4, 4);
 	hand->toString();
+	***/
 
 	// Delete the elements to avoid memory leaks and assign the dangling pointers to NULL.
 	delete hand;
