@@ -108,9 +108,10 @@ Player::~Player() {
 }
 
 void Player::PlaceHarvestTile(GBMap board, HarvestTile tile, int location, int orientation) {
-    //Check if location is unoccupied if(board->getTile(location)...);
-    //hand->exchange(board, tile, location, orientation, playerID);
-    CalculateResources(board, location);
+    if(board.getTileData(to_string(location)) == 0) {
+        //hand->exchange(board, tile, location, orientation, playerID);
+        CalculateResources(board, location);
+    }
 }
 
 void Player::DrawBuilding(BuildingDeck buildingDeck) {
@@ -132,8 +133,7 @@ void Player::BuildVillage(Building building, int location, bool flipped) {
 }
 
 void Player::CalculateResources(GBMap board, int newTileLocation) {
-//    resourceTracker =
-    resourceGatherer->CollectResources(board, newTileLocation);
+    resourceTracker = resourceGatherer->CollectResources(board, newTileLocation);
 }
 
 //VGMap Player::getVillage() {
