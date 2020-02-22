@@ -11,14 +11,15 @@
 #include <stdlib.h>
 
 using namespace std;
+
 // Harvest Tile CLASS
 
 HarvestTile::HarvestTile() {
 
 }
-HarvestTile::HarvestTile(int index) {
+HarvestTile::HarvestTile(int indexOfHT) {
 
-	switch (index) {
+	switch (indexOfHT) {
 		// 3 Different Resources Harvest Tiles
 
 	case 1:  topLeft = "Stone";  topRight = "Stone";  bottomLeft = "Wheat";  bottomRight = "Sheep"; break;
@@ -95,7 +96,7 @@ HarvestTileDeck::~HarvestTileDeck() {
 	harvestTiles.clear();
 }
 
-// Method that returns a pointer to the harvest tile drawed from the deck
+// Method that returns a pointer to the harvest tile drawn from the deck
 HarvestTile* HarvestTileDeck::drawHarvestTile() {
 	HarvestTile &temp = *harvestTiles.back();
 	harvestTiles.pop_back();
@@ -112,9 +113,9 @@ int HarvestTileDeck::howManyHarvestTiles() {
 Building::Building() {
 
 }
-Building::Building(int index) {
+Building::Building(int indexOfB) {
 
-	switch (index) {
+	switch (indexOfB) {
 		// 6 Buildings for green
 
 	case 1: number = 1; color = "Green"; label = "Meadow"; break;
@@ -193,7 +194,7 @@ BuildingDeck::~BuildingDeck() {
 }
 
 
-// Method that returns a pointer to the building drawed from the deck
+// Method that returns a pointer to the building drawn from the deck
 Building* BuildingDeck::drawBuilding() {
 	Building &temp = *buildings.back();
 	buildings.pop_back();
@@ -207,9 +208,38 @@ int BuildingDeck::howManyBuildings() {
 
 // Hand Object CLASS
 
-/***
-...
+// Constructor.
+HandObject::HandObject() {
+	for (int i = 0; i < 2; i++) {
+		displayHarvestTiles[i] = harvestTiles->drawHarvestTile();
+	}
+	for (int i = 0; i < 6; i++) {
+		displayBuildings[i] = buildings->drawBuilding();
+	}
+}
 
-***/
+// Destuctor.
+HandObject::~HandObject() {
+
+}
 
 
+// exchange() method that allows the player to select the Harvest tile from 
+// its position in the row and the column on the Game Board and assign the
+// resource markers a value of the accumulated resources from the Harvest Tiles
+
+void HandObject::exchange(int row, int column){
+	//calculate total resources
+	//set resources markers to these amounts
+	return 0;
+}
+
+// To String object.
+void HandObject::toString() {
+	for (int i = 0; i < displayHarvestTiles.length(); i++) {
+		cout << "\nThe harvest tile in position " << i + 1 <<  << "\t Top Left: " << displayHarvestTiles[i]->getTopLeftResource() << endl << "\t Top Right: " << displayHarvestTiles[i]->getTopRighttResource() << endl << "\t Bottom Left: " << displayHarvestTiles[i]->getBottomLeftResource() << endl << "\t Bottom Right: " << displayHarvestTiles[i]->getBottomRightResource() << endl;
+	}
+	for (int j = 0; j < displayBuildings.length(); j++) {
+		cout << "\nThe building in position " << j + 1 <<  << "\t Number: " << displayBuildings[j]->getNumber() << endl << "\t Color: " << displayBuildings[j]->getColor() << endl << "\t Label: " << displayBuildings[j]->getLabel() << endl;
+	}
+}
