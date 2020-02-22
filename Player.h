@@ -11,6 +11,17 @@
  * Gathers resources from tile placements
  */
 class ResourceGatherer{
+    private:
+    /**
+     * Sums together all chained resources for CollectResources
+     * @param board The board to collect off of
+     * @param location Tile location on game board
+     * @param corner Corner of the tile
+     * @param resource Current resource being summed
+     * @return The sum of all the chained resource
+     */
+        int collect(GBMap board, string location, int corner, int resource);
+
     public:
         /**
          * Calculates the resources gathered from a tile placement

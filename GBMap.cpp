@@ -4,6 +4,7 @@
 using std::vector;
 using std::string;
 using std::to_string;
+using std::stoi;
 
 GBMap::GBMap(int numOfPlayers) {
     int fromNode, toSouthNode, toNorthNode, toEastNode, toWestNode, i, j, k, l, m, n, o, p, q, r, s;
@@ -206,3 +207,35 @@ void GBMap::setTileData(string position, double data) {
     board->setNodeValue(position, data);
 }
 
+string GBMap::getNorth(string position){
+    vector<string> neighbors = board->neighborNames(position);
+    for (int i = 0; i < neighbors.size(); i++) {
+        if(stoi(neighbors.at(i)) <= stoi(position)-5)
+            return neighbors.at(i);
+    }
+    return "";
+}
+string GBMap::getSouth(string position){
+    vector<string> neighbors = board->neighborNames(position);
+    for (int i = 0; i < neighbors.size(); i++) {
+        if(stoi(neighbors.at(i)) >= stoi(position)+5)
+            return neighbors.at(i);
+    }
+    return "";
+}
+string GBMap::getEast(string position){
+    vector<string> neighbors = board->neighborNames(position);
+    for (int i = 0; i < neighbors.size(); i++) {
+        if(stoi(neighbors.at(i)) == stoi(position)+1)
+            return neighbors.at(i);
+    }
+    return "";
+}
+string GBMap::getWest(string position){
+    vector<string> neighbors = board->neighborNames(position);
+    for (int i = 0; i < neighbors.size(); i++) {
+        if(stoi(neighbors.at(i)) == stoi(position)-1)
+            return neighbors.at(i);
+    }
+    return "";
+}

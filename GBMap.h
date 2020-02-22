@@ -18,6 +18,10 @@ public:
     Graph* getBoard();
     double getTileData(string position);
     void setTileData(string position, double data);
+    string getNorth(string position);
+    string getSouth(string position);
+    string getEast(string position);
+    string getWest(string position);
 };
 
 
