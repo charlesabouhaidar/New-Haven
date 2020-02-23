@@ -1,6 +1,5 @@
 #include "GBMap.h"
 #include <vector>
-
 using std::vector;
 using std::string;
 using std::to_string;
@@ -127,18 +126,33 @@ GBMap::GBMap(int numOfPlayers) {
 
                 }
             }
-            for (q = 5; q <= 32; q++) {
+            for(int t = 5; t < 12; t++){
+                fromNode = t;
+                toEastNode = fromNode + 1;
+                toWestNode = fromNode - 1;
+                toNorthNode = fromNode - 6;
+                toSouthNode = fromNode + 7;
+                board->addEdge(to_string(fromNode), to_string(toSouthNode)); //all nodes have a south node between nodes 5 and 11
+                if (fromNode == 5) {
+                    board->addEdge(to_string(fromNode), to_string(toEastNode));
+                } else if (fromNode == 11) { //node 11 which doesn't have a north node or east one
+                    board->addEdge(to_string(fromNode), to_string(toWestNode));
+                }
+                else{
+                    board->addEdge(to_string(fromNode), to_string(toNorthNode));
+                    board->addEdge(to_string(fromNode), to_string(toEastNode));
+                    board->addEdge(to_string(fromNode), to_string(toWestNode));
+                }
+            }
+            for (q = 12; q < 33; q++) {
                 fromNode = q;
                 toEastNode = fromNode + 1;
                 toSouthNode = fromNode + 7;
                 toWestNode = fromNode - 1;
                 toNorthNode = fromNode - 7;
                 board->addEdge(to_string(fromNode), to_string(toSouthNode)); //all edges are connected to a south node
-                if (fromNode == 5) {
-                    board->addEdge(to_string(fromNode), to_string(toEastNode));
-                } else if (fromNode == 11) { //node 11 which doesn't have a north node or east one
-                    board->addEdge(to_string(fromNode), to_string(toWestNode));
-                } else if (fromNode % 7 == 5) { //left side of the board that don't have a west node
+
+                if (fromNode % 7 == 5) { //left side of the board that don't have a west node
                     board->addEdge(to_string(fromNode), to_string(toNorthNode));
                     board->addEdge(to_string(fromNode), to_string(toEastNode));
                 } else if (fromNode % 7 == 4) { //right nodes of the board which are not connected to east nodes
@@ -150,7 +164,7 @@ GBMap::GBMap(int numOfPlayers) {
                     board->addEdge(to_string(fromNode), to_string(toWestNode));
                 }
             }
-            for (r = 33; r <= 39; r++) {
+            for (r = 33; r < 40; r++) {
                 fromNode = r;
                 toEastNode = fromNode + 1;
                 toSouthNode = fromNode + 6;
@@ -167,7 +181,7 @@ GBMap::GBMap(int numOfPlayers) {
                     board->addEdge(to_string(fromNode), to_string(toWestNode));
                 }
             }
-            for (s = 40; s <= 44; s++) {
+            for (s = 40; s < 45; s++) {
                 fromNode = s;
                 toEastNode = fromNode + 1;
                 toNorthNode = fromNode - 7;
