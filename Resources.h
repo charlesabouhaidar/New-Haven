@@ -25,6 +25,10 @@ public:
 	string* getTopRightResource();
 	string* getBottomLeftResource();
 	string* getBottomRightResource();
+	void setTopLeftResource(string resource);
+	void setTopRightResource(string resource);
+	void setBottomLeftResource(string resource);
+	void setBottomRightResource(string resource);
 };
 
 class HarvestTileDeck {
@@ -34,6 +38,7 @@ public:
 	HarvestTileDeck();
 	~HarvestTileDeck();
 	HarvestTile* drawHarvestTile();
+	void drawHarvestTile();
 	int* howManyHarvestTiles();
 };
 
@@ -59,6 +64,7 @@ public:
 	BuildingDeck();
 	~BuildingDeck();
 	Building* drawBuilding();
+	void drawBuilding();
 	int* howManyBuildings();
 };
 
@@ -66,10 +72,13 @@ class HandObject {
 private:
 	static HarvestTile* displayHarvestTiles[2];
 	static Building* displayBuildings[];
+	double TileData;
 public:
 	HandObject();
-	HarvestTile* exchange(int row, int column);
+	HarvestTile* exchange(GBMap board, int playerID, int indexOfHarvestTile, string position, int orientation);
 	~HandObject();
+	void deleteBuilding(int indexOfBuilding);
+	void deleteHarvestTile(int indexOfHarvestTile);
 	void toString();
 
 };
