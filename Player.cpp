@@ -82,7 +82,7 @@ Player::Player(){
     int id = 0;
     playerID = &id;
     village = new VGMap();
-    //hand = new Hand();
+    hand = new Hand();
     resourceTracker = new vector<int>;
     resourceTracker->assign(4, 0);
     resourceGatherer = new ResourceGatherer();
@@ -92,7 +92,7 @@ Player::Player(){
 Player::Player(int id, string villageName) {
     playerID = &id;
     village = new VGMap(villageName);
-    //hand = new Hand();
+    hand = new Hand();
     resourceTracker = new vector<int>;
     resourceTracker->assign(4, 0);
     resourceGatherer = new ResourceGatherer();
@@ -102,17 +102,19 @@ Player::Player(int id, string villageName) {
 Player::~Player() {
     delete playerID;
     delete village;
-    //delete hand;
+    delete hand;
     delete resourceTracker;
     delete resourceGatherer;
     delete scoreCounter;
 }
 
-void Player::PlaceHarvestTile(GBMap board, HarvestTile tile, int location, int orientation) {
+bool Player::PlaceHarvestTile(GBMap board, int tileIndex, int location, int orientation) {
     if(board.getTileData(to_string(location)) == 0) {
-        //hand->exchange(board, tile, location, orientation, playerID);
+        hand->exchange(board, tile, location, orientation, playerID);
         CalculateResources(board, location);
+        return true;
     }
+    return false;
 }
 
 void Player::DrawBuilding(BuildingDeck buildingDeck) {
@@ -127,12 +129,63 @@ vector<int>* Player::ResourceTracker() {
     return resourceTracker;
 }
 
-void Player::BuildVillage(Building building, int location, bool flipped) {
+bool Player::BuildVillage(int buildingIndex, int location, bool flipped) {
     if(village->getTileData(to_string(location)) == 0) {
-        //ensure type adjacency, check number value if not flipped
-        //hand->getBuilding();? remove building from hand
-        //update village if valid and place building, function in VGMap?
+        Building building = hand->buildings->at(buildingIndex);
+        int* number = building.getNumber();
+        string* color = building.getColor();
+        int colorIndex = 0;
+        if(*color == "Red")
+            colorIndex = 1;
+        else if(*color == "Gray")
+            colorIndex = 2;
+        else if(*color == "Green")
+            colorIndex = 3;
+        //check if position has valid number
+        int row = location/5;
+        if(flipped || *number == 6-row){
+            //check if there are sufficient resource to place building
+            if(resourceTracker->at(colorIndex) >= 6 - row) {
+                //check if type is adjacent if placed
+                if (!village->getFlags()->at(colorIndex)) {
+                    village->getFlags()->at(colorIndex) = true;
+                    hand->removeBuilding(buildingIndex);
+                    resourceTracker->at(colorIndex) -= (6-row);
+                    double data = 0;
+                    if(flipped)
+                        data++;
+                    data += row*10;
+                    data += (colorIndex+1)*100;
+                    village->setTileData(to_string(location), data);
+                    return true;
+                } else {
+                    int adjacentData[4] = {0,0,0,0};
+                    adjacentData[0] = village->getTileData(village->getEast(to_string(location)));
+                    adjacentData[1] = village->getTileData(village->getWest(to_string(location)));
+                    adjacentData[2] = village->getTileData(village->getNorth(to_string(location)));
+                    adjacentData[3] = village->getTileData(village->getSouth(to_string(location)));
+                    bool isAdj = false;
+                    for(int i = 0; i > 4; i++){
+                        if(adjacentData[i]/100%10 == colorIndex+1){
+                            isAdj = true;
+                        }
+                    }
+                    if(isAdj){
+                        hand->removeBuilding(buildingIndex);
+                        resourceTracker->at(colorIndex) -= (6-row);
+                        double data = 0;
+                        if(flipped)
+                            data++;
+                        data += row*10;
+                        data += (colorIndex+1)*100;
+                        village->setTileData(to_string(location), data);
+                        return true;
+                    }
+                }
+            }
+        }
     }
+    return false;
 }
 
 void Player::CalculateResources(GBMap board, int newTileLocation) {
@@ -143,6 +196,6 @@ VGMap* Player::getVillage() {
     return village;
 }
 
-//Hand Player::getHand() {
-//    return hand;
-//}
+Hand* Player::getHand() {
+    return hand;
+}

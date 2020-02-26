@@ -49,11 +49,10 @@ class ScoreCounter{
  * Tracks player information and behavior
  */
 class Player {
-    friend int main();
     private:
         int* playerID;
         VGMap* village;
-        //Hand* hand;
+        Hand* hand;
         vector<int>* resourceTracker;
         ResourceGatherer* resourceGatherer;
         ScoreCounter* scoreCounter;
@@ -78,11 +77,12 @@ class Player {
         /**
          * Places a harvest tile onto the game board
          * @param board The game board to place the tile on
-         * @param tile The tile to place
+         * @param tile The index of the tile to place in the hand
          * @param location The location on the board to place the tile
          * @param orientation The orientation of the tile
+         * @return If the placement was successful
          */
-        void PlaceHarvestTile(GBMap board, HarvestTile tile, int location, int orientation);
+        bool PlaceHarvestTile(GBMap board, int tileIndex, int location, int orientation);
 
         /**
          * Adds a building to the player's hand from the building deck
@@ -102,11 +102,12 @@ class Player {
 
         /**
          * Places a building tile onto the player's village board
-         * @param building The building to place
+         * @param buildingIndex The index of the building to place in the hand
          * @param location The location to place the building
          * @param flipped Whether the building is played face up or flipped
+         * @return If the placement was successful
          */
-        void BuildVillage(Building building, int location, bool flipped);
+        bool BuildVillage(int buildingIndex, int location, bool flipped);
 
         /**
          * Calculates and adds resources to the resource tracker for a tile placement
