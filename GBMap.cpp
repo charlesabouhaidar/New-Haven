@@ -184,7 +184,7 @@ GBMap::GBMap(int numOfPlayers) {
             for (s = 40; s < 45; s++) {
                 fromNode = s;
                 toEastNode = fromNode + 1;
-                toNorthNode = fromNode - 7;
+                toNorthNode = fromNode - 6;
                 toWestNode = fromNode - 1;
                 board->addEdge(to_string(fromNode), to_string(toNorthNode));
                 if (fromNode == 40) {
