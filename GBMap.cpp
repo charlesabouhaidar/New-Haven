@@ -67,35 +67,35 @@ GBMap::GBMap(int numOfPlayers) {
                 toEastNode = fromNode + 1;
                 toWestNode = fromNode - 1;
                 toNorthNode = fromNode - 5;
-                if (fromNode == 0) {
+                if (fromNode == 0) { //topLeft node only has south and east nodes
                     board->addEdge(to_string(fromNode), to_string(toSouthNode));
                     board->addEdge(to_string(fromNode), to_string(toEastNode));
-                } else if (fromNode == 4) {
+                } else if (fromNode == 4) { //topRight node only has south and west nodes
                     board->addEdge(to_string(fromNode), to_string(toSouthNode));
                     board->addEdge(to_string(fromNode), to_string(toWestNode));
-                } else if (fromNode == 30) {
+                } else if (fromNode == 30) { //bottomLeft node only has north and east nodes
                     board->addEdge(to_string(fromNode), to_string(toNorthNode));
                     board->addEdge(to_string(fromNode), to_string(toEastNode));
-                } else if (fromNode == 34) {
+                } else if (fromNode == 34) { //bottomRight node only has north and west nodes
                     board->addEdge(to_string(fromNode), to_string(toNorthNode));
                     board->addEdge(to_string(fromNode), to_string(toWestNode));
-                } else if (fromNode == 1 || fromNode == 2 || fromNode == 3) {
+                } else if (fromNode == 1 || fromNode == 2 || fromNode == 3) { //top nodes that aren't in the corners have east, west and south nodes
                     board->addEdge(to_string(fromNode), to_string(toEastNode));
                     board->addEdge(to_string(fromNode), to_string(toWestNode));
                     board->addEdge(to_string(fromNode), to_string(toSouthNode));
-                } else if (fromNode == 31 || fromNode == 32 || fromNode == 33) {
+                } else if (fromNode == 31 || fromNode == 32 || fromNode == 33) { //bottom nodes that aren't in the corners have east, west and north nodes
                     board->addEdge(to_string(fromNode), to_string(toEastNode));
                     board->addEdge(to_string(fromNode), to_string(toWestNode));
                     board->addEdge(to_string(fromNode), to_string(toNorthNode));
-                } else if (fromNode % 5 == 0) {
+                } else if (fromNode % 5 == 0) { //nodes on the far left side of the board only have south, north and east nodes
                     board->addEdge(to_string(fromNode), to_string(toNorthNode));
                     board->addEdge(to_string(fromNode), to_string(toEastNode));
                     board->addEdge(to_string(fromNode), to_string(toSouthNode));
-                } else if (fromNode % 5 == 4) {
+                } else if (fromNode % 5 == 4) { //nodes on the far right side of the board only have south, north and west nodes
                     board->addEdge(to_string(fromNode), to_string(toWestNode));
                     board->addEdge(to_string(fromNode), to_string(toNorthNode));
                     board->addEdge(to_string(fromNode), to_string(toSouthNode));
-                } else {
+                } else { //all other nodes have 4 nodes to connect to
                     board->addEdge(to_string(fromNode), to_string(toNorthNode));
                     board->addEdge(to_string(fromNode), to_string(toSouthNode));
                     board->addEdge(to_string(fromNode), to_string(toEastNode));
@@ -108,19 +108,19 @@ GBMap::GBMap(int numOfPlayers) {
             for (o = 0; o < 45; o++) {
                 board->addNode(0, to_string(o));
             }
-            for (p = 0; p < 5; p++) {
+            for (p = 0; p < 5; p++) { //first 5 nodes
                 fromNode = p;
                 toEastNode = fromNode + 1;
                 toSouthNode = fromNode + 6;
                 toWestNode = fromNode - 1;
                 board->addEdge(to_string(fromNode), to_string(toSouthNode)); //all nodes are connected to a south node
-                if (fromNode == 4) {
+                if (fromNode == 4) { //topRight node has west node
                     board->addEdge(to_string(fromNode), to_string(toWestNode));
                 }
-                else if(fromNode == 0){
+                else if(fromNode == 0){ //topLeft node has east node
                     board->addEdge(to_string(fromNode), to_string(toEastNode));
                 }
-                else {
+                else { //all others have both east and west nodes
                     board->addEdge(to_string(fromNode), to_string(toWestNode));
                     board->addEdge(to_string(fromNode), to_string(toEastNode)); //connected to east node
 
@@ -203,6 +203,11 @@ GBMap::GBMap(int numOfPlayers) {
             break;
 
     }
+}
+
+GBMap::GBMap(const GBMap &gbMap){
+    numOfPlayers = gbMap.numOfPlayers;
+    *board = Graph(board);
 }
 
 GBMap::GBMap(){
