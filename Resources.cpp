@@ -228,7 +228,7 @@ int BuildingDeck::howManyBuildings() {
 
 // Constructor
 
-HandObject::HandObject() {
+Hand::Hand() {
 	for (int i = 0; i < 2; i++) {
 		displayHarvestTiles[i] = harvestTiles->drawHarvestTile();
 	}
@@ -239,16 +239,16 @@ HandObject::HandObject() {
 
 // Destuctors
 
-HandObject::~HandObject() {
+Hand::~Hand() {
 
 }
 
-void HandObject::deleteBuilding(int indexOfBuilding) {
+void Hand::deleteBuilding(int indexOfBuilding) {
 	for(int i = indexOfBuilding; i<5, i++)
 		displayBuildings[i]=displayBuildings[i+1]
 }
 
-void HandObject::deleteHarvestTile(int indexOfHarvestTile) {
+void Hand::deleteHarvestTile(int indexOfHarvestTile) {
 	for (int i = indexOfHarvestTile; i<1, i++)
 		displayHarvestTiles[i] = displayHarvestTiles[i + 1]
 }
@@ -257,7 +257,7 @@ void HandObject::deleteHarvestTile(int indexOfHarvestTile) {
 // its position in the row and the column on the Game Board and assign the
 // resource markers a value of the accumulated resources from the Harvest Tiles
 
-void HandObject::exchange(GBMap board, int playerID, int indexOfHarvestTile, string position, int orientation) {
+void Hand::exchange(GBMap board, int playerID, int indexOfHarvestTile, string position, int orientation) {
 
 	HarvestTile* pointer = displayHarvestTiles[indexOfHarvestTile];
 
@@ -336,14 +336,14 @@ void HandObject::exchange(GBMap board, int playerID, int indexOfHarvestTile, str
 }
 
 // Method that draws a harvest tile directly to the hand
-void HandObject::drawHarvestTile() {
+void Hand::drawHarvestTile() {
 	HarvestTile &temp = *harvestTiles.back();
 	harvestTiles.pop_back();
 	displayHarvestTiles[1] = &temp;
 }
 
 // Method that draws a building directly to the hand
-void HandObject::drawBuilding() {
+void Hand::drawBuilding() {
 	Building &temp = *buildings.back();
 	buildings.pop_back();
 	for (int i = displayBuildings.size() - 1; i >= 0; i--)
@@ -352,7 +352,7 @@ void HandObject::drawBuilding() {
 }
 
 // To String object.
-void HandObject::toString() {
+void Hand::toString() {
 	for (int i = 0; i < displayHarvestTiles.length(); i++) {
 		cout << "\nThe harvest tile in position " << i + 1 <<  << "\t Top Left: " << displayHarvestTiles[i]->getTopLeftResource() << endl << "\t Top Right: " << displayHarvestTiles[i]->getTopRighttResource() << endl << "\t Bottom Left: " << displayHarvestTiles[i]->getBottomLeftResource() << endl << "\t Bottom Right: " << displayHarvestTiles[i]->getBottomRightResource() << endl;
 	}
