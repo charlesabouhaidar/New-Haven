@@ -13,7 +13,6 @@ public:
     Graph *vgBoard;
     VGMap();
     ~VGMap();
-    void checkDoublePoints(VGMap *vgBoard);
 };
 
 #endif //COMP345_VGMAP_H
