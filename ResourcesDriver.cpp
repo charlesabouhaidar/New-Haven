@@ -5,9 +5,9 @@
 //
 
 #include <vector>
-#include "Resources.hpp"
-#include "Player.hpp"
-#include "GBMap.hpp"
+#include "Resources.h"
+#include "Player.h"
+#include "GBMap.h"
 
 using namespace std;
 
@@ -43,7 +43,7 @@ int main(int argc, const char * argv[]) {
   
 	GBMap board = new GBMap(3);
 
-    	hand->exchange(board, 1, 0, 4, 2);
+    hand->exchange(board, 1, 0, 4, 2);
 	hand->toString();
 
 
