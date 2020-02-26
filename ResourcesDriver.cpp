@@ -35,7 +35,7 @@ int main(int argc, const char * argv[]) {
 
 	// Creating a new hand object and showing its contents
 
-	HandObject* hand = new HandObject();
+	Hand* hand = new Hand();
 
 	hand->toString();
 
