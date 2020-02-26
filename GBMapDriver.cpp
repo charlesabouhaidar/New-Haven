@@ -3,12 +3,10 @@
 //
 #include "GBMap.h"
 #include <iostream>
-#include <vector>
 using namespace std;
 
 int main(){
     int players{0}, nodeNumber{0};
-    vector<string> reachableNodes;
     cout << "***********************************" << endl;
     cout << "* Welcome to New Haven Board Game *" << endl;
     cout << "***********************************" << endl;
