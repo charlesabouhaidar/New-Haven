@@ -59,7 +59,7 @@ HarvestTile::~HarvestTile() {
 
 }
 
-// Accessor methods
+// Accessor and mutator methods
 
 string HarvestTile::getTopLeftResource() {
 	return topLeft;
@@ -76,6 +76,19 @@ string HarvestTile::getBottomLeftResource() {
 
 string HarvestTile::getBottomRightResource() {
 	return bottomRight;
+}
+
+void HarvestTile::setTopLeftResource(string resource) {
+	TopLeft = resource;
+}
+void HarvestTile::setTopRightResource(string resource) {
+	TopRight = resource;
+}
+void HarvestTile::setBottomLeftResource(string resource) {
+	BottomLeft = resource;
+}
+void HarvestTile::setBottomRightResource(string resource) {
+	BottomRight = resource;
 }
 
 // Harvest Tile Deck CLASS
@@ -101,6 +114,13 @@ HarvestTile* HarvestTileDeck::drawHarvestTile() {
 	HarvestTile &temp = *harvestTiles.back();
 	harvestTiles.pop_back();
 	return &temp;
+}
+
+// Method that draws a harvest tile directly to the hand
+void HandObject::drawHarvestTile() {
+	HarvestTile &temp = *harvestTiles.back();
+	harvestTiles.pop_back();
+	displayHarvestTiles[1] = &temp;
 }
 
 // Returns the number of harvest tiles in the deck
@@ -201,6 +221,15 @@ Building* BuildingDeck::drawBuilding() {
 	return &temp;
 }
 
+// Method that draws a building directly to the hand
+void HandObject::drawBuilding() {
+	Building &temp = *buildings.back();
+	buildings.pop_back();
+	for(int i = displayBuildings.size() - 1 ; i >= 0 ; i--)
+		displayBuildings[i+1] = displayBuildings[i]
+	displayBuildings[0] = &temp;
+}
+
 // Returns the number of buildings in the deck
 int BuildingDeck::howManyBuildings() {
 	return buildings.size();
@@ -218,20 +247,101 @@ HandObject::HandObject() {
 	}
 }
 
-// Destuctor.
+// Destuctors.
 HandObject::~HandObject() {
 
 }
 
+void HandObject::deleteBuilding(int indexOfBuilding) {
+	for(int i = indexOfBuilding; i<5, i++)
+		displayBuildings[i]=displayBuildings[i+1]
+}
+
+void HandObject::deleteHarvestTile(int indexOfHarvestTile) {
+	for (int i = indexOfHarvestTile; i<1, i++)
+		displayHarvestTiles[i] = displayHarvestTiles[i + 1]
+}
 
 // exchange() method that allows the player to select the Harvest tile from 
 // its position in the row and the column on the Game Board and assign the
 // resource markers a value of the accumulated resources from the Harvest Tiles
 
-void HandObject::exchange(int row, int column){
-	//calculate total resources
-	//set resources markers to these amounts
-	return 0;
+void HandObject::exchange(GBMap board, int playerID, int indexOfHarvestTile, string position, int orientation) {
+
+	HarvestTile* pointer = displayHarvestTiles[indexOfHarvestTile];
+
+	for{i = 1; i < orientation; i++ } {
+		// Store top left resource temporarily
+		string* temp = pointer->getTopLeftResource();
+		// Shift resources on tile 90 degrees
+		pointer->setTopLeftResource(pointer->getBottomLeftResource());
+		pointer->setBottomLeftResource(pointer->getBottomRightResource());
+		pointer->setBottomRightResource(pointer->getTopRightResource());
+		pointer->setTopRightResource(temp);
+	}
+
+	//Creating data based on tile to input into setTileData() function
+
+	double TileData;
+
+	// 1st digit of data
+
+	if (pointer->getTopLeftResource == "Wheat")
+		TileData = TileData + 10000;
+	else if (pointer->getTopLeftResource == "Timber")
+		TileData = TileData + 20000;
+	else if (pointer->getTopLeftResource == "Stone")
+		TileData = TileData + 30000;
+	else if (pointer->getTopLeftResource == "Sheep")
+		TileData = TileData + 40000;
+	// 2nd digit of data
+
+	if (pointer->getTopRightResource == "Wheat")
+		TileData = TileData + 1000;
+	else if (pointer->getTopRightResource == "Timber")
+		TileData = TileData + 2000;
+	else if (pointer->getTopRightResource == "Stone")
+		TileData = TileData + 3000;
+	else if (pointer->getTopRightResource == "Sheep")
+		TileData = TileData + 4000;
+
+	// 3rd digit of data
+
+	if (pointer->getBottomLeftResource == "Wheat")
+		TileData = TileData + 100;
+	else if (pointer->getBottomLeftResource == "Timber")
+		TileData = TileData + 200;
+	else if (pointer->getBottomLeftResource == "Stone")
+		TileData = TileData + 300;
+	else if (pointer->getBottomLeftResource == "Sheep")
+		TileData = TileData + 400;
+
+	// 4th digit of data
+
+	if (pointer->getBottomRightResource == "Wheat")
+		TileData = TileData + 10;
+	else if (pointer->getBottomRightResource == "Timber")
+		TileData = TileData + 20;
+	else if (pointer->getBottomRightResource == "Stone")
+		TileData = TileData + 30;
+	else if (pointer->getBottomRightResource == "Sheep")
+		TileData = TileData + 40;
+
+	// 5th digit of data
+
+	TileData = TileData + playerID;
+
+	// Set the tile on the board using the data generated
+
+	board->setTileData(position, TileData)
+
+	// Delete placed harvest tile from hand
+
+	deleteHarvestTile(indexOfHarvestTile);
+
+	// Draw new harvest tile to replace it
+
+	displayHarvestTile[1]= harvestTiles->drawHarvestTile();
 }
 
 // To String object.
