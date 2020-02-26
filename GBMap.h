@@ -14,7 +14,7 @@ public:
     int numOfPlayers;
     GBMap();
     GBMap(int numOfPlayers);
-
+    GBMap(const GBMap &numOfPlayers);
     Graph* getBoard();
     double getTileData(string position);
     void setTileData(string position, double data);
@@ -23,7 +23,4 @@ public:
     string getEast(string position);
     string getWest(string position);
 };
-
-
-
 #endif //COMP345_GBMAP_H
