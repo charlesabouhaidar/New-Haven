@@ -110,7 +110,7 @@ Player::~Player() {
 
 bool Player::PlaceHarvestTile(GBMap board, int tileIndex, int location, int orientation) {
     if(board.getTileData(to_string(location)) == 0) {
-        hand->exchange(board, tile, location, orientation, playerID);
+        hand->exchange(board, playerID, tileIndex, to_string(location), orientation);
         CalculateResources(board, location);
         return true;
     }
