@@ -12,7 +12,7 @@
 
 using namespace std;
 
-// Harvest Tile CLASS
+// HARVEST TILE CLASS ------------------------------------------------------------------------------------------
 
 HarvestTile::HarvestTile() {
 
@@ -69,7 +69,6 @@ string HarvestTile::getTopRightResource() {
 	return topRight;
 }
 
-
 string HarvestTile::getBottomLeftResource() {
 	return bottomLeft;
 }
@@ -116,19 +115,13 @@ HarvestTile* HarvestTileDeck::drawHarvestTile() {
 	return &temp;
 }
 
-// Method that draws a harvest tile directly to the hand
-void HandObject::drawHarvestTile() {
-	HarvestTile &temp = *harvestTiles.back();
-	harvestTiles.pop_back();
-	displayHarvestTiles[1] = &temp;
-}
 
 // Returns the number of harvest tiles in the deck
 int HarvestTileDeck::howManyHarvestTiles() {
 	return harvestTiles.size();
 }
 
-// Building CLASS
+// BUILDING CLASS ------------------------------------------------------------------------------------------
 
 Building::Building() {
 
@@ -221,23 +214,20 @@ Building* BuildingDeck::drawBuilding() {
 	return &temp;
 }
 
-// Method that draws a building directly to the hand
-void HandObject::drawBuilding() {
-	Building &temp = *buildings.back();
-	buildings.pop_back();
-	for(int i = displayBuildings.size() - 1 ; i >= 0 ; i--)
-		displayBuildings[i+1] = displayBuildings[i]
-	displayBuildings[0] = &temp;
-}
-
 // Returns the number of buildings in the deck
 int BuildingDeck::howManyBuildings() {
 	return buildings.size();
 }
 
-// Hand Object CLASS
 
-// Constructor.
+
+// HAND OBJECT CLASS ------------------------------------------------------------------------------------------
+
+
+
+
+// Constructor
+
 HandObject::HandObject() {
 	for (int i = 0; i < 2; i++) {
 		displayHarvestTiles[i] = harvestTiles->drawHarvestTile();
@@ -247,7 +237,8 @@ HandObject::HandObject() {
 	}
 }
 
-// Destuctors.
+// Destuctors
+
 HandObject::~HandObject() {
 
 }
@@ -342,6 +333,22 @@ void HandObject::exchange(GBMap board, int playerID, int indexOfHarvestTile, str
 	// Draw new harvest tile to replace it
 
 	displayHarvestTile[1]= harvestTiles->drawHarvestTile();
+}
+
+// Method that draws a harvest tile directly to the hand
+void HandObject::drawHarvestTile() {
+	HarvestTile &temp = *harvestTiles.back();
+	harvestTiles.pop_back();
+	displayHarvestTiles[1] = &temp;
+}
+
+// Method that draws a building directly to the hand
+void HandObject::drawBuilding() {
+	Building &temp = *buildings.back();
+	buildings.pop_back();
+	for (int i = displayBuildings.size() - 1; i >= 0; i--)
+		displayBuildings[i + 1] = displayBuildings[i]
+		displayBuildings[0] = &temp;
 }
 
 // To String object.
