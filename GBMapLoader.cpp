@@ -23,6 +23,10 @@ GBMapLoader::GBMapLoader() {
             if(mystring.empty()){ //if empty line just skip
                 continue;
             }
+            else if(mystring.size() > 7){ //format is: nodeNumber data (total of 7 characters)
+                perror("Incorrect format, map can't load");
+                exit(EXIT_FAILURE);
+            }
             istringstream var(mystring);
             var >> nodeNumber >> data; //first number is the node number, second number is the data inside of that node(topRight,topLeft,bottomRight,bottomLeft, playerID)
             output(nodeNumber, data);
