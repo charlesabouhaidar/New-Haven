@@ -38,7 +38,6 @@ public:
 	HarvestTileDeck();
 	~HarvestTileDeck();
 	HarvestTile* drawHarvestTile();
-	void drawHarvestTile();
 	int* howManyHarvestTiles();
 };
 
@@ -64,7 +63,6 @@ public:
 	BuildingDeck();
 	~BuildingDeck();
 	Building* drawBuilding();
-	void drawBuilding();
 	int* howManyBuildings();
 };
 
@@ -77,6 +75,8 @@ public:
 	HandObject();
 	HarvestTile* exchange(GBMap board, int playerID, int indexOfHarvestTile, string position, int orientation);
 	~HandObject();
+	void drawHarvestTile();
+	void drawBuilding();
 	void deleteBuilding(int indexOfBuilding);
 	void deleteHarvestTile(int indexOfHarvestTile);
 	void toString();
