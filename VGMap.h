@@ -3,12 +3,15 @@
 
 #include <string>
 #include "Cpp-Graph-Library-master/Graph.h"
+#include <vector>
 
 using std::string;
+using std::vector;
 
 class VGMap{
 private:
     string villageName;
+    vector<bool>* resourceFlags;
 public:
     Graph *board;
     VGMap(string name);
@@ -17,6 +20,7 @@ public:
 
     string getName();
     Graph* getBoard();
+    vector<bool>* getFlags();
     double getTileData(string position);
     void setTileData(string position, double data);
     string getNorth(string position);

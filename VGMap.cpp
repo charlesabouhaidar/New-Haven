@@ -1,12 +1,12 @@
 #include "VGMap.h"
 #include "Cpp-Graph-Library-master/Graph.h"
-#include <vector>
 
 using std::string;
-using std::vector;
 using std::to_string;
 
 VGMap::VGMap(string name){
+    resourceFlags = new vector<bool>;
+    resourceFlags->assign(4, false);
     villageName = name;
     board = new Graph(false);
     vector<string> reachableNodes;
@@ -81,6 +81,10 @@ string VGMap::getName(){
 
 Graph* VGMap::getBoard() {
     return board;
+}
+
+vector<bool>* VGMap::getFlags() {
+    return resourceFlags;
 }
 
 double VGMap::getTileData(string position) {
