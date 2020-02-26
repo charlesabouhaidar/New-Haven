@@ -43,7 +43,7 @@ int main(int argc, const char * argv[]) {
   
 	GBMap board = new GBMap(3);
 
-    hand->exchange(board, 1, 0, 4, 2);
+    	hand->exchange(board, 1, 0, 4, 2);
 	hand->toString();
 
 
