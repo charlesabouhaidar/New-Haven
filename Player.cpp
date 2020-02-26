@@ -71,16 +71,17 @@ int ResourceGatherer::collect(GBMap board, string position, int corner, int reso
     return 0;
 }
 
-//int ScoreCounter::CalculateScore(VGMap village) {
-//    //calculate based on rows, double if none flipped
-//    //calculate based on columns, double if none flipped
-//    //sum and return total
-//}
+int ScoreCounter::CalculateScore(VGMap* village) {
+    //calculate based on rows, double if none flipped
+    //calculate based on columns, double if none flipped
+    //sum and return total
+    return 0;
+}
 
 Player::Player(){
     int id = 0;
     playerID = &id;
-    //village = new VGMap("Unspecified");
+    village = new VGMap();
     //hand = new Hand();
     resourceTracker = new vector<int>;
     resourceTracker->assign(4, 0);
@@ -90,7 +91,7 @@ Player::Player(){
 
 Player::Player(int id, string villageName) {
     playerID = &id;
-    //village = new VGMap(villageName);
+    village = new VGMap(villageName);
     //hand = new Hand();
     resourceTracker = new vector<int>;
     resourceTracker->assign(4, 0);
@@ -127,18 +128,20 @@ vector<int>* Player::ResourceTracker() {
 }
 
 void Player::BuildVillage(Building building, int location, bool flipped) {
-    //check valid placement of building on board, function in VGMap?
-    //hand->getBuilding();? remove building from hand
-    //update village if valid and place building, function in VGMap?
+    if(village->getTileData(to_string(location)) == 0) {
+        //ensure type adjacency, check number value if not flipped
+        //hand->getBuilding();? remove building from hand
+        //update village if valid and place building, function in VGMap?
+    }
 }
 
 void Player::CalculateResources(GBMap board, int newTileLocation) {
     resourceTracker = resourceGatherer->CollectResources(board, newTileLocation);
 }
 
-//VGMap Player::getVillage() {
-//    return village;
-//}
+VGMap* Player::getVillage() {
+    return village;
+}
 
 //Hand Player::getHand() {
 //    return hand;

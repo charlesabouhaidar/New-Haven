@@ -42,7 +42,7 @@ class ScoreCounter{
          * @param village The village to calculate the score from
          * @return The calculated score
          */
-        int CalculateScore(VGMap village);
+        int CalculateScore(VGMap* village);
 };
 
 /**
@@ -118,7 +118,7 @@ class Player {
          * Gets the player's village board
          * @return The player's village board
          */
-        //VGMap getVillage();
+        VGMap* getVillage();
 
         /**
          * Gets the player's hand
