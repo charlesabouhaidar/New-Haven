@@ -66,15 +66,15 @@ public:
 	int* howManyBuildings();
 };
 
-class HandObject {
+class Hand {
 private:
 	static HarvestTile* displayHarvestTiles[2];
 	static Building* displayBuildings[];
 	double TileData;
 public:
-	HandObject();
+	Hand();
 	HarvestTile* exchange(GBMap board, int playerID, int indexOfHarvestTile, string position, int orientation);
-	~HandObject();
+	~Hand();
 	void drawHarvestTile();
 	void drawBuilding();
 	void deleteBuilding(int indexOfBuilding);
