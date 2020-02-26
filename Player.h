@@ -49,6 +49,7 @@ class ScoreCounter{
  * Tracks player information and behavior
  */
 class Player {
+    friend int main();//**to remove when a1 done
     private:
         int* playerID;
         VGMap* village;
