@@ -7,6 +7,7 @@
 #include <vector>
 #include "Resources.hpp"
 #include "Player.hpp"
+#include "GBMap.hpp"
 
 using namespace std;
 
@@ -14,10 +15,6 @@ using namespace std;
 int main(int argc, const char * argv[]) {
 
 	cout << "This is the driver for the resources in Part 5 \n";
-
-	// Creating a new player
-
-	Player* player1 = new Player();
 
 	// Creating a new harvest tile deck and displaying resources on a harvest tile
 
@@ -44,10 +41,11 @@ int main(int argc, const char * argv[]) {
 
 	// Exchange method test
   
-	/***
-    hand->exchange(4, 4);
+	GBMap board = new GBMap(3);
+
+    hand->exchange(board, 1, 0, 4, 2);
 	hand->toString();
-	***/
+
 
 	// Delete the elements to avoid memory leaks and assign the dangling pointers to NULL.
 	delete hand;
