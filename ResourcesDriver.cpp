@@ -20,10 +20,10 @@ int main(int argc, const char * argv[]) {
 
 	HarvestTileDeck* harvestTileDeck = new HarvestTileDeck();
 	HarvestTile* harvestTile = new HarvestTile();
-	harvestTile->getTopLeft();
-	harvestTile->getTopRight();
-	harvestTile->getBottomLeft();
-	harvestTile->getBottomRight();
+	harvestTile->getTopLeftResource();
+	harvestTile->getTopRightResource();
+	harvestTile->getBottomLeftResource();
+	harvestTile->getBottomRightResource();
 
 	// Creating a new building deck and displaying information on a building
 
