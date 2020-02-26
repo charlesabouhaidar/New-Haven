@@ -1,15 +1,10 @@
-
-//
-// Created by Charles Abou Haidar on 2020-01-22.
-//
-
 #ifndef COMP345_GBMAP_H
 #define COMP345_GBMAP_H
 
-#include <iostream>
-#include <vector>
 #include "Cpp-Graph-Library-master/Graph.h"
-using namespace std;
+#include <string>
+
+using std::string;
 
 class GBMap{
 
@@ -19,6 +14,14 @@ public:
     int numOfPlayers;
     GBMap();
     GBMap(int numOfPlayers);
+
+    Graph* getBoard();
+    double getTileData(string position);
+    void setTileData(string position, double data);
+    string getNorth(string position);
+    string getSouth(string position);
+    string getEast(string position);
+    string getWest(string position);
 };
 
 

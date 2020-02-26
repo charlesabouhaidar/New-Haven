@@ -1,20 +1,17 @@
 #include "GBMap.h"
-#include "Cpp-Graph-Library-master/Graph.h"
-#include <iostream>
 #include <vector>
-
-using namespace std;
+using std::vector;
+using std::string;
+using std::to_string;
+using std::stoi;
 
 GBMap::GBMap(int numOfPlayers) {
-    int fromNode, toSouthNode, toNorthNode, toEastNode, toWestNode, nodeName, i, j, k, l, m, n, o, p, q, r, s, t;
-    vector<string> reachableNodes;
+    int fromNode, toSouthNode, toNorthNode, toEastNode, toWestNode, i, j, k, l, m, n, o, p, q, r, s;
     board = new Graph(false);
     switch(numOfPlayers) {
         case 2:{
-            Node *nodes[25];
             for (i = 0; i < 25; i++) { //create a graph with 25 nodes
-                nodes[i] = new Node(1, to_string(i));
-                board->addNode(1, to_string(i));
+                board->addNode(0, to_string(i));
             }
             for (j = 0; j < 25; j++) {
                 fromNode = j;
@@ -58,20 +55,11 @@ GBMap::GBMap(int numOfPlayers) {
                     board->addEdge(to_string(fromNode), to_string(toWestNode));
                 }
             }
-            cout << "Enter a node to see its immediate neighbors: " << endl;
-            cin >> nodeName;
-            reachableNodes = board->neighborNames(to_string(nodeName));
-            for (k = 0; k < reachableNodes.size(); k++) {
-                cout << reachableNodes.at(k) << endl;
-            }
-            cout << board->getInfo();
             break;
         }
         case 3: {
-            Node *nodes[35];
             for (l = 0; l < 35; l++) {
-                nodes[l] = new Node(1, to_string(l));
-                board->addNode(1, to_string(l));
+                board->addNode(0, to_string(l));
             }
             for (m = 0; m < 35; m++) {
                 fromNode = m;
@@ -114,20 +102,11 @@ GBMap::GBMap(int numOfPlayers) {
                     board->addEdge(to_string(fromNode), to_string(toWestNode));
                 }
             }
-            cout << "Enter a node to see its immediate neighbors: " << endl;
-            cin >> nodeName;
-            reachableNodes = board->neighborNames(to_string(nodeName));
-            for (n = 0; n < reachableNodes.size(); n++) {
-                cout << reachableNodes.at(n) << endl;
-            }
-            cout << board->getInfo();
             break;
         }
         case 4: {
-            Node *nodes[45];
             for (o = 0; o < 45; o++) {
-                nodes[o] = new Node(1, to_string(o));
-                board->addNode(1, to_string(o));
+                board->addNode(0, to_string(o));
             }
             for (p = 0; p < 5; p++) {
                 fromNode = p;
@@ -147,18 +126,33 @@ GBMap::GBMap(int numOfPlayers) {
 
                 }
             }
-            for (q = 5; q <= 32; q++) {
+            for(int t = 5; t < 12; t++){
+                fromNode = t;
+                toEastNode = fromNode + 1;
+                toWestNode = fromNode - 1;
+                toNorthNode = fromNode - 6;
+                toSouthNode = fromNode + 7;
+                board->addEdge(to_string(fromNode), to_string(toSouthNode)); //all nodes have a south node between nodes 5 and 11
+                if (fromNode == 5) {
+                    board->addEdge(to_string(fromNode), to_string(toEastNode));
+                } else if (fromNode == 11) { //node 11 which doesn't have a north node or east one
+                    board->addEdge(to_string(fromNode), to_string(toWestNode));
+                }
+                else{
+                    board->addEdge(to_string(fromNode), to_string(toNorthNode));
+                    board->addEdge(to_string(fromNode), to_string(toEastNode));
+                    board->addEdge(to_string(fromNode), to_string(toWestNode));
+                }
+            }
+            for (q = 12; q < 33; q++) {
                 fromNode = q;
                 toEastNode = fromNode + 1;
                 toSouthNode = fromNode + 7;
                 toWestNode = fromNode - 1;
                 toNorthNode = fromNode - 7;
                 board->addEdge(to_string(fromNode), to_string(toSouthNode)); //all edges are connected to a south node
-                if (fromNode == 5) {
-                    board->addEdge(to_string(fromNode), to_string(toEastNode));
-                } else if (fromNode == 11) { //node 11 which doesn't have a north node or east one
-                    board->addEdge(to_string(fromNode), to_string(toWestNode));
-                } else if (fromNode % 7 == 5) { //left side of the board that don't have a west node
+
+                if (fromNode % 7 == 5) { //left side of the board that don't have a west node
                     board->addEdge(to_string(fromNode), to_string(toNorthNode));
                     board->addEdge(to_string(fromNode), to_string(toEastNode));
                 } else if (fromNode % 7 == 4) { //right nodes of the board which are not connected to east nodes
@@ -170,7 +164,7 @@ GBMap::GBMap(int numOfPlayers) {
                     board->addEdge(to_string(fromNode), to_string(toWestNode));
                 }
             }
-            for (r = 33; r <= 39; r++) {
+            for (r = 33; r < 40; r++) {
                 fromNode = r;
                 toEastNode = fromNode + 1;
                 toSouthNode = fromNode + 6;
@@ -187,10 +181,10 @@ GBMap::GBMap(int numOfPlayers) {
                     board->addEdge(to_string(fromNode), to_string(toWestNode));
                 }
             }
-            for (s = 40; s <= 44; s++) {
+            for (s = 40; s < 45; s++) {
                 fromNode = s;
                 toEastNode = fromNode + 1;
-                toNorthNode = fromNode - 7;
+                toNorthNode = fromNode - 6;
                 toWestNode = fromNode - 1;
                 board->addEdge(to_string(fromNode), to_string(toNorthNode));
                 if (fromNode == 40) {
@@ -203,13 +197,6 @@ GBMap::GBMap(int numOfPlayers) {
                     board->addEdge(to_string(fromNode), to_string(toEastNode));
                 }
             }
-            cout << "Enter a node to see its immediate neighbors: " << endl;
-            cin >> nodeName;
-            reachableNodes = board->neighborNames(to_string(nodeName));
-            for (t = 0; t < reachableNodes.size(); t++) {
-                cout << reachableNodes.at(t) << endl;
-            }
-            cout << board->getInfo();
             break;
         }
         default:
@@ -222,4 +209,47 @@ GBMap::GBMap(){
     numOfPlayers = 0;
 }
 
+Graph* GBMap::getBoard() {
+    return board;
+}
 
+double GBMap::getTileData(string position) {
+    return board->getNodeValue(position);
+}
+
+void GBMap::setTileData(string position, double data) {
+    board->setNodeValue(position, data);
+}
+
+string GBMap::getNorth(string position){
+    vector<string> neighbors = board->neighborNames(position);
+    for (int i = 0; i < neighbors.size(); i++) {
+        if(stoi(neighbors.at(i)) <= stoi(position)-5)
+            return neighbors.at(i);
+    }
+    return "";
+}
+string GBMap::getSouth(string position){
+    vector<string> neighbors = board->neighborNames(position);
+    for (int i = 0; i < neighbors.size(); i++) {
+        if(stoi(neighbors.at(i)) >= stoi(position)+5)
+            return neighbors.at(i);
+    }
+    return "";
+}
+string GBMap::getEast(string position){
+    vector<string> neighbors = board->neighborNames(position);
+    for (int i = 0; i < neighbors.size(); i++) {
+        if(stoi(neighbors.at(i)) == stoi(position)+1)
+            return neighbors.at(i);
+    }
+    return "";
+}
+string GBMap::getWest(string position){
+    vector<string> neighbors = board->neighborNames(position);
+    for (int i = 0; i < neighbors.size(); i++) {
+        if(stoi(neighbors.at(i)) == stoi(position)-1)
+            return neighbors.at(i);
+    }
+    return "";
+}

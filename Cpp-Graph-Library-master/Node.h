@@ -1,6 +1,8 @@
 //Min Chang
 //Github: Minyc510
 
+//Additions made for needed functionality
+
 #ifndef NODE_H
 #define NODE_H
 
@@ -30,5 +32,7 @@ public:
   double getData();
   std::unordered_map<std::string, std::multiset<double>>* getMapPtr();
   std::unordered_set<std::string>& getSetRef();
+
+  void setData(double d);
 };
 #endif // NODE_H
