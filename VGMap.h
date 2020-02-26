@@ -7,11 +7,15 @@
 using std::string;
 
 class VGMap{
+private:
+    string villageName;
 public:
     Graph *board;
+    VGMap(string name);
     VGMap();
     ~VGMap();
 
+    string getName();
     Graph* getBoard();
     double getTileData(string position);
     void setTileData(string position, double data);

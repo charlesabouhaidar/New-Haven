@@ -6,7 +6,8 @@ using std::string;
 using std::vector;
 using std::to_string;
 
-VGMap::VGMap(){
+VGMap::VGMap(string name){
+    villageName = name;
     board = new Graph(false);
     vector<string> reachableNodes;
     int nodeName, fromNode, toNorthNode, toSouthNode, toEastNode, toWestNode, i, j, k, l, m;
@@ -70,7 +71,13 @@ VGMap::VGMap(){
     }
 }
 
+VGMap::VGMap() : VGMap("unspecified"){}
+
 VGMap::~VGMap()= default;
+
+string VGMap::getName(){
+    return villageName;
+}
 
 Graph* VGMap::getBoard() {
     return board;
