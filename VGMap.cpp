@@ -1,12 +1,10 @@
-//
-// Created by Charles Abou Haidar on 2020-01-22->
-//
-
 #include "VGMap.h"
-#include "Cpp-Graph-Library-master/Graph.h"
 #include <iostream>
 #include <vector>
-using namespace std;
+
+using std::string;
+using std::vector;
+using std::to_string;
 
 VGMap::VGMap(){
     vgBoard = new Graph(false);
@@ -14,8 +12,8 @@ VGMap::VGMap(){
     int nodeName, fromNode, toNorthNode, toSouthNode, toEastNode, toWestNode, i, j, k, l, m;
     Node *node[30];
     for( i = 0; i < 30; i++){ //create 25 nodes for the vgboard
-        node[i] = new Node(1, to_string(i));
-        vgBoard->addNode(1, to_string(i));
+        node[i] = new Node(0, to_string(i));
+        vgBoard->addNode(0, to_string(i));
     }
     for(j = 0; j < 5; j++){ //first 5 nodes all have south nodes, but no north nodes
         fromNode = j;

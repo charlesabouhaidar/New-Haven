@@ -1,13 +1,10 @@
-//
-// Created by Charles Abou Haidar on 2020-01-22.
-//
-
-#include <string>
-using std::string;
 #ifndef COMP345_VGMAP_H
 #define COMP345_VGMAP_H
 
 #include "Cpp-Graph-Library-master/Graph.h"
+#include <string>
+
+using std::string;
 
 class VGMap{
 public:

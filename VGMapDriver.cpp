@@ -1,11 +1,13 @@
-//
-// Created by Charles Abou Haidar on 2020-01-22.
-//
 #include <iostream>
 #include "VGMap.h"
 #include "Cpp-Graph-Library-master/Graph.h"
 #include <vector>
-using namespace std;
+
+using std::cout;
+using std::cin;
+using std::endl;
+using std::to_string;
+using std::exception;
 
 int main(){
     int nodeNumber{0};
@@ -26,7 +28,6 @@ int main(){
     catch(exception& e) {
         perror("Node out of bounds/doesn't exist!" );
         exit(EXIT_FAILURE);
-
     }
 
     return 0;
