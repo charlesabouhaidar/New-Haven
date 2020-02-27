@@ -16,7 +16,7 @@ int main(){
     gbMap->getBoard()->setNodeValue("0", 22230);
     gbMap->getBoard()->setNodeValue("1", 23320);
     gbMap->getBoard()->setNodeValue("11", 22120);
-    p1->resourceTracker = p1->resourceGatherer->CollectResources(*gbMap, 10);
+    p1->resourceTracker = p1->resourceGatherer->CollectResources(gbMap, 10);
     cout << p1->resourceTracker->at(0) << " ";
     cout << p1->resourceTracker->at(1) << " ";
     cout << p1->resourceTracker->at(2) << " ";

@@ -20,7 +20,7 @@ class ResourceGatherer{
      * @param resource Current resource being summed
      * @return The sum of all the chained resource
      */
-        int collect(GBMap board, string location, int corner, int resource);
+        int collect(GBMap* board, string location, int corner, int resource);
 
     public:
         /**
@@ -29,7 +29,7 @@ class ResourceGatherer{
          * @param newTileLocation The location of the placed tile
          * @return A resource tracker with the gathered resources
          */
-        vector<int>* CollectResources(GBMap board, int newTileLocation);
+        vector<int>* CollectResources(GBMap* board, int newTileLocation);
 };
 
 /**
@@ -83,7 +83,7 @@ class Player {
          * @param orientation The orientation of the tile
          * @return If the placement was successful
          */
-        bool PlaceHarvestTile(GBMap board, int tileIndex, int location, int orientation);
+        bool PlaceHarvestTile(GBMap* board, int tileIndex, int location, int orientation);
 
         /**
          * Adds a building to the player's hand from the building deck
@@ -114,7 +114,7 @@ class Player {
          * Calculates and adds resources to the resource tracker for a tile placement
          * @param newTileLocation The location of the placed tile
          */
-        void CalculateResources(GBMap board, int newTileLocation);
+        void CalculateResources(GBMap* board, int newTileLocation);
 
         /**
          * Gets the player's village board
@@ -126,6 +126,6 @@ class Player {
          * Gets the player's hand
          * @return The player's hand
          */
-        //Hand getHand();
+        Hand* getHand();
 };
 #endif //COMP345_PLAYER_H

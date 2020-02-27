@@ -6,54 +6,33 @@
 
 #include <vector>
 #include "Resources.h"
-#include "Player.h"
-#include "GBMap.h"
+#include <iostream>
+#include <string>
 
-using namespace std;
+using std::string;
+using std::cout;
 
 
-int main(int argc, const char * argv[]) {
+int main() {
 
 	cout << "This is the driver for the resources in Part 5 \n";
 
 	// Creating a new harvest tile deck and displaying resources on a harvest tile
-
 	HarvestTileDeck* harvestTileDeck = new HarvestTileDeck();
-	HarvestTile* harvestTile = new HarvestTile();
-	harvestTile->getTopLeftResource();
-	harvestTile->getTopRightResource();
-	harvestTile->getBottomLeftResource();
-	harvestTile->getBottomRightResource();
+	HarvestTile* harvestTile = new HarvestTile(1);
+	cout << *(harvestTile->getTopLeftResource()) << " ";
+	cout << *(harvestTile->getTopRightResource()) << " ";
+	cout << *(harvestTile->getBottomLeftResource()) << " ";
+	cout << *(harvestTile->getBottomRightResource()) << "\n";
+
+	cout << "Number of harvest tiles in the deck: " << to_string(harvestTileDeck->howManyHarvestTiles()) << "\n";
 
 	// Creating a new building deck and displaying information on a building
-
 	BuildingDeck* buildingDeck = new BuildingDeck();
-	Building* building = new Building();
-	building->getNumber();
-	building->getColor();
-	building->getLabel();
+	Building* building = new Building(1);
+	cout << *(building->getNumber()) << " ";
+	cout << *(building->getColor()) << " ";
+	cout << *(building->getLabel()) << "\n";
 
-	// Creating a new hand object and showing its contents
-
-	Hand* hand = new Hand();
-
-	hand->toString();
-
-	// Exchange method test
-  
-	GBMap board = new GBMap(3);
-
-    hand->exchange(board, 1, 0, 4, 2);
-	hand->toString();
-
-
-	// Delete the elements to avoid memory leaks and assign the dangling pointers to NULL.
-	delete hand;
-	hand = NULL;
-	delete building;
-	building = NULL;
-	delete harvestTile;
-	harvestTile = NULL;
-
-	return 0;
+    cout << "Number of buildings in the deck: " << to_string(buildingDeck->howManyBuildings());
 }

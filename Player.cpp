@@ -3,67 +3,67 @@
 using std::string;
 using std::vector;
 
-vector<int>* ResourceGatherer::CollectResources(GBMap board, int newTileLocation) {
+vector<int>* ResourceGatherer::CollectResources(GBMap* board, int newTileLocation) {
     string position = to_string(newTileLocation);
     vector<int>* resources = new vector<int>;
     resources->assign(4, 0);
 //need a copy of board****
-    int data = board.getTileData(position);
+    int data = board->getTileData(position);
 
     resources->at(data/10%10-1)++;
     resources->at(data/100%10-1)++;
     resources->at(data/1000%10-1)++;
     resources->at(data/10000%10-1)++;
-    board.setTileData(position, 55550);
+    board->setTileData(position, 55550);
 
-    resources->at(data/10000%10-1) += collect(board, board.getNorth(position), 2, data/10000%10);
-    resources->at(data/10000%10-1) += collect(board, board.getWest(position), 1, data/10000%10);
+    resources->at(data/10000%10-1) += collect(board, board->getNorth(position), 2, data/10000%10);
+    resources->at(data/10000%10-1) += collect(board, board->getWest(position), 1, data/10000%10);
 
-    resources->at(data/1000%10-1) += collect(board, board.getNorth(position), 3, data/1000%10);
-    resources->at(data/1000%10-1) += collect(board, board.getEast(position), 0, data/1000%10);
+    resources->at(data/1000%10-1) += collect(board, board->getNorth(position), 3, data/1000%10);
+    resources->at(data/1000%10-1) += collect(board, board->getEast(position), 0, data/1000%10);
 
-    resources->at(data/100%10-1) += collect(board, board.getWest(position), 3, data/100%10);
-    resources->at(data/100%10-1) += collect(board, board.getSouth(position), 0, data/100%10);
+    resources->at(data/100%10-1) += collect(board, board->getWest(position), 3, data/100%10);
+    resources->at(data/100%10-1) += collect(board, board->getSouth(position), 0, data/100%10);
 
-    resources->at(data/10%10-1) += collect(board, board.getSouth(position), 1, data/10%10);
-    resources->at(data/10%10-1) += collect(board, board.getEast(position), 2, data/10%10);
+    resources->at(data/10%10-1) += collect(board, board->getSouth(position), 1, data/10%10);
+    resources->at(data/10%10-1) += collect(board, board->getEast(position), 2, data/10%10);
 
     return resources;
 }
 
-int ResourceGatherer::collect(GBMap board, string position, int corner, int resource){
+int ResourceGatherer::collect(GBMap* board, string position, int corner, int resource){
     if(!position.empty()) {
-        int data = board.getTileData(position);
+        int data = board->getTileData(position);
         if (corner == 0 && data/10000%10 == resource) {
             string dataStr = to_string(data);
             dataStr[0] = '5';
-            board.setTileData(position, stod(dataStr));
-            return 1 + collect(board, board.getWest(position), 1, resource)
-                     + collect(board, board.getNorth(position), 2, resource)
+            board->setTileData(position, stod(dataStr));
+            return 1 + collect(board, board->getWest(position), 1, resource)
+                     + collect(board, board->getNorth(position), 2, resource)
                      + collect(board, position, 1, resource)
                      + collect(board, position, 2, resource);
         } else if (corner == 1 && data/1000%10 == resource) {
             string dataStr = to_string(data);
             dataStr[1] = '5';
-            board.setTileData(position, stod(dataStr));
-            return 1 + collect(board, board.getNorth(position), 3, resource)
-                   + collect(board, board.getEast(position), 0, resource)
+            board->setTileData(position, stod(dataStr));
+            return 1 + collect(board, board->getNorth(position), 3, resource)
+                   + collect(board, board->getEast(position), 0, resource)
                    + collect(board, position, 3, resource)
                    + collect(board, position, 0, resource);
         } else if (corner == 2 && data/100%10 == resource) {
             string dataStr = to_string(data);
             dataStr[2] = '5';
-            board.setTileData(position, stod(dataStr));
-            return 1 + collect(board, board.getSouth(position), 0, resource)
-                   + collect(board, board.getWest(position), 3, resource)
+            board->setTileData(position, stod(dataStr));
+            return 1 + collect(board, board->getSouth(position), 0, resource)
+                   + collect(board, board->getWest(position), 3, resource)
                    + collect(board, position, 0, resource)
                    + collect(board, position, 3, resource);
         } else if (corner == 3 && data/10%10 == resource) {
             string dataStr = to_string(data);
             dataStr[3] = '5';
-            board.setTileData(position, stod(dataStr));
-            return 1 + collect(board, board.getEast(position), 2, resource)
-                   + collect(board, board.getSouth(position), 1, resource)
+            board->setTileData(position, stod(dataStr));
+            return 1 + collect(board, board->getEast(position), 2, resource)
+                   + collect(board, board->getSouth(position), 1, resource)
                    + collect(board, position, 2, resource)
                    + collect(board, position, 1, resource);
         }
@@ -108,9 +108,9 @@ Player::~Player() {
     delete scoreCounter;
 }
 
-bool Player::PlaceHarvestTile(GBMap board, int tileIndex, int location, int orientation) {
-    if(board.getTileData(to_string(location)) == 0) {
-        hand->exchange(board, playerID, tileIndex, to_string(location), orientation);
+bool Player::PlaceHarvestTile(GBMap* board, int tileIndex, int location, int orientation) {
+    if(board->getTileData(to_string(location)) == 0) {
+        hand->exchange(board, *playerID, tileIndex, to_string(location), orientation);
         CalculateResources(board, location);
         return true;
     }
@@ -131,9 +131,9 @@ vector<int>* Player::ResourceTracker() {
 
 bool Player::BuildVillage(int buildingIndex, int location, bool flipped) {
     if(village->getTileData(to_string(location)) == 0) {
-        Building building = hand->buildings->at(buildingIndex);
-        int* number = building.getNumber();
-        string* color = building.getColor();
+        Building* building = hand->getBuilding(buildingIndex);
+        int* number = building->getNumber();
+        string* color = building->getColor();
         int colorIndex = 0;
         if(*color == "Red")
             colorIndex = 1;
@@ -149,7 +149,7 @@ bool Player::BuildVillage(int buildingIndex, int location, bool flipped) {
                 //check if type is adjacent if placed
                 if (!village->getFlags()->at(colorIndex)) {
                     village->getFlags()->at(colorIndex) = true;
-                    hand->removeBuilding(buildingIndex);
+                    hand->deleteBuilding(buildingIndex);
                     resourceTracker->at(colorIndex) -= (6-row);
                     double data = 0;
                     if(flipped)
@@ -171,7 +171,7 @@ bool Player::BuildVillage(int buildingIndex, int location, bool flipped) {
                         }
                     }
                     if(isAdj){
-                        hand->removeBuilding(buildingIndex);
+                        hand->deleteBuilding(buildingIndex);
                         resourceTracker->at(colorIndex) -= (6-row);
                         double data = 0;
                         if(flipped)
@@ -188,7 +188,7 @@ bool Player::BuildVillage(int buildingIndex, int location, bool flipped) {
     return false;
 }
 
-void Player::CalculateResources(GBMap board, int newTileLocation) {
+void Player::CalculateResources(GBMap* board, int newTileLocation) {
     resourceTracker = resourceGatherer->CollectResources(board, newTileLocation);
 }
 
