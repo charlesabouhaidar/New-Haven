@@ -31,6 +31,7 @@ vector<int>* ResourceGatherer::CollectResources(GBMap* board, int newTileLocatio
     resources->at(data/10%10-1) += collect(boardCopy, boardCopy->getSouth(position), 1, data/10%10);
     resources->at(data/10%10-1) += collect(boardCopy, boardCopy->getEast(position), 2, data/10%10);
 
+    delete boardCopy;
     return resources;
 }
 
