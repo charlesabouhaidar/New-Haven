@@ -1,28 +1,20 @@
+//
+// Created by Charles Abou Haidar on 2020-01-22.
+//
+
+#include <string>
+using std::string;
 #ifndef COMP345_VGMAP_H
 #define COMP345_VGMAP_H
 
-#include <string>
 #include "Cpp-Graph-Library-master/Graph.h"
-#include <vector>
-
-using std::string;
-using std::vector;
 
 class VGMap{
-private:
-    string villageName;
-    vector<bool>* resourceFlags;
 public:
-    Graph *board;
-    VGMap(string name);
+    Graph *vgBoard;
     VGMap();
     ~VGMap();
-
-    string getName();
     Graph* getBoard();
-    vector<bool>* getFlags();
-    double getTileData(string position);
-    void setTileData(string position, double data);
     string getNorth(string position);
     string getSouth(string position);
     string getEast(string position);

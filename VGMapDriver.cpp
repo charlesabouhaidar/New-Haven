@@ -1,24 +1,34 @@
+//
+// Created by Charles Abou Haidar on 2020-01-22.
+//
 #include <iostream>
 #include "VGMap.h"
 #include "Cpp-Graph-Library-master/Graph.h"
 #include <vector>
-
-using std::string;
-using std::vector;
-using std::cout;
-using std::cin;
+using namespace std;
 
 int main(){
-    string nodeName;
-    vector<string> reachableNodes;
+    int nodeNumber{0};
     VGMap *vgBoard = new VGMap();
-    cout << vgBoard->getName() << "\n";
-    cout << "Enter a node to see its immediate neighbors: " << "\n";
-    cin >> nodeName;
-    reachableNodes = vgBoard->getBoard()->neighborNames(nodeName);
-    for (int t = 0; t < reachableNodes.size(); t++) {
-        cout << reachableNodes.at(t) << "\n";
+    Graph *board = vgBoard->getBoard();
+    for (int i = 0; i < 30; i++) {
+        cout << "Node " << i << " Value: " << board->getNodeValue(to_string(i)) << endl;
+        cout << "East node: " << vgBoard->getEast(to_string(i)) << endl;
+        cout << "West node: " << vgBoard->getWest(to_string(i)) << endl;
+        cout << "North node: " << vgBoard->getNorth(to_string(i)) << endl;
+        cout << "South node: " << vgBoard->getSouth(to_string(i)) << endl << endl;
     }
+    cout << "Enter a node number to check it's value: " << endl;
+    cin >> nodeNumber;
+    try{
+        cout << "Node number: " << nodeNumber << " Value: " << board->getNodeValue(to_string(nodeNumber));
+    }
+    catch(exception& e) {
+        perror("Node out of bounds/doesn't exist!" );
+        exit(EXIT_FAILURE);
+
+    }
+
     return 0;
 }
 
