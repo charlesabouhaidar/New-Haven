@@ -7,8 +7,11 @@
 #define COMP345_RESOURCES_H
 #include <string>
 #include <vector>
+#include "GBMap.h"
 
-using namespace std;
+using std::vector;
+using std::string;
+using std::to_string;
 
 class HarvestTile {
 private:
@@ -25,16 +28,20 @@ public:
 	string* getTopRightResource();
 	string* getBottomLeftResource();
 	string* getBottomRightResource();
+	void setTopLeftResource(string* resource);
+	void setTopRightResource(string* resource);
+	void setBottomLeftResource(string* resource);
+	void setBottomRightResource(string* resource);
 };
 
 class HarvestTileDeck {
 private:
-	vector<HarvestTile*> harvestTiles;
+	vector<HarvestTile>* harvestTiles;
 public:
 	HarvestTileDeck();
 	~HarvestTileDeck();
 	HarvestTile* drawHarvestTile();
-	int* howManyHarvestTiles();
+	int howManyHarvestTiles();
 };
 
 class Building {
@@ -54,23 +61,29 @@ public:
 
 class BuildingDeck {
 private:
-	vector<Building*> buildings;
+	vector<Building>* buildings;
 public:
 	BuildingDeck();
 	~BuildingDeck();
 	Building* drawBuilding();
-	int* howManyBuildings();
+	int howManyBuildings();
 };
 
-class HandObject {
+class Hand {
 private:
-	static HarvestTile* displayHarvestTiles[2];
-	static Building* displayBuildings[];
+	HarvestTile* displayHarvestTiles[2];
+	Building* displayBuildings[144];
+	double TileData;
 public:
-	HandObject();
-	HarvestTile* exchange(int row, int column);
-	~HandObject();
-	void toString();
+	Hand();
+	void exchange(GBMap* board, int playerID, int indexOfHarvestTile, string position, int orientation);
+	~Hand();
+    Building* getBuilding(int handIndex);
+	void drawHarvestTile();
+	void drawBuilding();
+	void deleteBuilding(int indexOfBuilding);
+	void deleteHarvestTile(int indexOfHarvestTile);
+	string toString();
 
 };
 
