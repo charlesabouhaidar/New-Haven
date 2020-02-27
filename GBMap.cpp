@@ -7,6 +7,7 @@ using std::to_string;
 using std::stoi;
 
 GBMap::GBMap(int numOfPlayers) {
+    playerCount = numOfPlayers;
     int fromNode, toSouthNode, toNorthNode, toEastNode, toWestNode, i, j, k, l, m, n, o, p, q, r, s;
     board = new Graph(false);
     switch(numOfPlayers) {
@@ -206,13 +207,13 @@ GBMap::GBMap(int numOfPlayers) {
     }
 }
 
-GBMap::GBMap(const GBMap &gbMap){
-    numOfPlayers = gbMap.numOfPlayers;
-    *board = Graph(board);
+GBMap::GBMap(GBMap &gbMap){
+    playerCount = gbMap.playerCount;
+    board = new Graph(*gbMap.board);
 }
 
 GBMap::GBMap(){
-    numOfPlayers = 0;
+    playerCount = 0;
 }
 
 Graph* GBMap::getBoard() {

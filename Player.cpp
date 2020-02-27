@@ -3,30 +3,33 @@
 using std::string;
 using std::vector;
 
+#include <iostream>
+using std::cout;
+
 vector<int>* ResourceGatherer::CollectResources(GBMap* board, int newTileLocation) {
+    GBMap* boardCopy = new GBMap(*board);
     string position = to_string(newTileLocation);
     vector<int>* resources = new vector<int>;
     resources->assign(4, 0);
-//need a copy of board****
-    int data = board->getTileData(position);
 
+    int data = boardCopy->getTileData(position);
     resources->at(data/10%10-1)++;
     resources->at(data/100%10-1)++;
     resources->at(data/1000%10-1)++;
     resources->at(data/10000%10-1)++;
-    board->setTileData(position, 55550);
+    boardCopy->setTileData(position, 55550);
 
-    resources->at(data/10000%10-1) += collect(board, board->getNorth(position), 2, data/10000%10);
-    resources->at(data/10000%10-1) += collect(board, board->getWest(position), 1, data/10000%10);
+    resources->at(data/10000%10-1) += collect(boardCopy, boardCopy->getNorth(position), 2, data/10000%10);
+    resources->at(data/10000%10-1) += collect(boardCopy, boardCopy->getWest(position), 1, data/10000%10);
 
-    resources->at(data/1000%10-1) += collect(board, board->getNorth(position), 3, data/1000%10);
-    resources->at(data/1000%10-1) += collect(board, board->getEast(position), 0, data/1000%10);
+    resources->at(data/1000%10-1) += collect(boardCopy, boardCopy->getNorth(position), 3, data/1000%10);
+    resources->at(data/1000%10-1) += collect(boardCopy, boardCopy->getEast(position), 0, data/1000%10);
 
-    resources->at(data/100%10-1) += collect(board, board->getWest(position), 3, data/100%10);
-    resources->at(data/100%10-1) += collect(board, board->getSouth(position), 0, data/100%10);
+    resources->at(data/100%10-1) += collect(boardCopy, boardCopy->getWest(position), 3, data/100%10);
+    resources->at(data/100%10-1) += collect(boardCopy, boardCopy->getSouth(position), 0, data/100%10);
 
-    resources->at(data/10%10-1) += collect(board, board->getSouth(position), 1, data/10%10);
-    resources->at(data/10%10-1) += collect(board, board->getEast(position), 2, data/10%10);
+    resources->at(data/10%10-1) += collect(boardCopy, boardCopy->getSouth(position), 1, data/10%10);
+    resources->at(data/10%10-1) += collect(boardCopy, boardCopy->getEast(position), 2, data/10%10);
 
     return resources;
 }
@@ -72,10 +75,46 @@ int ResourceGatherer::collect(GBMap* board, string position, int corner, int res
 }
 
 int ScoreCounter::CalculateScore(VGMap* village) {
-    //calculate based on rows, double if none flipped
-    //calculate based on columns, double if none flipped
-    //sum and return total
-    return 0;
+    int score = 0;
+    for(int i=0; i < 6; i++){
+        bool flipped = false;
+        bool full = true;
+        for(int j=0; j < 5; j++){
+            int position = i*5 + j;
+            int data = village->getTileData(to_string(position));
+            if(data == 0)
+                full = false;
+            else if(data%10 == 1)
+                flipped = true;
+        }
+        if(full){
+            if(!flipped)
+                score += (6-i)*2;
+            else
+                score += (6-i);
+        }
+    }
+
+    int settlerColumnScores[5] = {5,4,3,4,5};
+    for(int i=0; i < 5; i++){
+        bool flipped = false;
+        bool full = true;
+        for(int j=0; j < 6; j++){
+            int position = j*5 + i;
+            int data = village->getTileData(to_string(position));
+            if(data == 0)
+                full = false;
+            else if(data%10 == 1)
+                flipped = true;
+        }
+        if(full){
+            if(!flipped)
+                score += settlerColumnScores[i]*2;
+            else
+                score += settlerColumnScores[i];
+        }
+    }
+    return score;
 }
 
 Player::Player(){

@@ -11,10 +11,10 @@ class GBMap{
 private:
     Graph *board;
 public:
-    int numOfPlayers;
+    int playerCount;
     GBMap();
     GBMap(int numOfPlayers);
-    GBMap(const GBMap &numOfPlayers);
+    GBMap(GBMap &gbMap);
     Graph* getBoard();
     double getTileData(string position);
     void setTileData(string position, double data);
