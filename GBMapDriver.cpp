@@ -1,9 +1,11 @@
-//
-// Created by Charles Abou Haidar on 2020-01-22.
-//
 #include "GBMap.h"
 #include <iostream>
-using namespace std;
+
+using std::cout;
+using std::to_string;
+using std::endl;
+using std::cin;
+using std::exception;
 
 int main(){
     int players{0}, nodeNumber{0};

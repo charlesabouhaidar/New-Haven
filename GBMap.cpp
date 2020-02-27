@@ -1,5 +1,6 @@
 #include "GBMap.h"
 #include <vector>
+
 using std::vector;
 using std::string;
 using std::to_string;
