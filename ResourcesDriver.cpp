@@ -35,4 +35,5 @@ int main() {
 	cout << *(building->getLabel()) << "\n";
 
     cout << "Number of buildings in the deck: " << to_string(buildingDeck->howManyBuildings());
+    system("pause");
 }
