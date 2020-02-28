@@ -22,6 +22,7 @@ private:
 
 public:
 	HarvestTile();
+	HarvestTile(const HarvestTile& harvestTile);
 	~HarvestTile();
 	HarvestTile(int indexOfHT);
 	string* getTopLeftResource();
@@ -52,6 +53,7 @@ private:
 
 public:
 	Building();
+	Building(const Building& building);
 	~Building();
 	Building(int indexOfB);
 	int* getNumber();
@@ -71,20 +73,19 @@ public:
 
 class Hand {
 private:
-	HarvestTile* displayHarvestTiles[2];
-	Building* displayBuildings[144];
-	double TileData;
+	vector<HarvestTile>* harvestTiles;
+	vector<Building>* buildings;
 public:
 	Hand();
 	void exchange(GBMap* board, int playerID, int indexOfHarvestTile, string position, int orientation);
 	~Hand();
-    Building* getBuilding(int handIndex);
-	void drawHarvestTile();
-	void drawBuilding();
+    Building getBuilding(int handIndex);
+    HarvestTile getHarvestTile(int handIndex);
 	void deleteBuilding(int indexOfBuilding);
 	void deleteHarvestTile(int indexOfHarvestTile);
+	void addBuilding(Building building);
+	void addHarvestTile(HarvestTile harvestTile);
 	string toString();
-
 };
 
 #endif //COMP345_RESOURCES_H    

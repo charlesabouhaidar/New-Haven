@@ -3,9 +3,6 @@
 using std::string;
 using std::vector;
 
-#include <iostream>
-using std::cout;
-
 vector<int>* ResourceGatherer::CollectResources(GBMap* board, int newTileLocation) {
     GBMap* boardCopy = new GBMap(*board);
     string position = to_string(newTileLocation);
@@ -119,8 +116,7 @@ int ScoreCounter::CalculateScore(VGMap* village) {
 }
 
 Player::Player(){
-    int id = 0;
-    playerID = &id;
+    playerID = new int(0);
     village = new VGMap();
     hand = new Hand();
     resourceTracker = new vector<int>;
@@ -130,7 +126,7 @@ Player::Player(){
 }
 
 Player::Player(int id, string villageName) {
-    playerID = &id;
+    playerID = new int(id);
     village = new VGMap(villageName);
     hand = new Hand();
     resourceTracker = new vector<int>;
@@ -157,12 +153,12 @@ bool Player::PlaceHarvestTile(GBMap* board, int tileIndex, int location, int ori
     return false;
 }
 
-void Player::DrawBuilding(BuildingDeck buildingDeck) {
-    //hand->getBuildings()->push_back(buildingDeck->drawBuilding());
+void Player::DrawBuilding(BuildingDeck* buildingDeck) {
+    hand->addBuilding(*buildingDeck->drawBuilding());
 }
 
-void Player::DrawHarvestTile(HarvestTileDeck tileDeck) {
-    //hand->getTiles()->push_back(tileDeck->drawHarvestTile());
+void Player::DrawHarvestTile(HarvestTileDeck* tileDeck) {
+    hand->addHarvestTile(*tileDeck->drawHarvestTile());
 }
 
 vector<int>* Player::ResourceTracker() {
@@ -171,9 +167,9 @@ vector<int>* Player::ResourceTracker() {
 
 bool Player::BuildVillage(int buildingIndex, int location, bool flipped) {
     if(village->getTileData(to_string(location)) == 0) {
-        Building* building = hand->getBuilding(buildingIndex);
-        int* number = building->getNumber();
-        string* color = building->getColor();
+        Building building = hand->getBuilding(buildingIndex);
+        int* number = building.getNumber();
+        string* color = building.getColor();
         int colorIndex = 0;
         if(*color == "Red")
             colorIndex = 1;
@@ -194,7 +190,7 @@ bool Player::BuildVillage(int buildingIndex, int location, bool flipped) {
                     double data = 0;
                     if(flipped)
                         data++;
-                    data += row*10;
+                    data += *number * 10;
                     data += (colorIndex+1)*100;
                     village->setTileData(to_string(location), data);
                     return true;
@@ -216,7 +212,7 @@ bool Player::BuildVillage(int buildingIndex, int location, bool flipped) {
                         double data = 0;
                         if(flipped)
                             data++;
-                        data += row*10;
+                        data += *number * 10;
                         data += (colorIndex+1)*100;
                         village->setTileData(to_string(location), data);
                         return true;

@@ -11,9 +11,7 @@ VGMap::VGMap(string name){
     board = new Graph(false);
     vector<string> reachableNodes;
     int nodeName, fromNode, toNorthNode, toSouthNode, toEastNode, toWestNode, i, j, k, l, m;
-    Node *node[30];
     for( i = 0; i < 30; i++){ //create 25 nodes for the vgboard
-        node[i] = new Node(0, to_string(i));
         board->addNode(0, to_string(i));
     }
     for(j = 0; j < 5; j++){
@@ -73,7 +71,10 @@ VGMap::VGMap(string name){
 
 VGMap::VGMap() : VGMap("unspecified"){}
 
-VGMap::~VGMap()= default;
+VGMap::~VGMap(){
+    delete resourceFlags;
+    delete board;
+};
 
 string VGMap::getName(){
     return villageName;

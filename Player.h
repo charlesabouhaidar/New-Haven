@@ -88,12 +88,12 @@ class Player {
         /**
          * Adds a building to the player's hand from the building deck
          */
-        void DrawBuilding(BuildingDeck buildingDeck);
+        void DrawBuilding(BuildingDeck* buildingDeck);
 
         /**
          * Adds a harvest tile to the player's hand from the tile deck
          */
-        void DrawHarvestTile(HarvestTileDeck tileDeck);
+        void DrawHarvestTile(HarvestTileDeck* tileDeck);
 
         /**
          * Gets the player's resource tracker

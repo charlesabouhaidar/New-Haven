@@ -7,11 +7,32 @@ using std::cin;
 
 int main(){
     cout << "------------Player Tests------------\n";
+    GBMap* gbMap = new GBMap(2);
     Player* p1 = new Player(1, "Jamestown");
-    Player* p2 = new Player(2, "Bluesville");
-    //**tests?
+    BuildingDeck* buildingDeck = new BuildingDeck();
+    HarvestTileDeck* harvestTileDeck = new HarvestTileDeck();
+    p1->DrawBuilding(buildingDeck);
+    p1->DrawHarvestTile(harvestTileDeck);
+    cout << "Drawing cards...\nHand" << p1->getHand()->toString() << "\n---\n";
+    cout << harvestTileDeck->howManyHarvestTiles() << " harvest tiles in deck\n";
+    cout << buildingDeck->howManyBuildings() << " buildings in deck\n---\nPlacing harvest tile\n";
+    p1->PlaceHarvestTile(gbMap, 0, 0, 0);
+    cout << "Harvest tile at map node 0 " << gbMap->getTileData("0");
+    cout << "\nResource tracker " << p1->ResourceTracker()->at(0) << p1->ResourceTracker()->at(1)
+                                << p1->ResourceTracker()->at(2) << p1->ResourceTracker()->at(3);
+    cout << "\nHand" << p1->getHand()->toString();
+    cout << "\n---\nBuilding village\n";
+    cout << "Setting resources and hand...\n";
+    p1->getHand()->addBuilding(*(new Building(19)));
+    p1->resourceTracker->at(0) = 6;
+    cout << "Hand" << p1->getHand()->toString();
+    cout << "\nWheat resource count " << p1->resourceTracker->at(0);
+    p1->BuildVillage(1, 0, true);//change to 1 index
+    cout << "\nBuilding...\nBuilding at map node 0 " << p1->getVillage()->getTileData("0");
+    cout << "\nWheat resource count " << p1->resourceTracker->at(0);
+    cout << "\nHand" << p1->getHand()->toString();
 
-    cout << "\n------------Facilities Tests------------\nResource Calculation\n";
+    cout << "\n\n------------Facilities Tests------------\nResource Calculation\n";
     GBMap* gbMap1 = new GBMap(3);
     gbMap1->setTileData("10", 23120);
     gbMap1->setTileData("5", 23230);
@@ -37,7 +58,7 @@ int main(){
     gbMap2->setTileData("4", 22230);
     gbMap2->setTileData("5", 23320);
     gbMap2->setTileData("13", 22120);
-    p2->resourceTracker = p2->resourceGatherer->CollectResources(gbMap2, 3);
+    p1->resourceTracker = p1->resourceGatherer->CollectResources(gbMap2, 3);
     cout << "Tile data";
     cout << " 0:" << gbMap2->getTileData("0");
     cout << " 3:" << gbMap2->getTileData("3");
@@ -45,10 +66,10 @@ int main(){
     cout << " 5:" << gbMap2->getTileData("5");
     cout << " 13:" << gbMap2->getTileData("13");
     cout << "\nResource tracker for placement of 3: ";
-    cout << p2->resourceTracker->at(0) << " ";
-    cout << p2->resourceTracker->at(1) << " ";
-    cout << p2->resourceTracker->at(2) << " ";
-    cout << p2->resourceTracker->at(3) << "\n";
+    cout << p1->resourceTracker->at(0) << " ";
+    cout << p1->resourceTracker->at(1) << " ";
+    cout << p1->resourceTracker->at(2) << " ";
+    cout << p1->resourceTracker->at(3) << "\n";
 
     cout << "\nVillage Calculation\nBuilding data";
     p1->village->setTileData("0", 141);

@@ -8,16 +8,32 @@
 #include <string>
 #include <vector>
 #include <cmath>
+#include <random>
 #include <algorithm>
+#include <chrono>
 
 using std::string;
 using std::vector;
 using std::to_string;
+using std::chrono::system_clock;
 
 // HARVEST TILE CLASS ------------------------------------------------------------------------------------------
 
 HarvestTile::HarvestTile() {
-
+    bottomLeft = new string("");
+    bottomRight = new string("");
+    topLeft = new string("");
+    topRight = new string("");
+}
+HarvestTile::HarvestTile(const HarvestTile& harvestTile){
+    bottomLeft = new string;
+    bottomRight = new string;
+    topLeft = new string;
+    topRight = new string;
+    *bottomLeft = *harvestTile.bottomLeft;
+    *bottomRight = *harvestTile.bottomRight;
+    *topLeft = *harvestTile.topLeft;
+    *topRight = *harvestTile.topRight;
 }
 HarvestTile::HarvestTile(int indexOfHT) {
 
@@ -103,12 +119,13 @@ void HarvestTile::setBottomRightResource(string* resource) {
 
 // Constructor
 HarvestTileDeck::HarvestTileDeck() {
+    harvestTiles = new vector<HarvestTile>;
 	if (harvestTiles->size() == 0) {
 		for (int i = 0; i < 60; i++) {
 			HarvestTile* pointer = new HarvestTile(rand() % 24 + 1);
-			harvestTiles->emplace_back(*pointer);
+			harvestTiles->push_back(*pointer);
+			delete pointer;
 		}
-		random_shuffle(harvestTiles->begin(), harvestTiles->end());
 	}
 }
 
@@ -133,7 +150,17 @@ int HarvestTileDeck::howManyHarvestTiles() {
 // BUILDING CLASS ------------------------------------------------------------------------------------------
 
 Building::Building() {
-
+    color = new string("");
+    label = new string("");
+    number = new int(0);
+}
+Building::Building(const Building& building){
+    color = new string;
+    label = new string;
+    number = new int;
+    *number = *building.number;
+    *color = *building.color;
+    *label = *building.label;
 }
 Building::Building(int indexOfB) {
     number = new int;
@@ -204,15 +231,14 @@ string* Building::getLabel() {
 
 // Constructor
 BuildingDeck::BuildingDeck() {
-	if (buildings->size() == 0) {
-		for (int i = 0; i < 6; i++) {
-			for (int j = 0; j < 24; j++) {
-				Building* pointer = new Building(j);
-				buildings->emplace_back(*pointer);
-			}
-		}
-		random_shuffle(buildings->begin(), buildings->end());
-	}
+    buildings = new vector<Building>;
+    for (int i = 0; i < 6; i++) {
+        for (int j = 0; j < 24; j++) {
+            Building* pointer = new Building(j);
+            buildings->push_back(*pointer);
+            delete pointer;
+        }
+    }
 }
 
 // Destructor
@@ -224,8 +250,10 @@ BuildingDeck::~BuildingDeck() {
 
 // Method that returns a pointer to the building drawn from the deck
 Building* BuildingDeck::drawBuilding() {
-	Building &temp = buildings->back();
-	buildings->pop_back();
+    srand(system_clock::now().time_since_epoch().count());
+    int a = rand() % buildings->size();
+	Building &temp = buildings->at(a);
+	buildings->erase(buildings->begin()+a);
 	return &temp;
 }
 
@@ -244,29 +272,33 @@ int BuildingDeck::howManyBuildings() {
 // Constructor
 
 Hand::Hand() {
+    harvestTiles = new vector<HarvestTile>;
+    buildings = new vector<Building>;
 }
 
 // Destuctors
 
 Hand::~Hand() {
-    delete[] *displayBuildings;
-    delete[] *displayHarvestTiles;
+    delete buildings;
+    delete harvestTiles;
 }
 
 void Hand::deleteBuilding(int indexOfBuilding) {
-	for(int i = indexOfBuilding; i<5; i++)
-		displayBuildings[i]=displayBuildings[i+1];
+	buildings->erase(buildings->begin()+indexOfBuilding);
 }
 
 void Hand::deleteHarvestTile(int indexOfHarvestTile) {
-	for (int i = indexOfHarvestTile; i<1; i++)
-		displayHarvestTiles[i] = displayHarvestTiles[i + 1];
+    harvestTiles->erase(harvestTiles->begin()+indexOfHarvestTile);
 }
 
 // Accessor method to get a specific building in hand
 
-Building* Hand::getBuilding(int handIndex){
-    return displayBuildings[handIndex];
+Building Hand::getBuilding(int handIndex){
+    return buildings->at(handIndex);
+}
+
+HarvestTile Hand::getHarvestTile(int handIndex){
+    return harvestTiles->at(handIndex);
 }
 
 // exchange() method that allows the player to select the Harvest tile from 
@@ -275,7 +307,7 @@ Building* Hand::getBuilding(int handIndex){
 
 void Hand::exchange(GBMap* board, int playerID, int indexOfHarvestTile, string position, int orientation) {
 
-	HarvestTile* pointer = displayHarvestTiles[indexOfHarvestTile];
+	HarvestTile* pointer = &(harvestTiles->at(indexOfHarvestTile));
 
 	for(int i = 1; i < orientation; i++ ) {
 		// Store top left resource temporarily
@@ -289,7 +321,7 @@ void Hand::exchange(GBMap* board, int playerID, int indexOfHarvestTile, string p
 
 	//Creating data based on tile to input into setTileData() function
 
-	double TileData;
+	int TileData = 0;
 
 	// 1st digit of data
 
@@ -335,9 +367,7 @@ void Hand::exchange(GBMap* board, int playerID, int indexOfHarvestTile, string p
 		TileData = TileData + 40;
 
 	// 5th digit of data
-
 	TileData = TileData + playerID;
-
 	// Set the tile on the board using the data generated
 
 	board->setTileData(position, TileData);
@@ -347,14 +377,22 @@ void Hand::exchange(GBMap* board, int playerID, int indexOfHarvestTile, string p
 	deleteHarvestTile(indexOfHarvestTile);
 }
 
+void Hand::addBuilding(Building building){
+    buildings->push_back(building);
+}
+
+void Hand::addHarvestTile(HarvestTile harvestTile){
+    harvestTiles->push_back(harvestTile);
+}
+
 // To String object.
 string Hand::toString() {
-     string hand;
-	for (int i = 0; i < 2; i++) {
-        hand = "\nThe harvest tile in position " + to_string(i+1) + "\t Top Left: " + *displayHarvestTiles[i]->getTopLeftResource() + "\t Top Right: " + *displayHarvestTiles[i]->getTopRightResource() + "\t Bottom Left: " + *displayHarvestTiles[i]->getBottomLeftResource() + "\t Bottom Right: " + *displayHarvestTiles[i]->getBottomRightResource();
+    string hand;
+	for (int i = 0; i < harvestTiles->size(); i++) {
+        hand = "\nThe harvest tile in position " + to_string(i) + "\t Top Left: " + *harvestTiles->at(i).getTopLeftResource() + "\t Top Right: " + *harvestTiles->at(i).getTopRightResource() + "\t Bottom Left: " + *harvestTiles->at(i).getBottomLeftResource() + "\t Bottom Right: " + *harvestTiles->at(i).getBottomRightResource();
 	}
-	for (int j = 0; j < 144; j++) {
-        hand += "\nThe building in position " + to_string(j+1) + "\t Number: " + to_string(*displayBuildings[j]->getNumber()) + "\t Color: " + *displayBuildings[j]->getColor() + "\t Label: " + *displayBuildings[j]->getLabel();
+	for (int j = 0; j < buildings->size(); j++) {
+        hand += "\nThe building in position " + to_string(j) + "\t Number: " + to_string(*buildings->at(j).getNumber()) + "\t Color: " + *buildings->at(j).getColor() + "\t Label: " + *buildings->at(j).getLabel();
 	}
 	return hand;
 }
