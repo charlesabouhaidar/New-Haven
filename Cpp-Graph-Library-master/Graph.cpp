@@ -7,6 +7,7 @@
 #include <fstream>
 #include <limits> //Simulate infinity
 #include <queue>
+#include <functional>
 
 Graph::Graph() {}
 

@@ -34,6 +34,6 @@ int main() {
 	cout << *(building->getColor()) << " ";
 	cout << *(building->getLabel()) << "\n";
 
-    cout << "Number of buildings in the deck: " << to_string(buildingDeck->howManyBuildings());
+    cout << "Number of buildings in the deck: " << to_string(buildingDeck->howManyBuildings()) << "\n";
     system("pause");
 }
