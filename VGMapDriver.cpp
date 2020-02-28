@@ -29,7 +29,7 @@ int main(){
         perror("Node out of bounds/doesn't exist!" );
         exit(EXIT_FAILURE);
     }
-
+    system("pause");
     return 0;
 }
 

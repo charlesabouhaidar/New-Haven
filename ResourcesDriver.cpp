@@ -36,4 +36,5 @@ int main() {
 
     cout << "Number of buildings in the deck: " << to_string(buildingDeck->howManyBuildings()) << "\n";
     system("pause");
+    return 0;
 }

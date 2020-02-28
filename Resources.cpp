@@ -387,12 +387,12 @@ void Hand::addHarvestTile(HarvestTile harvestTile){
 
 // To String object.
 string Hand::toString() {
-    string hand;
+    string hand = "";
 	for (int i = 0; i < harvestTiles->size(); i++) {
-        hand = "\nThe harvest tile in position " + to_string(i) + "\t Top Left: " + *harvestTiles->at(i).getTopLeftResource() + "\t Top Right: " + *harvestTiles->at(i).getTopRightResource() + "\t Bottom Left: " + *harvestTiles->at(i).getBottomLeftResource() + "\t Bottom Right: " + *harvestTiles->at(i).getBottomRightResource();
+        hand += "\nThe harvest tile in position " + to_string(i) + "  Top Left: " + *harvestTiles->at(i).getTopLeftResource() + "  Top Right: " + *harvestTiles->at(i).getTopRightResource() + "  Bottom Left: " + *harvestTiles->at(i).getBottomLeftResource() + "  Bottom Right: " + *harvestTiles->at(i).getBottomRightResource();
 	}
 	for (int j = 0; j < buildings->size(); j++) {
-        hand += "\nThe building in position " + to_string(j) + "\t Number: " + to_string(*buildings->at(j).getNumber()) + "\t Color: " + *buildings->at(j).getColor() + "\t Label: " + *buildings->at(j).getLabel();
+        hand += "\nThe building in position " + to_string(j) + "  Number: " + to_string(*buildings->at(j).getNumber()) + "  Color: " + *buildings->at(j).getColor() + "  Label: " + *buildings->at(j).getLabel();
 	}
 	return hand;
 }

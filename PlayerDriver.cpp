@@ -103,4 +103,5 @@ int main(){
     cout << "\nScore for village: " << p1->scoreCounter->CalculateScore(p1->getVillage()) << "\n";
 
     system("pause");
+    return 0;
 }
