@@ -4,7 +4,8 @@
 #include <iostream>
 #include "GBMapLoader.h"
 #include "VGMapLoader.h"
-using namespace std;
+using std::cout;
+using std::cin;
 
 int main(){
     int mapToLoad;
@@ -17,6 +18,7 @@ int main(){
         }
         case 2:{
             VGMapLoader *vgMap = new VGMapLoader();
+            break;
         }
         default:{
             break;
