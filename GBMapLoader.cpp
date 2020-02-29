@@ -11,7 +11,7 @@
 using namespace std;
 
 GBMapLoader::GBMapLoader() {
-    ifstream myFile("/Users/charles/COMP345Project/comp345/GBMapLoad.txt");
+    ifstream myFile("../GBMapLoad.txt");
     string mystring, data, nodeNumber;
     Graph *board = new Graph(false);
     if (!myFile.is_open()) {
@@ -23,7 +23,7 @@ GBMapLoader::GBMapLoader() {
             if(mystring.empty()){ //if empty line just skip
                 continue;
             }
-            else if(mystring.size() > 7){ //format is: nodeNumber data (total of 7 characters)
+            else if(mystring.size() > 7){
                 perror("Incorrect format, map can't load");
                 exit(EXIT_FAILURE);
             }
