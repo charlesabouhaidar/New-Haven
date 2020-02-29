@@ -84,6 +84,19 @@ HarvestTile::~HarvestTile() {
     delete bottomRight;
 }
 
+HarvestTile& HarvestTile::operator=(const HarvestTile& h){
+    if (this == &h)
+        return *this;
+    delete topLeft;
+    delete topRight;
+    delete bottomLeft;
+    delete bottomRight;
+    topLeft = new string(*h.topLeft);
+    topRight = new string(*h.topRight);
+    bottomLeft = new string(*h.bottomLeft);
+    bottomRight = new string(*h.bottomRight);
+    return *this;
+}
 // Accessor and mutator methods
 
 string* HarvestTile::getTopLeftResource() {
@@ -135,10 +148,10 @@ HarvestTileDeck::~HarvestTileDeck() {
 }
 
 // Method that returns a pointer to the harvest tile drawn from the deck
-HarvestTile* HarvestTileDeck::drawHarvestTile() {
-	HarvestTile &temp = harvestTiles->back();
+HarvestTile HarvestTileDeck::drawHarvestTile() {
+	HarvestTile temp = harvestTiles->back();
 	harvestTiles->pop_back();
-	return &temp;
+	return temp;
 }
 
 
@@ -212,6 +225,18 @@ Building::~Building() {
     delete label;
 }
 
+Building& Building::operator=(const Building& b){
+    if (this == &b)
+        return *this;
+    delete number;
+    delete color;
+    delete label;
+    number = new int(*b.number);
+    color = new string(*b.color);
+    label = new string(*b.label);
+    return *this;
+}
+
 // Accessor methods
 
 int* Building::getNumber() {
@@ -249,12 +274,12 @@ BuildingDeck::~BuildingDeck() {
 
 
 // Method that returns a pointer to the building drawn from the deck
-Building* BuildingDeck::drawBuilding() {
+Building BuildingDeck::drawBuilding() {
     srand(system_clock::now().time_since_epoch().count());
     int a = rand() % buildings->size();
-	Building &temp = buildings->at(a);
+	Building temp = buildings->at(a);
 	buildings->erase(buildings->begin()+a);
-	return &temp;
+	return temp;
 }
 
 // Returns the number of buildings in the deck

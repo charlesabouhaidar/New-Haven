@@ -154,11 +154,11 @@ bool Player::PlaceHarvestTile(GBMap* board, int tileIndex, int location, int ori
 }
 
 void Player::DrawBuilding(BuildingDeck* buildingDeck) {
-    hand->addBuilding(*buildingDeck->drawBuilding());
+    hand->addBuilding(buildingDeck->drawBuilding());
 }
 
 void Player::DrawHarvestTile(HarvestTileDeck* tileDeck) {
-    hand->addHarvestTile(*tileDeck->drawHarvestTile());
+    hand->addHarvestTile(tileDeck->drawHarvestTile());
 }
 
 vector<int>* Player::ResourceTracker() {

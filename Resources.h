@@ -25,6 +25,7 @@ public:
 	HarvestTile(const HarvestTile& harvestTile);
 	~HarvestTile();
 	HarvestTile(int indexOfHT);
+	HarvestTile& operator=(const HarvestTile& h);
 	string* getTopLeftResource();
 	string* getTopRightResource();
 	string* getBottomLeftResource();
@@ -41,7 +42,7 @@ private:
 public:
 	HarvestTileDeck();
 	~HarvestTileDeck();
-	HarvestTile* drawHarvestTile();
+	HarvestTile drawHarvestTile();
 	int howManyHarvestTiles();
 };
 
@@ -56,6 +57,7 @@ public:
 	Building(const Building& building);
 	~Building();
 	Building(int indexOfB);
+	Building& operator=(const Building& b);
 	int* getNumber();
 	string* getColor();
 	string* getLabel();
@@ -67,7 +69,7 @@ private:
 public:
 	BuildingDeck();
 	~BuildingDeck();
-	Building* drawBuilding();
+	Building drawBuilding();
 	int howManyBuildings();
 };
 
