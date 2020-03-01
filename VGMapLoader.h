@@ -1,7 +1,3 @@
-//
-// Created by Charles Abou Haidar on 2020-01-22.
-//
-
 #ifndef COMP345_VGMAPLOADER_H
 #define COMP345_VGMAPLOADER_H
 
@@ -10,7 +6,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-using namespace std;
+
+using std::string;
 
 class VGMapLoader {
 

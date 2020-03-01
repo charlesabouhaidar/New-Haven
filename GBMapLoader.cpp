@@ -1,14 +1,13 @@
-//
-// Created by Charles Abou Haidar on 2020-01-22.
-//
 #include "Cpp-Graph-Library-master/Graph.h"
-#include "Cpp-Graph-Library-master/Node.h"
 #include "GBMapLoader.h"
-#include "GBMap.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
-using namespace std;
+
+using std::ifstream;
+using std::istringstream;
+using std::cout;
+using std::endl;
 
 GBMapLoader::GBMapLoader() {
     ifstream myFile("../GBMapLoad.txt");

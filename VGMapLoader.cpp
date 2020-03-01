@@ -1,22 +1,18 @@
-//
-// Created by Charles Abou Haidar on 2020-01-22.
-//
 #include "Cpp-Graph-Library-master/Graph.h"
 #include "Cpp-Graph-Library-master/Node.h"
 #include "VGMapLoader.h"
-#include "VGMap.h"
 #include <iostream>
-#include <fstream>
-#include <sstream>
-using namespace std;
+
+using std::ifstream;
+using std::istringstream;
+using std::cout;
+using std::endl;
 
 
 VGMapLoader::VGMapLoader() {
-
-
-
     ifstream myFile("/Users/andrehalrumhein/Desktop/Work/School/Winter 2020/COMP345/Project/COMP345-A1/VGMapLoad.txt");
     string mystring, data, nodeNumber;
+    Graph *board = new Graph(false);
     if(!myFile.is_open()){
         perror("Error opening");
         exit(EXIT_FAILURE);
@@ -42,6 +38,4 @@ VGMapLoader::VGMapLoader() {
 void VGMapLoader::output(string nodeNumber, string data){
     cout << "\nNode number: " << nodeNumber << endl;
     cout << "Data: " << data << endl;
-}
-    myFile.close();
 }

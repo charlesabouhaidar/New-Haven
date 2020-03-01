@@ -1,11 +1,9 @@
-//
-// Created by Charles Abou Haidar on 2020-01-22.
-//
 #include <iostream>
 #include "GBMapLoader.h"
 #include "VGMapLoader.h"
 using std::cout;
 using std::cin;
+using std::endl;
 
 int main(){
     int mapToLoad;
@@ -24,4 +22,5 @@ int main(){
             break;
         }
     }
+    system("pause");
 }
