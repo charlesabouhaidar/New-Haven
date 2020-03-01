@@ -7,8 +7,8 @@ add_executable(gbmap_test GBMapDriver.cpp GBMap.cpp Cpp-Graph-Library-master/Gra
 project(vgmap_test)
 add_executable(vgmap_test VGMapDriver.cpp VGMap.cpp Cpp-Graph-Library-master/Graph.cpp Cpp-Graph-Library-master/Node.cpp)
 
-#project(maploader_test)
-#add_executable(gbmaploader_test ...)
+project(maploader_test)
+add_executable(gbmaploader_test MapLoaderDriver.cpp GBMapLoader.cpp VGMapLoader.cpp Cpp-Graph-Library-master/Graph.cpp Cpp-Graph-Library-master/Node.cpp)
 
 project(resource_test)
 add_executable(resource_test ResourcesDriver.cpp Resources.cpp GBMap.cpp Cpp-Graph-Library-master/Graph.cpp Cpp-Graph-Library-master/Node.cpp)
