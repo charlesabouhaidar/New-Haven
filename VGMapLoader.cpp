@@ -10,7 +10,7 @@ using std::endl;
 
 
 VGMapLoader::VGMapLoader() {
-    ifstream myFile("/Users/andrehalrumhein/Desktop/Work/School/Winter 2020/COMP345/Project/COMP345-A1/VGMapLoad.txt");
+    ifstream myFile("../VGMapLoad.txt");
     string mystring, data, nodeNumber;
     Graph *board = new Graph(false);
     if(!myFile.is_open()){
