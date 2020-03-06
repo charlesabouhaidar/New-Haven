@@ -49,7 +49,6 @@ class ScoreCounter{
  * Tracks player information and behavior
  */
 class Player {
-    friend int main();//for testing purposes
     private:
         int* playerID;
         VGMap* village;
