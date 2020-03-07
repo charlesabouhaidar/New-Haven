@@ -4,9 +4,11 @@
 #include <string>
 #include "Cpp-Graph-Library-master/Graph.h"
 #include <vector>
+#include <ostream>
 
 using std::string;
 using std::vector;
+using std::ostream;
 
 class VGMap{
 private:
@@ -21,12 +23,13 @@ public:
     string getName();
     Graph* getBoard();
     vector<bool>* getFlags();
-    double getTileData(string position);
+    double getTileData(string position) const;
     void setTileData(string position, double data);
     string getNorth(string position);
     string getSouth(string position);
     string getEast(string position);
     string getWest(string position);
+    friend ostream& operator<<(ostream& os, const VGMap& v);
 };
-
+ostream& operator<<(ostream& os, const VGMap& v);
 #endif //COMP345_VGMAP_H

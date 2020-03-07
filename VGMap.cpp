@@ -1,5 +1,6 @@
 #include "VGMap.h"
 #include "Cpp-Graph-Library-master/Graph.h"
+#include <cctype>
 
 using std::string;
 using std::to_string;
@@ -88,7 +89,7 @@ vector<bool>* VGMap::getFlags() {
     return resourceFlags;
 }
 
-double VGMap::getTileData(string position) {
+double VGMap::getTileData(string position) const{
     return board->getNodeValue(position);
 }
 
@@ -128,5 +129,36 @@ string VGMap::getWest(string position){
     }
     return "";
 }
+ostream& operator<<(ostream& os, const VGMap& v){
+    os << v.villageName << "\n";
+    for(int i = 0; i < 6; i++){
+        for(int j = 0; j < 5; j++){
+            int data = v.getTileData(to_string(j+i*5));
+            os << '|';
+            if(data == 0){
+                if(i<2)
+                    os << ' ';
+                os << j+i*5;
+            }
+            else {
+                int type = data/100%10;
+                int flipped = data%10;
+                char c = ' ';
+                if (type == 1)
+                    c = 'W';
+                else if(type == 2)
+                    c = 'F';
+                else if(type == 3)
+                    c = 'Q';
+                else if(type == 4)
+                    c = 'M';
+                if (flipped)
+                    c = tolower(c);
 
-
+                os << " " << c;
+            }
+        }
+        os << "|\n";
+    }
+    return os;
+}
