@@ -8,10 +8,12 @@
 #include <string>
 #include <vector>
 #include "GBMap.h"
+#include <ostream>
 
 using std::vector;
 using std::string;
 using std::to_string;
+using std::ostream;
 
 /**
  * Tracks harvest tile information and behavior
@@ -285,6 +287,8 @@ public:
      	* Displays the hand's resource information
      	*/
 	string toString();
+	friend ostream& operator<<(ostream& os, const Hand& h);
 };
+ostream& operator<<(ostream& os, const Hand& h);
 
 #endif //COMP345_RESOURCES_H    

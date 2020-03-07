@@ -44,31 +44,31 @@ HarvestTile::HarvestTile(int indexOfHT) {
 	switch (indexOfHT) {
 		// 3 Different Resources Harvest Tiles
 
-	case 1:  *topLeft = "Stone";  *topRight = "Stone";  *bottomLeft = "Wheat";  *bottomRight = "Sheep"; break;
-	case 2:  *topLeft = "Stone";  *topRight = "Stone";  *bottomLeft = "Wheat";  *bottomRight = "Timber"; break;
-	case 3:  *topLeft = "Stone";  *topRight = "Stone";  *bottomLeft = "Sheep";  *bottomRight = "Timber"; break;
-	case 4:  *topLeft = "Timber"; *topRight = "Timber"; *bottomLeft = "Sheep";  *bottomRight = "Stone"; break;
-	case 5:  *topLeft = "Timber"; *topRight = "Timber"; *bottomLeft = "Wheat";  *bottomRight = "Stone"; break;
+	case 1:  *topLeft = "Rock";  *topRight = "Rock";  *bottomLeft = "Wheat";  *bottomRight = "Sheep"; break;
+	case 2:  *topLeft = "Rock";  *topRight = "Rock";  *bottomLeft = "Wheat";  *bottomRight = "Timber"; break;
+	case 3:  *topLeft = "Rock";  *topRight = "Rock";  *bottomLeft = "Sheep";  *bottomRight = "Timber"; break;
+	case 4:  *topLeft = "Timber"; *topRight = "Timber"; *bottomLeft = "Sheep";  *bottomRight = "Rock"; break;
+	case 5:  *topLeft = "Timber"; *topRight = "Timber"; *bottomLeft = "Wheat";  *bottomRight = "Rock"; break;
 	case 6:  *topLeft = "Timber"; *topRight = "Timber"; *bottomLeft = "Sheep";  *bottomRight = "Wheat"; break;
-	case 7:  *topLeft = "Wheat";  *topRight = "Wheat";  *bottomLeft = "Sheep";  *bottomRight = "Stone"; break;
+	case 7:  *topLeft = "Wheat";  *topRight = "Wheat";  *bottomLeft = "Sheep";  *bottomRight = "Rock"; break;
 	case 8:  *topLeft = "Wheat";  *topRight = "Wheat";  *bottomLeft = "Sheep";  *bottomRight = "Timber"; break;
-	case 9:  *topLeft = "Wheat";  *topRight = "Wheat";  *bottomLeft = "Stone";  *bottomRight = "Timber"; break;
-	case 10: *topLeft = "Sheep";  *topRight = "Sheep";  *bottomLeft = "Stone";  *bottomRight = "Timber"; break;
-	case 11: *topLeft = "Sheep";  *topRight = "Sheep";  *bottomLeft = "Stone";  *bottomRight = "Wheat"; break;
+	case 9:  *topLeft = "Wheat";  *topRight = "Wheat";  *bottomLeft = "Rock";  *bottomRight = "Timber"; break;
+	case 10: *topLeft = "Sheep";  *topRight = "Sheep";  *bottomLeft = "Rock";  *bottomRight = "Timber"; break;
+	case 11: *topLeft = "Sheep";  *topRight = "Sheep";  *bottomLeft = "Rock";  *bottomRight = "Wheat"; break;
 	case 12: *topLeft = "Sheep";  *topRight = "Sheep";  *bottomLeft = "Wheat";  *bottomRight = "Timber"; break;
 		
 		// 2 Different Resources Harvest Tiles
 
-	case 13: *topLeft = "Stone";  *topRight = "Stone";  *bottomLeft = "Stone"; *bottomRight = "Sheep"; break;
-	case 14: *topLeft = "Stone";  *topRight = "Stone";  *bottomLeft = "Stone"; *bottomRight = "Timber"; break;
-	case 15: *topLeft = "Stone";  *topRight = "Stone";  *bottomLeft = "Stone"; *bottomRight = "Wheat"; break;
+	case 13: *topLeft = "Rock";  *topRight = "Rock";  *bottomLeft = "Rock"; *bottomRight = "Sheep"; break;
+	case 14: *topLeft = "Rock";  *topRight = "Rock";  *bottomLeft = "Rock"; *bottomRight = "Timber"; break;
+	case 15: *topLeft = "Rock";  *topRight = "Rock";  *bottomLeft = "Rock"; *bottomRight = "Wheat"; break;
 	case 16: *topLeft = "Timber"; *topRight = "Timber"; *bottomLeft = "Timber"; *bottomRight = "Wheat"; break;
 	case 17: *topLeft = "Timber"; *topRight = "Timber"; *bottomLeft = "Timber"; *bottomRight = "Sheep"; break;
-	case 18: *topLeft = "Timber"; *topRight = "Timber"; *bottomLeft = "Timber"; *bottomRight = "Stone"; break;
-	case 19: *topLeft = "Wheat";  *topRight = "Wheat";  *bottomLeft = "Wheat";  *bottomRight = "Stone"; break;
+	case 18: *topLeft = "Timber"; *topRight = "Timber"; *bottomLeft = "Timber"; *bottomRight = "Rock"; break;
+	case 19: *topLeft = "Wheat";  *topRight = "Wheat";  *bottomLeft = "Wheat";  *bottomRight = "Rock"; break;
 	case 20: *topLeft = "Wheat";  *topRight = "Wheat";  *bottomLeft = "Wheat";  *bottomRight = "Timber"; break;
 	case 21: *topLeft = "Wheat";  *topRight = "Wheat";  *bottomLeft = "Wheat";  *bottomRight = "Sheep"; break;
-	case 22: *topLeft = "Sheep";  *topRight = "Sheep";  *bottomLeft = "Sheep";  *bottomRight = "Stone"; break;
+	case 22: *topLeft = "Sheep";  *topRight = "Sheep";  *bottomLeft = "Sheep";  *bottomRight = "Rock"; break;
 	case 23: *topLeft = "Sheep";  *topRight = "Sheep";  *bottomLeft = "Sheep";  *bottomRight = "Timber"; break;
 	case 24: *topLeft = "Sheep";  *topRight = "Sheep";  *bottomLeft = "Sheep";  *bottomRight = "Wheat"; break;
 
@@ -76,7 +76,6 @@ HarvestTile::HarvestTile(int indexOfHT) {
 }
 
 // Destructor method
-
 HarvestTile::~HarvestTile() {
     delete topLeft;
     delete topRight;
@@ -98,7 +97,6 @@ HarvestTile& HarvestTile::operator=(const HarvestTile& h){
     return *this;
 }
 // Accessor and mutator methods
-
 string* HarvestTile::getTopLeftResource() {
 	return topLeft;
 }
@@ -291,18 +289,13 @@ int BuildingDeck::howManyBuildings() {
 
 // HAND OBJECT CLASS ------------------------------------------------------------------------------------------
 
-
-
-
 // Constructor
-
 Hand::Hand() {
     harvestTiles = new vector<HarvestTile>;
     buildings = new vector<Building>;
 }
 
 // Destuctors
-
 Hand::~Hand() {
     delete buildings;
     delete harvestTiles;
@@ -317,7 +310,6 @@ void Hand::deleteHarvestTile(int indexOfHarvestTile) {
 }
 
 // Accessor method to get a specific building in hand
-
 Building Hand::getBuilding(int handIndex){
     return buildings->at(handIndex);
 }
@@ -329,7 +321,6 @@ HarvestTile Hand::getHarvestTile(int handIndex){
 // exchange() method that allows the player to select the Harvest tile from 
 // its position in the row and the column on the Game Board and assign the
 // resource markers a value of the accumulated resources from the Harvest Tiles
-
 void Hand::exchange(GBMap* board, int playerID, int indexOfHarvestTile, string position, int orientation) {
 
 	HarvestTile* pointer = &(harvestTiles->at(indexOfHarvestTile));
@@ -354,7 +345,7 @@ void Hand::exchange(GBMap* board, int playerID, int indexOfHarvestTile, string p
 		TileData = TileData + 10000;
 	else if (*pointer->getTopLeftResource() == "Timber")
 		TileData = TileData + 20000;
-	else if (*pointer->getTopLeftResource() == "Stone")
+	else if (*pointer->getTopLeftResource() == "Rock")
 		TileData = TileData + 30000;
 	else if (*pointer->getTopLeftResource() == "Sheep")
 		TileData = TileData + 40000;
@@ -364,7 +355,7 @@ void Hand::exchange(GBMap* board, int playerID, int indexOfHarvestTile, string p
 		TileData = TileData + 1000;
 	else if (*pointer->getTopRightResource() == "Timber")
 		TileData = TileData + 2000;
-	else if (*pointer->getTopRightResource() == "Stone")
+	else if (*pointer->getTopRightResource() == "Rock")
 		TileData = TileData + 3000;
 	else if (*pointer->getTopRightResource() == "Sheep")
 		TileData = TileData + 4000;
@@ -375,7 +366,7 @@ void Hand::exchange(GBMap* board, int playerID, int indexOfHarvestTile, string p
 		TileData = TileData + 100;
 	else if (*pointer->getBottomLeftResource() == "Timber")
 		TileData = TileData + 200;
-	else if (*pointer->getBottomLeftResource() == "Stone")
+	else if (*pointer->getBottomLeftResource() == "Rock")
 		TileData = TileData + 300;
 	else if (*pointer->getBottomLeftResource() == "Sheep")
 		TileData = TileData + 400;
@@ -386,7 +377,7 @@ void Hand::exchange(GBMap* board, int playerID, int indexOfHarvestTile, string p
 		TileData = TileData + 10;
 	else if (*pointer->getBottomRightResource() == "Timber")
 		TileData = TileData + 20;
-	else if (*pointer->getBottomRightResource() == "Stone")
+	else if (*pointer->getBottomRightResource() == "Rock")
 		TileData = TileData + 30;
 	else if (*pointer->getBottomRightResource() == "Sheep")
 		TileData = TileData + 40;
@@ -420,4 +411,35 @@ string Hand::toString() {
         hand += "\nThe building in position " + to_string(j) + "  Number: " + to_string(*buildings->at(j).getNumber()) + "  Color: " + *buildings->at(j).getColor() + "  Label: " + *buildings->at(j).getLabel();
 	}
 	return hand;
+}
+
+ostream& operator<<(ostream& os, const Hand& h){
+    if(h.harvestTiles->empty()){
+        os << "No Harvest Tiles\n";
+    }
+    else {
+        os << "Harvest Tiles\n";
+        for (int i = 0; i < h.harvestTiles->size(); i++) {
+            HarvestTile tile = h.harvestTiles->at(i);
+            os << i << ": " << (*tile.getTopLeftResource())[0] << (*tile.getTopRightResource())[0] << "  ";
+        }
+        os << "\n";
+        for (int i = 0; i < h.harvestTiles->size(); i++) {
+            HarvestTile tile = h.harvestTiles->at(i);
+            os << "   " << (*tile.getBottomLeftResource())[0] << (*tile.getBottomRightResource())[0] << "  ";
+        }
+        os << "\n";
+    }
+    if(h.buildings->empty()){
+        os << "No Buildings\n";
+    }
+    else{
+        os << "Buildings\n";
+        for (int i = 0; i < h.buildings->size(); i++) {
+            Building building = h.buildings->at(i);
+            os << i << ": " << (*building.getLabel())[0] << (*building.getNumber()) << "  ";
+        }
+        os << "\n";
+    }
+    return os;
 }
