@@ -235,3 +235,9 @@ VGMap* Player::getVillage() {
 Hand* Player::getHand() {
     return hand;
 }
+
+string Player::tracker_to_string() {
+    string s = "Resources W:" + to_string(resourceTracker->at(0)) + " T:" + to_string(resourceTracker->at(1))
+            + " R:" + to_string(resourceTracker->at(2)) + " S:" + to_string(resourceTracker->at(3));
+    return s;
+}

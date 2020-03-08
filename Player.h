@@ -126,5 +126,7 @@ class Player {
          * @return The player's hand
          */
         Hand* getHand();
+
+        string tracker_to_string();
 };
 #endif //COMP345_PLAYER_H

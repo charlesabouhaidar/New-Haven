@@ -220,7 +220,7 @@ Graph* GBMap::getBoard() {
     return board;
 }
 
-double GBMap::getTileData(string position) {
+double GBMap::getTileData(string position) const{
     return board->getNodeValue(position);
 }
 
@@ -259,4 +259,124 @@ string GBMap::getWest(string position){
             return neighbors.at(i);
     }
     return "";
+}
+
+ostream& operator<<(ostream& os, const GBMap& g){
+    char resources[4] = {'W','T','R','S'};
+    os << "Game Board\n";
+    if(g.playerCount == 2){
+        os << "================\n";
+        for(int i = 0; i < 5; i++){
+            os << "|";
+            for(int j = 0; j < 5; j++){
+                int tile = g.getTileData(to_string(i*5+j));
+                if(tile)
+                    os << resources[tile/10000%10-1] << resources[tile/1000%10-1] << "|";
+                else {
+                    if(i*5+j < 10)
+                        os << " ";
+                    os << i * 5 + j << "|";
+                }
+            }
+            os << "\n|";
+            for(int j = 0; j < 5; j++){
+                int tile = g.getTileData(to_string(i*5+j));
+                if(tile)
+                    os << resources[tile/100%10-1] << resources[tile/10%10-1] << "|";
+                else
+                    os << "  |";
+            }
+            os << "\n================\n";
+        }
+    }
+    else if(g.playerCount == 3){
+        os << "================\n";
+        for(int i = 0; i < 7; i++){
+            os << "|";
+            for(int j = 0; j < 5; j++){
+                int tile = g.getTileData(to_string(i*5+j));
+                if(tile)
+                    os << resources[tile/10000%10-1] << resources[tile/1000%10-1] << "|";
+                else {
+                    if(i*5+j < 10)
+                        os << " ";
+                    os << i * 5 + j << "|";
+                }
+            }
+            os << "\n|";
+            for(int j = 0; j < 5; j++){
+                int tile = g.getTileData(to_string(i*5+j));
+                if(tile)
+                    os << resources[tile/100%10-1] << resources[tile/10%10-1] << "|";
+                else
+                    os << "  |";
+            }
+            os << "\n================\n";
+        }
+    }
+    else if(g.playerCount == 4){
+        //first row
+        os << "======================\n";
+        os << "|  |";
+        for(int i = 0; i < 5; i++){
+            int tile = g.getTileData(to_string(i));
+            if(tile)
+                os << resources[tile/10000%10-1] << resources[tile/1000%10-1] << "|";
+            else
+                os << " " << i << "|";
+        }
+        os << "  |\n|  |";
+        for(int i = 0; i < 5; i++){
+            int tile = g.getTileData(to_string(i));
+            if(tile)
+                os << resources[tile/100%10-1] << resources[tile/10%10-1] << "|";
+            else
+                os << "  |";
+        }
+        os << "  |\n======================\n";
+
+        //middle rows
+        for(int i = 0; i < 5; i++){
+            os << "|";
+            for(int j = 0; j < 7; j++){
+                int tile = g.getTileData(to_string(i*7+5+j));
+                if(tile)
+                    os << resources[tile/10000%10-1] << resources[tile/1000%10-1] << "|";
+                else {
+                    if(i*7+5+j < 10)
+                        os << " ";
+                    os << i * 7 + 5 + j << "|";
+                }
+            }
+            os << "\n|";
+            for(int j = 0; j < 7; j++){
+                int tile = g.getTileData(to_string(i*7+5+j));
+                if(tile)
+                    os << resources[tile/100%10-1] << resources[tile/10%10-1] << "|";
+                else
+                    os << "  |";
+            }
+            os << "\n======================\n";
+        }
+
+        //last row
+        os << "|  |";
+        for(int i = 40; i < 45; i++){
+            int tile = g.getTileData(to_string(i));
+            if(tile)
+                os << resources[tile/10000%10-1] << resources[tile/1000%10-1] << "|";
+            else
+                os << i << "|";
+        }
+        os << "  |\n|  |";
+        for(int i = 40; i < 45; i++){
+            int tile = g.getTileData(to_string(i));
+            if(tile)
+                os << resources[tile/100%10-1] << resources[tile/10%10-1] << "|";
+            else
+                os << "  |";
+        }
+        os << "  |\n======================\n";
+    }
+    return os;
 }
