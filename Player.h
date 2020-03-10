@@ -74,6 +74,8 @@ class Player {
          */
         ~Player();
 
+        Player& operator=(const Player &p);
+
         /**
          * Places a harvest tile onto the game board
          * @param board The game board to place the tile on

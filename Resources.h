@@ -232,6 +232,8 @@ public:
      	* Default constructor
      	*/
 	Hand();
+
+	Hand(const Hand &h);
 	
 	/**
      	* Method that allows a player to place a harvest tile from his hand onto the board. 

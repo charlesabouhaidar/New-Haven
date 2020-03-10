@@ -144,6 +144,20 @@ Player::~Player() {
     delete scoreCounter;
 }
 
+Player& Player::operator=(const Player& p){
+    if (this == &p)
+        return *this;
+    delete playerID;
+    delete village;
+    delete hand;
+    delete resourceTracker;
+    playerID = new int(*p.playerID);
+    village = new VGMap(*p.village);
+    hand = new Hand(*p.hand);
+    resourceTracker = new vector<int>(*p.resourceTracker);
+    return *this;
+}
+
 bool Player::PlaceHarvestTile(GBMap* board, int tileIndex, int location, int orientation) {
     if(board->getTileData(to_string(location)) == 0) {
         hand->exchange(board, *playerID, tileIndex, to_string(location), orientation);

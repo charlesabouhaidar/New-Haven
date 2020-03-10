@@ -18,6 +18,7 @@ public:
     Graph *board;
     VGMap(string name);
     VGMap();
+    VGMap(const VGMap &vgMap);
     ~VGMap();
 
     string getName();

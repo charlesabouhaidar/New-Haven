@@ -255,12 +255,10 @@ string* Building::getLabel() {
 // Constructor
 BuildingDeck::BuildingDeck() {
     buildings = new vector<Building>;
-    for (int i = 0; i < 6; i++) {
-        for (int j = 0; j < 24; j++) {
-            Building* pointer = new Building(j);
-            buildings->push_back(*pointer);
-            delete pointer;
-        }
+    for (int j = 1; j < 25; j++) {
+        Building* pointer = new Building(j);
+        buildings->push_back(*pointer);
+        delete pointer;
     }
 }
 
@@ -293,6 +291,11 @@ int BuildingDeck::howManyBuildings() {
 Hand::Hand() {
     harvestTiles = new vector<HarvestTile>;
     buildings = new vector<Building>;
+}
+
+Hand::Hand(const Hand &h){
+    harvestTiles = new vector<HarvestTile>(*h.harvestTiles);
+    buildings = new vector<Building>(*h.buildings);
 }
 
 // Destuctors

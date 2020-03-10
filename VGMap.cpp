@@ -72,6 +72,12 @@ VGMap::VGMap(string name){
 
 VGMap::VGMap() : VGMap("unspecified"){}
 
+VGMap::VGMap(const VGMap &vgMap){
+    villageName = vgMap.villageName;
+    resourceFlags = new vector<bool>(*vgMap.resourceFlags);
+    board = new Graph(*vgMap.board);
+}
+
 VGMap::~VGMap(){
     delete resourceFlags;
     delete board;
