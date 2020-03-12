@@ -446,3 +446,32 @@ ostream& operator<<(ostream& os, const Hand& h){
     }
     return os;
 }
+
+RevealedBuildings::RevealedBuildings(){
+    buildings = new vector<Building>;
+}
+
+RevealedBuildings::~RevealedBuildings(){
+    buildings->clear();
+    delete buildings;
+}
+
+void RevealedBuildings::addBuilding(Building b) {
+    buildings->push_back(b);
+}
+
+Building RevealedBuildings::DrawBuilding(int index) {
+    Building temp = buildings->at(index);
+    buildings->erase(buildings->begin()+index);
+    return temp;
+}
+
+ostream& operator<<(ostream& os, const RevealedBuildings& b){
+    os << "Revealed Buildings\n";
+    for (int i = 0; i < b.buildings->size(); i++) {
+        Building building = b.buildings->at(i);
+        os << i << ": " << (*building.getLabel())[0] << (*building.getNumber()) << "  ";
+    }
+    os << "\n";
+    return os;
+}

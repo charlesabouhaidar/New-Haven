@@ -293,4 +293,17 @@ public:
 };
 ostream& operator<<(ostream& os, const Hand& h);
 
+class RevealedBuildings {
+    private:
+        vector<Building>* buildings;
+
+    public:
+        RevealedBuildings();
+        ~RevealedBuildings();
+        void addBuilding(Building b);
+        Building DrawBuilding(int index);
+        friend ostream& operator<<(ostream& os, const RevealedBuildings& b);
+};
+ostream& operator<<(ostream& os, const RevealedBuildings& b);
+
 #endif //COMP345_RESOURCES_H    
