@@ -226,6 +226,8 @@ class Hand {
 private:
 	vector<HarvestTile>* harvestTiles;
 	vector<Building>* buildings;
+	HarvestTile* deliveryTile;
+
 public:
 	
 	/**
@@ -289,6 +291,13 @@ public:
      	* Displays the hand's resource information
      	*/
 	string toString();
+
+    HarvestTile useDeliveryTile();
+
+	bool hasDeliveryTile();
+
+	void setDeliveryTile(HarvestTile h);
+
 	friend ostream& operator<<(ostream& os, const Hand& h);
 };
 ostream& operator<<(ostream& os, const Hand& h);

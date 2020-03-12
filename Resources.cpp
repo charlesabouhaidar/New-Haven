@@ -291,17 +291,20 @@ int BuildingDeck::howManyBuildings() {
 Hand::Hand() {
     harvestTiles = new vector<HarvestTile>;
     buildings = new vector<Building>;
+    deliveryTile = nullptr;
 }
 
 Hand::Hand(const Hand &h){
     harvestTiles = new vector<HarvestTile>(*h.harvestTiles);
     buildings = new vector<Building>(*h.buildings);
+    deliveryTile = nullptr;
 }
 
 // Destuctors
 Hand::~Hand() {
     delete buildings;
     delete harvestTiles;
+    delete deliveryTile;
 }
 
 void Hand::deleteBuilding(int indexOfBuilding) {
@@ -416,6 +419,21 @@ string Hand::toString() {
 	return hand;
 }
 
+HarvestTile Hand::useDeliveryTile() {
+    HarvestTile temp = *deliveryTile;
+    delete deliveryTile;
+    deliveryTile = nullptr;
+    return temp;
+}
+
+bool Hand::hasDeliveryTile() {
+    return deliveryTile;
+}
+
+void Hand::setDeliveryTile(HarvestTile h) {
+    deliveryTile = new HarvestTile(h);
+}
+
 ostream& operator<<(ostream& os, const Hand& h){
     if(h.harvestTiles->empty()){
         os << "No Harvest Tiles\n";
@@ -426,6 +444,8 @@ ostream& operator<<(ostream& os, const Hand& h){
             HarvestTile tile = h.harvestTiles->at(i);
             os << i << ": " << (*tile.getTopLeftResource())[0] << (*tile.getTopRightResource())[0] << "  ";
         }
+        if(h.deliveryTile)
+            os << "2: Delivery Tile";
         os << "\n";
         for (int i = 0; i < h.harvestTiles->size(); i++) {
             HarvestTile tile = h.harvestTiles->at(i);
@@ -433,6 +453,7 @@ ostream& operator<<(ostream& os, const Hand& h){
         }
         os << "\n";
     }
+
     if(h.buildings->empty()){
         os << "No Buildings\n";
     }

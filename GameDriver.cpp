@@ -43,14 +43,14 @@ int main(){
         revealedBuildings->addBuilding(buildings->drawBuilding());
     }
 
-    //set hands, 6 buildings, 2 harvest tiles
-    //*1 shipment tile
+    //set hands, 6 buildings, 2 harvest tiles, 1 shipment tile
     for(int i = 0; i < playercount; i++){
         for(int j = 0; j < 6; j++){
             players[i]->DrawBuilding(buildings);
         }
         players[i]->DrawHarvestTile(harvestTiles);
         players[i]->DrawHarvestTile(harvestTiles);
+        players[i]->getHand()->setDeliveryTile(harvestTiles->drawHarvestTile());
     }
 
     //loop until one space left (count turns)
