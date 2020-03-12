@@ -53,11 +53,17 @@ int main(){
         players[i]->getHand()->setDeliveryTile(harvestTiles->drawHarvestTile());
     }
 
-    //loop until one space left (count turns)
-    //set active player pointer, set pointer to current players resource tracker?
-    //place tile, generate resources, place buildings, next players place buildings
-    //draw buildings (atleast one from pool) & harvest tile if applicable, replace face ups
-    //reset markers
+    for(int round = 1; round < 11; round++){
+        cout << "-----ROUND " << round << "-----\n";
+        for(int activePlayer = 0; activePlayer < playercount; activePlayer++){
+            cout << "Player " << activePlayer+1 << "'s Turn\n";
+            vector<int>* resourceTracker = players[activePlayer]->ResourceTracker();
+
+            //place tile, generate resources, place buildings, next players place buildings
+            //draw buildings (atleast one from pool) & harvest tile if applicable, replace face ups
+            //reset markers
+        }
+    }
 
     for(int i = 0; i < playercount; i++)
         delete players[i];

@@ -255,10 +255,12 @@ string* Building::getLabel() {
 // Constructor
 BuildingDeck::BuildingDeck() {
     buildings = new vector<Building>;
-    for (int j = 1; j < 25; j++) {
-        Building* pointer = new Building(j);
-        buildings->push_back(*pointer);
-        delete pointer;
+    for(int i = 0; i < 6; i++) {
+        for (int j = 1; j < 25; j++) {
+            Building *pointer = new Building(j);
+            buildings->push_back(*pointer);
+            delete pointer;
+        }
     }
 }
 
