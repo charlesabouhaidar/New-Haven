@@ -311,6 +311,7 @@ class RevealedBuildings {
         ~RevealedBuildings();
         void addBuilding(Building b);
         Building DrawBuilding(int index);
+        int getSize();
         friend ostream& operator<<(ostream& os, const RevealedBuildings& b);
 };
 ostream& operator<<(ostream& os, const RevealedBuildings& b);

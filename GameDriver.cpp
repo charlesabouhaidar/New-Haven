@@ -4,7 +4,6 @@
 #include <iostream>
 #include <string>
 
-
 using std::cout;
 using std::cin;
 using std::string;
@@ -57,11 +56,78 @@ int main(){
         cout << "-----ROUND " << round << "-----\n";
         for(int activePlayer = 0; activePlayer < playercount; activePlayer++){
             cout << "Player " << activePlayer+1 << "'s Turn\n";
+
+            //set active resource tracker
             vector<int>* resourceTracker = players[activePlayer]->ResourceTracker();
 
-            //place tile, generate resources, place buildings, next players place buildings
-            //draw buildings (atleast one from pool) & harvest tile if applicable, replace face ups
-            //reset markers
+            //place tile, generate resources
+
+
+            //place buildings, next players
+
+
+            //draw buildings
+            bool fromPool = false;
+            for(int i=0; i<4; i++){
+                if(resourceTracker->at(i) == 0){
+                    cout << "Current Hand\n";
+                    cout << *players[activePlayer]->getHand();
+                    cout << "Draw a building\n";
+                    cout << *revealedBuildings;
+                    if(!fromPool){
+                        string selectedstr = "";
+                        int selected = 5;
+                        while(selected >= revealedBuildings->getSize()) {
+                            cout << "Building:";
+                            cin >> selectedstr;
+                            if (selectedstr == "0" || selectedstr == "1" || selectedstr == "2" ||
+                                selectedstr == "3" || selectedstr == "4") {
+                                selected = stoi(selectedstr);
+                            }
+                        }
+                        players[activePlayer]->getHand()->addBuilding(revealedBuildings->DrawBuilding(selected));
+                        fromPool = true;
+                    }
+                    else{
+                        string option = "";
+                        while(!(option == "0" || option == "1")){
+                            cout << "0: Draw from revealed   1: Draw from deck\nDraw Location:";
+                            cin >> option;
+                        }
+                        if(option == "0"){
+                            string selectedstr;
+                            int selected = 5;
+                            while(selected >= revealedBuildings->getSize()) {
+                                cout << "Building:";
+                                cin >> selectedstr;
+                                if (selectedstr == "0" || selectedstr == "1" || selectedstr == "2" ||
+                                    selectedstr == "3" || selectedstr == "4") {
+                                    selected = stoi(selectedstr);
+                                }
+                            }
+                            players[activePlayer]->getHand()->addBuilding(revealedBuildings->DrawBuilding(selected));
+                            fromPool = true;
+                        }
+                        else{
+                            players[activePlayer]->DrawBuilding(buildings);
+                        }
+                    }
+                }
+            }
+
+            //draw harvest tile
+            if(players[activePlayer]->getHand()->hasDeliveryTile()){
+                players[activePlayer]->DrawHarvestTile(harvestTiles);
+            }
+
+            //replenish face up pool
+            int missing = 5 - revealedBuildings->getSize();
+            for(int i = 0; i < missing; i++){
+                revealedBuildings->addBuilding(buildings->drawBuilding());
+            }
+
+            //reset resource tracker
+            resourceTracker->assign(4, 0);
         }
     }
 

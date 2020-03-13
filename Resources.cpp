@@ -489,6 +489,10 @@ Building RevealedBuildings::DrawBuilding(int index) {
     return temp;
 }
 
+int RevealedBuildings::getSize(){
+    return buildings->size();
+}
+
 ostream& operator<<(ostream& os, const RevealedBuildings& b){
     os << "Revealed Buildings\n";
     for (int i = 0; i < b.buildings->size(); i++) {
