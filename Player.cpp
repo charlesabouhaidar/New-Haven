@@ -179,7 +179,7 @@ vector<int>* Player::ResourceTracker() {
     return resourceTracker;
 }
 
-bool Player::BuildVillage(int buildingIndex, int location, bool flipped) {
+bool Player::BuildVillage(int buildingIndex, int location, bool flipped, vector<int>* tracker) {
     if(village->getTileData(to_string(location)) == 0) {
         Building building = hand->getBuilding(buildingIndex);
         int* number = building.getNumber();
@@ -195,12 +195,12 @@ bool Player::BuildVillage(int buildingIndex, int location, bool flipped) {
         int row = location/5;
         if(flipped || *number == 6-row){
             //check if there are sufficient resource to place building
-            if(resourceTracker->at(colorIndex) >= 6 - row) {
+            if(tracker->at(colorIndex) >= 6 - row) {
                 //check if type is adjacent if placed
                 if (!village->getFlags()->at(colorIndex)) {
                     village->getFlags()->at(colorIndex) = true;
                     hand->deleteBuilding(buildingIndex);
-                    resourceTracker->at(colorIndex) -= (6-row);
+                    tracker->at(colorIndex) -= (6-row);
                     double data = 0;
                     if(flipped)
                         data++;
@@ -222,7 +222,7 @@ bool Player::BuildVillage(int buildingIndex, int location, bool flipped) {
                     }
                     if(isAdj){
                         hand->deleteBuilding(buildingIndex);
-                        resourceTracker->at(colorIndex) -= (6-row);
+                        tracker->at(colorIndex) -= (6-row);
                         double data = 0;
                         if(flipped)
                             data++;

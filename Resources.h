@@ -293,6 +293,8 @@ public:
 
 	void setDeliveryTile(HarvestTile h);
 
+	int getNumOfBuildings();
+
 	friend ostream& operator<<(ostream& os, const Hand& h);
 };
 ostream& operator<<(ostream& os, const Hand& h);

@@ -109,7 +109,7 @@ class Player {
          * @param flipped Whether the building is played face up or flipped
          * @return If the placement was successful
          */
-        bool BuildVillage(int buildingIndex, int location, bool flipped);
+        bool BuildVillage(int buildingIndex, int location, bool flipped, vector<int>* tracker);
 
         /**
          * Calculates and adds resources to the resource tracker for a tile placement

@@ -95,6 +95,25 @@ bool valid_tile_pos(string pos){
     return valid;
 }
 
+bool valid_building_pos(string pos){
+    return (pos == "0" || pos == "1" || pos == "2" || pos == "3" || pos == "4" || pos == "5" || pos == "6"
+           || pos == "7" || pos == "8" || pos == "9" || pos == "10" || pos == "11" || pos == "12" || pos == "13"
+           || pos == "14" || pos == "15" || pos == "16" || pos == "17" || pos == "18" || pos == "19" || pos == "20"
+           || pos == "21" || pos == "22" || pos == "23" || pos == "24" || pos == "25" || pos == "26" || pos == "27"
+           || pos == "28" || pos == "29");
+}
+
+bool is_number(string str)
+{
+    bool isNumber = true;
+    for(int i=0; i < str.size(); i++) {
+        if(str[i] != '0' && str[i] != '1' && str[i] != '2' && str[i] != '3' && str[i] != '4' && str[i] != '5'
+        && str[i] != '6' && str[i] != '7' && str[i] != '8' && str[i] != '9')
+            isNumber = false;
+    }
+    return isNumber;
+}
+
 void initialize(){
     //set player count
     string playercountstr;
@@ -209,7 +228,61 @@ void placeTile(){
 }
 
 void placeBuildings(){
+    for(int i=0; i < playercount; i++){
+        bool placing = true;
+        while(placing) {
+            if (players[(activePlayer + i) % playercount]->getHand()->getNumOfBuildings() > 0) {
+                display_gamestate();
+                cout << "Player " << to_string((activePlayer+i)%playercount+1) << "'s "
+                     << *players[(activePlayer+i)%playercount]->getHand() << "\n";
 
+                string option = "";
+                while (option != "0" && option != "1") {
+                    cout << "Place building (0) or Skip (1):";
+                    cin >> option;
+                }
+                if (option == "0") {
+
+                    string buildingStr = "";
+                    int building = 0;
+                    bool validBuilding = false;
+                    while (!validBuilding) {
+                        cout << "Select building to place:";
+                        cin >> buildingStr;
+                        if (is_number(buildingStr)) {
+                            building = stoi(buildingStr);
+                            if (building >= 0 && building < players[(activePlayer + i) % playercount]->getHand()->getNumOfBuildings()) {
+                                validBuilding = true;
+                            }
+                        }
+                    }
+
+                    string flippedStr = "";
+                    bool flipped = false;
+                    while(flippedStr != "0" && flippedStr != "1"){
+                        cout << "Place building face up (0) or flipped (1):";
+                        cin >> flippedStr;
+                    }
+                    if(flippedStr == "1")
+                        flipped = true;
+
+                    string buildPos = "";
+                    while(!valid_building_pos(buildPos)){
+                        cout << "Select position to build:";
+                        cin >> buildPos;
+                    }
+
+                    players[(activePlayer + i) % playercount]->BuildVillage(building, stoi(buildPos), flipped, players[activePlayer]->ResourceTracker());
+                }
+                else {
+                    placing = false;
+                }
+            }
+            else{
+                placing = false;
+            }
+        }
+    }
 }
 
 void draw(){

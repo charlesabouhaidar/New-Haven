@@ -424,6 +424,10 @@ void Hand::setDeliveryTile(HarvestTile h) {
     deliveryTile = new HarvestTile(h);
 }
 
+int Hand::getNumOfBuildings(){
+    return buildings->size();
+}
+
 ostream& operator<<(ostream& os, const Hand& h){
     os << "Hand\n";
     if(h.harvestTiles->empty()){
