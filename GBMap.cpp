@@ -1,7 +1,5 @@
 #include "GBMap.h"
-#include <vector>
 
-using std::vector;
 using std::string;
 using std::to_string;
 using std::stoi;
@@ -261,122 +259,187 @@ string GBMap::getWest(string position){
     return "";
 }
 
-ostream& operator<<(ostream& os, const GBMap& g){
+vector<string> GBMap::toStrings(){
     char resources[4] = {'W','T','R','S'};
-    os << "Game Board\n";
-    if(g.playerCount == 2){
-        os << "================\n";
+    vector<string> strings;
+    if(playerCount == 2){
+        strings.assign(16, "");
+        int index = 0;
+        strings.at(index) += "================";
+        index++;
         for(int i = 0; i < 5; i++){
-            os << "|";
+            strings.at(index) += "|";
             for(int j = 0; j < 5; j++){
-                int tile = g.getTileData(to_string(i*5+j));
-                if(tile)
-                    os << resources[tile/10000%10-1] << resources[tile/1000%10-1] << "|";
+                int tile = getTileData(to_string(i*5+j));
+                if(tile) {
+                    strings.at(index) += resources[tile / 10000 % 10 - 1];
+                    strings.at(index) += resources[tile / 1000 % 10 - 1];
+                    strings.at(index) += "|";
+                }
                 else {
                     if(i*5+j < 10)
-                        os << " ";
-                    os << i * 5 + j << "|";
+                        strings.at(index) += " ";
+                    strings.at(index) += to_string(i * 5 + j);
+                    strings.at(index) += "|";
                 }
             }
-            os << "\n|";
+            index++;
+            strings.at(index) += "|";
             for(int j = 0; j < 5; j++){
-                int tile = g.getTileData(to_string(i*5+j));
-                if(tile)
-                    os << resources[tile/100%10-1] << resources[tile/10%10-1] << "|";
+                int tile = getTileData(to_string(i*5+j));
+                if(tile) {
+                    strings.at(index) += resources[tile / 100 % 10 - 1];
+                    strings.at(index) += resources[tile / 10 % 10 - 1];
+                    strings.at(index) += "|";
+                }
                 else
-                    os << "  |";
+                    strings.at(index) += "  |";
             }
-            os << "\n================\n";
+            index++;
+            strings.at(index) += "================";
+            index++;
         }
     }
-    else if(g.playerCount == 3){
-        os << "================\n";
+    else if(playerCount == 3){
+        strings.assign(22, "");
+        int index = 0;
+        strings.at(index) += "================";
+        index++;
         for(int i = 0; i < 7; i++){
-            os << "|";
+            strings.at(index) += "|";
             for(int j = 0; j < 5; j++){
-                int tile = g.getTileData(to_string(i*5+j));
-                if(tile)
-                    os << resources[tile/10000%10-1] << resources[tile/1000%10-1] << "|";
+                int tile = getTileData(to_string(i*5+j));
+                if(tile) {
+                    strings.at(index) += resources[tile / 10000 % 10 - 1];
+                    strings.at(index) += resources[tile / 1000 % 10 - 1];
+                    strings.at(index) += "|";
+                }
                 else {
                     if(i*5+j < 10)
-                        os << " ";
-                    os << i * 5 + j << "|";
+                        strings.at(index) += " ";
+                    strings.at(index) += to_string(i * 5 + j);
+                    strings.at(index) += "|";
                 }
             }
-            os << "\n|";
+            index++;
+            strings.at(index) += "|";
             for(int j = 0; j < 5; j++){
-                int tile = g.getTileData(to_string(i*5+j));
-                if(tile)
-                    os << resources[tile/100%10-1] << resources[tile/10%10-1] << "|";
+                int tile = getTileData(to_string(i*5+j));
+                if(tile) {
+                    strings.at(index) += resources[tile / 100 % 10 - 1];
+                    strings.at(index) += resources[tile / 10 % 10 - 1];
+                    strings.at(index) += "|";
+                }
                 else
-                    os << "  |";
+                    strings.at(index) += "  |";
             }
-            os << "\n================\n";
+            index++;
+            strings.at(index) += "================";
+            index++;
         }
     }
-    else if(g.playerCount == 4){
+    else if(playerCount == 4){
+        strings.assign(22, "");
+        int index = 0;
         //first row
-        os << "======================\n";
-        os << "|  |";
+        strings.at(index) += "======================";
+        index++;
+        strings.at(index) += "|  |";
         for(int i = 0; i < 5; i++){
-            int tile = g.getTileData(to_string(i));
-            if(tile)
-                os << resources[tile/10000%10-1] << resources[tile/1000%10-1] << "|";
-            else
-                os << " " << i << "|";
+            int tile = getTileData(to_string(i));
+            if(tile) {
+                strings.at(index) += resources[tile / 10000 % 10 - 1];
+                strings.at(index) += resources[tile / 1000 % 10 - 1];
+                strings.at(index) += "|";
+            }
+            else {
+                strings.at(index) += " ";
+                strings.at(index) += to_string(i);
+                strings.at(index) += "|";
+            }
         }
-        os << "  |\n|  |";
+        strings.at(index) += "  |";
+        index++;
+        strings.at(index) += "|  |";
         for(int i = 0; i < 5; i++){
-            int tile = g.getTileData(to_string(i));
-            if(tile)
-                os << resources[tile/100%10-1] << resources[tile/10%10-1] << "|";
+            int tile = getTileData(to_string(i));
+            if(tile) {
+                strings.at(index) += resources[tile / 100 % 10 - 1];
+                strings.at(index) += resources[tile / 10 % 10 - 1];
+                strings.at(index) += "|";
+            }
             else
-                os << "  |";
+                strings.at(index) += "  |";
         }
-        os << "  |\n======================\n";
+        strings.at(index) += "  |";
+        index++;
+        strings.at(index) += "======================";
+        index++;
 
         //middle rows
         for(int i = 0; i < 5; i++){
-            os << "|";
+            strings.at(index) += "|";
             for(int j = 0; j < 7; j++){
-                int tile = g.getTileData(to_string(i*7+5+j));
-                if(tile)
-                    os << resources[tile/10000%10-1] << resources[tile/1000%10-1] << "|";
+                int tile = getTileData(to_string(i*7+5+j));
+                if(tile) {
+                    strings.at(index) += resources[tile / 10000 % 10 - 1];
+                    strings.at(index) += resources[tile / 1000 % 10 - 1];
+                    strings.at(index) += "|";
+                }
                 else {
                     if(i*7+5+j < 10)
-                        os << " ";
-                    os << i * 7 + 5 + j << "|";
+                        strings.at(index) += " ";
+                    strings.at(index) += to_string(i * 7 + 5 + j);
+                    strings.at(index) += "|";
                 }
             }
-            os << "\n|";
+            index++;
+            strings.at(index) = "|";
             for(int j = 0; j < 7; j++){
-                int tile = g.getTileData(to_string(i*7+5+j));
-                if(tile)
-                    os << resources[tile/100%10-1] << resources[tile/10%10-1] << "|";
+                int tile = getTileData(to_string(i*7+5+j));
+                if(tile) {
+                    strings.at(index) += resources[tile / 100 % 10 - 1];
+                    strings.at(index) += resources[tile / 10 % 10 - 1];
+                    strings.at(index) += "|";
+                }
                 else
-                    os << "  |";
+                    strings.at(index) += "  |";
             }
-            os << "\n======================\n";
+            index++;
+            strings.at(index) += "======================";
+            index++;
         }
 
         //last row
-        os << "|  |";
+        strings.at(index) += "|  |";
         for(int i = 40; i < 45; i++){
-            int tile = g.getTileData(to_string(i));
-            if(tile)
-                os << resources[tile/10000%10-1] << resources[tile/1000%10-1] << "|";
-            else
-                os << i << "|";
+            int tile = getTileData(to_string(i));
+            if(tile) {
+                strings.at(index) += resources[tile / 10000 % 10 - 1];
+                strings.at(index) += resources[tile / 1000 % 10 - 1];
+                strings.at(index) += "|";
+            }
+            else {
+                strings.at(index) += to_string(i);
+                strings.at(index) += "|";
+            }
         }
-        os << "  |\n|  |";
+        strings.at(index) += "  |";
+        index++;
+        strings.at(index) += "|  |";
         for(int i = 40; i < 45; i++){
-            int tile = g.getTileData(to_string(i));
-            if(tile)
-                os << resources[tile/100%10-1] << resources[tile/10%10-1] << "|";
+            int tile = getTileData(to_string(i));
+            if(tile) {
+                strings.at(index) += resources[tile / 100 % 10 - 1];
+                strings.at(index) += resources[tile / 10 % 10 - 1];
+                strings.at(index) += "|";
+            }
             else
-                os << "  |";
+                strings.at(index) += "  |";
         }
-        os << "  |\n======================\n";
+        strings.at(index) += "  |";
+        index++;
+        strings.at(index) += "======================";
     }
-    return os;
+    return strings;
 }

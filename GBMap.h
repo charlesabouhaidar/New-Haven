@@ -4,9 +4,11 @@
 #include "Cpp-Graph-Library-master/Graph.h"
 #include <string>
 #include <ostream>
+#include <vector>
 
 using std::string;
 using std::ostream;
+using std::vector;
 
 class GBMap{
 
@@ -24,7 +26,6 @@ public:
     string getSouth(string position);
     string getEast(string position);
     string getWest(string position);
-    friend ostream& operator<<(ostream& os, const GBMap& g);
+    vector<string> toStrings();
 };
-ostream& operator<<(ostream& os, const GBMap& g);
 #endif //COMP345_GBMAP_H

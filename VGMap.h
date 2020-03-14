@@ -30,7 +30,6 @@ public:
     string getSouth(string position);
     string getEast(string position);
     string getWest(string position);
-    friend ostream& operator<<(ostream& os, const VGMap& v);
+    vector<string> toStrings();
 };
-ostream& operator<<(ostream& os, const VGMap& v);
 #endif //COMP345_VGMAP_H

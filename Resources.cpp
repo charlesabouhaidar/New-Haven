@@ -409,18 +409,6 @@ void Hand::addHarvestTile(HarvestTile harvestTile){
     harvestTiles->push_back(harvestTile);
 }
 
-// To String object.
-string Hand::toString() {
-    string hand = "";
-	for (int i = 0; i < harvestTiles->size(); i++) {
-        hand += "\nThe harvest tile in position " + to_string(i) + "  Top Left: " + *harvestTiles->at(i).getTopLeftResource() + "  Top Right: " + *harvestTiles->at(i).getTopRightResource() + "  Bottom Left: " + *harvestTiles->at(i).getBottomLeftResource() + "  Bottom Right: " + *harvestTiles->at(i).getBottomRightResource();
-	}
-	for (int j = 0; j < buildings->size(); j++) {
-        hand += "\nThe building in position " + to_string(j) + "  Number: " + to_string(*buildings->at(j).getNumber()) + "  Color: " + *buildings->at(j).getColor() + "  Label: " + *buildings->at(j).getLabel();
-	}
-	return hand;
-}
-
 HarvestTile Hand::useDeliveryTile() {
     HarvestTile temp = *deliveryTile;
     delete deliveryTile;
@@ -437,6 +425,7 @@ void Hand::setDeliveryTile(HarvestTile h) {
 }
 
 ostream& operator<<(ostream& os, const Hand& h){
+    os << "Hand\n";
     if(h.harvestTiles->empty()){
         os << "No Harvest Tiles\n";
     }
@@ -444,14 +433,14 @@ ostream& operator<<(ostream& os, const Hand& h){
         os << "Harvest Tiles\n";
         for (int i = 0; i < h.harvestTiles->size(); i++) {
             HarvestTile tile = h.harvestTiles->at(i);
-            os << i << ": " << (*tile.getTopLeftResource())[0] << (*tile.getTopRightResource())[0] << "  ";
+            os << i << ":" << (*tile.getTopLeftResource())[0] << (*tile.getTopRightResource())[0] << "  ";
         }
         if(h.deliveryTile)
-            os << "2: Delivery Tile";
+            os << "2:Delivery Tile";
         os << "\n";
         for (int i = 0; i < h.harvestTiles->size(); i++) {
             HarvestTile tile = h.harvestTiles->at(i);
-            os << "   " << (*tile.getBottomLeftResource())[0] << (*tile.getBottomRightResource())[0] << "  ";
+            os << "  " << (*tile.getBottomLeftResource())[0] << (*tile.getBottomRightResource())[0] << "  ";
         }
         os << "\n";
     }
@@ -463,7 +452,7 @@ ostream& operator<<(ostream& os, const Hand& h){
         os << "Buildings\n";
         for (int i = 0; i < h.buildings->size(); i++) {
             Building building = h.buildings->at(i);
-            os << i << ": " << (*building.getLabel())[0] << (*building.getNumber()) << "  ";
+            os << i << ":" << (*building.getLabel())[0] << (*building.getNumber()) << "  ";
         }
         os << "\n";
     }
@@ -493,12 +482,15 @@ int RevealedBuildings::getSize(){
     return buildings->size();
 }
 
-ostream& operator<<(ostream& os, const RevealedBuildings& b){
-    os << "Revealed Buildings\n";
-    for (int i = 0; i < b.buildings->size(); i++) {
-        Building building = b.buildings->at(i);
-        os << i << ": " << (*building.getLabel())[0] << (*building.getNumber()) << "  ";
+string RevealedBuildings::toString(){
+    string str = "";
+    for (int i = 0; i < buildings->size(); i++) {
+        Building building = buildings->at(i);
+        str += to_string(i);
+        str += ":";
+        str += (*building.getLabel())[0];
+        str += to_string(*building.getNumber());
+        str += "  ";
     }
-    os << "\n";
-    return os;
+    return str;
 }

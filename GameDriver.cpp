@@ -8,6 +8,66 @@ using std::cout;
 using std::cin;
 using std::string;
 
+int round_num, activePlayer, playercount;
+RevealedBuildings* revealedBuildings;
+Player* players[4];
+GBMap* gameBoard;
+
+void display_gamestate(){
+    cout << string(50, '\n');
+    cout << "ROUND " << to_string(round_num) << "  PLAYER " << to_string(activePlayer+1) << "'S TURN\n";
+
+    //get string data
+    vector<string> gameBoardStrings = gameBoard->toStrings();
+    vector<string> village[4];
+    for(int i = 0; i < playercount; i++){
+        village[i] = players[i]->getVillage()->toStrings();
+    }
+    string revealedStr = revealedBuildings->toString();
+
+    //print headers
+    cout << "Gameboard";
+    if(playercount < 4){
+        cout << "           ";
+    }
+    else{
+        cout << "                 ";
+    }
+    for(int i=0; i < playercount; i++){
+        string name = players[i]->getVillage()->getName();
+        cout << players[i]->getVillage()->getName();
+        cout << string(22-name.length(), ' ');
+    }
+    cout << "\n";
+
+    //print villages
+    for(int i=0; i < 7; i++){
+        cout << gameBoardStrings.at(i);
+        for(int j=0; j < playercount; j++){
+            cout << "    " << village[j].at(i);
+        }
+        cout << "\n";
+    }
+
+    //print faceup building pool
+    cout << gameBoardStrings.at(7) << "\n";
+    cout << gameBoardStrings.at(8) << "\n";
+    cout << gameBoardStrings.at(9) << "    Revealed Buildings\n";
+    cout << gameBoardStrings.at(10) << "    " << revealedStr << "\n";
+
+    //print resource tracker
+    cout << gameBoardStrings.at(11) << "\n";
+    cout << gameBoardStrings.at(12) << "\n";
+    cout << gameBoardStrings.at(13) << "    Resource Tracker\n";
+    cout << gameBoardStrings.at(14) << "    " << players[activePlayer]->tracker_to_string() << "\n";
+
+    //finish printing gameboard
+    for(int i=15; i < gameBoardStrings.size(); i++){
+        cout << gameBoardStrings.at(i) << "\n";
+    }
+    cout << "\n";
+}
+
 int main(){
     //set player count
     string playercountstr;
@@ -15,19 +75,20 @@ int main(){
         cout << "Enter number of players:";
         cin >> playercountstr;
     }
-    int playercount = stoi(playercountstr);
+    playercount = stoi(playercountstr);
 
     //set gameboard
     //*use gamemaploader
-    GBMap* gameBoard = new GBMap(playercount);
+    gameBoard = new GBMap(playercount);
 
     //set players
     //*use villagemaploader
-    Player* players[playercount];
     for(int i = 0; i < playercount; i++){
         string villageName;
         cout << "Enter village name for Player " << i+1 << ":";
         cin >> villageName;
+        if(villageName.length() > 17)
+            villageName = villageName.substr(0, 17);
         players[i] = new Player(i+1, villageName);
     }
 
@@ -37,7 +98,7 @@ int main(){
     HarvestTileDeck* harvestTiles = new HarvestTileDeck();
 
     //set face up buildings pool
-    RevealedBuildings* revealedBuildings = new RevealedBuildings();
+    revealedBuildings = new RevealedBuildings();
     for(int i = 0; i < 5; i++) {
         revealedBuildings->addBuilding(buildings->drawBuilding());
     }
@@ -52,15 +113,13 @@ int main(){
         players[i]->getHand()->setDeliveryTile(harvestTiles->drawHarvestTile());
     }
 
-    for(int round = 1; round < 11; round++){
-        cout << "-----ROUND " << round << "-----\n";
-        for(int activePlayer = 0; activePlayer < playercount; activePlayer++){
-            cout << "Player " << activePlayer+1 << "'s Turn\n";
-
+    for(round_num = 1; round_num < 11; round_num++){
+        for(activePlayer = 0; activePlayer < playercount; activePlayer++){
             //set active resource tracker
             vector<int>* resourceTracker = players[activePlayer]->ResourceTracker();
 
             //place tile, generate resources
+            bool usedDelivery = false;
 
 
             //place buildings, next players
@@ -70,15 +129,13 @@ int main(){
             bool fromPool = false;
             for(int i=0; i<4; i++){
                 if(resourceTracker->at(i) == 0){
-                    cout << "Current Hand\n";
+                    display_gamestate();
                     cout << *players[activePlayer]->getHand();
-                    cout << "Draw a building\n";
-                    cout << *revealedBuildings;
                     if(!fromPool){
                         string selectedstr = "";
                         int selected = 5;
                         while(selected >= revealedBuildings->getSize()) {
-                            cout << "Building:";
+                            cout << "Draw Building:";
                             cin >> selectedstr;
                             if (selectedstr == "0" || selectedstr == "1" || selectedstr == "2" ||
                                 selectedstr == "3" || selectedstr == "4") {
@@ -90,15 +147,15 @@ int main(){
                     }
                     else{
                         string option = "";
+                        cout << "0:Draw from revealed   1:Draw from deck\nDraw Location:";
                         while(!(option == "0" || option == "1")){
-                            cout << "0: Draw from revealed   1: Draw from deck\nDraw Location:";
                             cin >> option;
                         }
                         if(option == "0"){
                             string selectedstr;
                             int selected = 5;
                             while(selected >= revealedBuildings->getSize()) {
-                                cout << "Building:";
+                                cout << "Draw Building:";
                                 cin >> selectedstr;
                                 if (selectedstr == "0" || selectedstr == "1" || selectedstr == "2" ||
                                     selectedstr == "3" || selectedstr == "4") {
@@ -116,7 +173,7 @@ int main(){
             }
 
             //draw harvest tile
-            if(players[activePlayer]->getHand()->hasDeliveryTile()){
+            if(!usedDelivery){
                 players[activePlayer]->DrawHarvestTile(harvestTiles);
             }
 

@@ -135,16 +135,19 @@ string VGMap::getWest(string position){
     }
     return "";
 }
-ostream& operator<<(ostream& os, const VGMap& v){
-    os << v.villageName << "\n";
+
+vector<string> VGMap::toStrings(){
+    vector<string> strings;
+    strings.assign(7, "");
+    int index = 0;
     for(int i = 0; i < 6; i++){
         for(int j = 0; j < 5; j++){
-            int data = v.getTileData(to_string(j+i*5));
-            os << '|';
+            int data = getTileData(to_string(j+i*5));
+            strings.at(index) += '|';
             if(data == 0){
                 if(i<2)
-                    os << ' ';
-                os << j+i*5;
+                    strings.at(index) += ' ';
+                strings.at(index) += to_string(j+i*5);
             }
             else {
                 int type = data/100%10;
@@ -161,11 +164,14 @@ ostream& operator<<(ostream& os, const VGMap& v){
                 if (flipped)
                     c = tolower(c);
 
-                os << " " << c;
+                strings.at(index) += " ";
+                strings.at(index) += c;
             }
         }
-        os << "| " << 6-i << "\n";
+        strings.at(index) += "| ";
+        strings.at(index) += to_string(6-i);
+        index++;
     }
-    os << "  5  4  3  4  5  X\n";
-    return os;
+    strings.at(index) += "  5  4  3  4  5  X";
+    return strings;
 }

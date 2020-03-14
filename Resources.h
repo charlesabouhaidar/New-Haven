@@ -286,11 +286,6 @@ public:
 	* @param harvestTile Specifies which harvest tile to add
      	*/
 	void addHarvestTile(HarvestTile harvestTile);
-	
-	/**
-     	* Displays the hand's resource information
-     	*/
-	string toString();
 
     HarvestTile useDeliveryTile();
 
@@ -312,8 +307,7 @@ class RevealedBuildings {
         void addBuilding(Building b);
         Building DrawBuilding(int index);
         int getSize();
-        friend ostream& operator<<(ostream& os, const RevealedBuildings& b);
+        string toString();
 };
-ostream& operator<<(ostream& os, const RevealedBuildings& b);
 
 #endif //COMP345_RESOURCES_H    
