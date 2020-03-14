@@ -129,6 +129,8 @@ class Player {
          */
         Hand* getHand();
 
+        ScoreCounter* getScoreCounter();
+
         string tracker_to_string();
 };
 #endif //COMP345_PLAYER_H

@@ -207,6 +207,7 @@ bool Player::BuildVillage(int buildingIndex, int location, bool flipped, vector<
                     data += *number * 10;
                     data += (colorIndex+1)*100;
                     village->setTileData(to_string(location), data);
+                    village->incrementBuildingCount();
                     return true;
                 } else {
                     int adjacentData[4] = {0,0,0,0};
@@ -229,6 +230,7 @@ bool Player::BuildVillage(int buildingIndex, int location, bool flipped, vector<
                         data += *number * 10;
                         data += (colorIndex+1)*100;
                         village->setTileData(to_string(location), data);
+                        village->incrementBuildingCount();
                         return true;
                     }
                 }
@@ -248,6 +250,10 @@ VGMap* Player::getVillage() {
 
 Hand* Player::getHand() {
     return hand;
+}
+
+ScoreCounter* Player::getScoreCounter(){
+    return scoreCounter;
 }
 
 string Player::tracker_to_string() {

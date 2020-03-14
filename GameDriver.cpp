@@ -358,13 +358,74 @@ void reset(){
     usedDelivery = false;
 }
 
-void end(){
-    //calculate scores, declare winner
+void ComputeScore(){
+    //get scores and counts
+    int scores[playercount];
+    int buildingCount[playercount];
+    int handBuildings[playercount];
+    for(int i=0; i < playercount; i++){
+        scores[i] = players[i]->getScoreCounter()->CalculateScore(players[i]->getVillage());
+        buildingCount[i] = players[i]->getVillage()->getBuildingCount();
+        handBuildings[i] = players[i]->getHand()->getNumOfBuildings();
+    }
+    //score comparison
+    vector<int> topScorePlayers;
+    int highestScore = 0;
+    for(int i=0; i < playercount; i++){
+        if(scores[i] == highestScore) {
+            topScorePlayers.push_back(i);
+        }
+        else if(scores[i] > highestScore){
+            topScorePlayers.clear();
+            topScorePlayers.push_back(i);
+            highestScore = scores[i];
+        }
+    }
+    //board building count comparison
+    vector<int> topBuildingPlayers;
+    int highestCount = 0;
+    for(int i=0; i < topScorePlayers.size(); i++){
+        if(buildingCount[topScorePlayers.at(i)] == highestCount) {
+            topBuildingPlayers.push_back(topScorePlayers.at(i));
+        }
+        else if(buildingCount[topScorePlayers.at(i)] > highestCount){
+            topBuildingPlayers.clear();
+            topBuildingPlayers.push_back(topScorePlayers.at(i));
+            highestCount = buildingCount[topScorePlayers.at(i)];
+        }
+    }
+    //hand building count comparison
+    vector<int> topHandPlayers;
+    int smallestHand = INT_MAX;
+    for(int i=0; i < topBuildingPlayers.size(); i++){
+        if(handBuildings[topBuildingPlayers.at(i)] == smallestHand) {
+            topHandPlayers.push_back(topBuildingPlayers.at(i));
+        }
+        else if(handBuildings[topBuildingPlayers.at(i)] < smallestHand){
+            topHandPlayers.clear();
+            topHandPlayers.push_back(topBuildingPlayers.at(i));
+            smallestHand = handBuildings[topBuildingPlayers.at(i)];
+        }
+    }
 
+    //declare winner(s)
+    cout << "PLAYER(S) " << topHandPlayers.at(0)+1;
+    for(int i = 1; i < topHandPlayers.size(); i++){
+        cout << " & " << topHandPlayers.at(i)+1;
+    }
+    cout << " WIN!\n\n";
 
     string end = "Press enter to end the game";
     cout << end;
     cin >> end;
+
+    for(int i = 0; i < playercount; i++)
+        delete players[i];
+    delete deliveryTile;
+    delete gameBoard;
+    delete buildingDeck;
+    delete harvestTileDeck;
+    delete revealedBuildings;
 }
 
 int main(){
@@ -389,13 +450,7 @@ int main(){
     }
 
     //calculate scores, declare winner, end the game
-    end();
+    ComputeScore();
 
-    for(int i = 0; i < playercount; i++)
-        delete players[i];
-    delete deliveryTile;
-    delete gameBoard;
-    delete buildingDeck;
-    delete harvestTileDeck;
-    delete revealedBuildings;
+    return 0;
 }

@@ -10,6 +10,7 @@ VGMap::VGMap(string name){
     resourceFlags->assign(4, false);
     villageName = name;
     board = new Graph(false);
+    buildingCount = new int(0);
     vector<string> reachableNodes;
     int nodeName, fromNode, toNorthNode, toSouthNode, toEastNode, toWestNode, i, j, k, l, m;
     for( i = 0; i < 30; i++){ //create 25 nodes for the vgboard
@@ -76,11 +77,13 @@ VGMap::VGMap(const VGMap &vgMap){
     villageName = vgMap.villageName;
     resourceFlags = new vector<bool>(*vgMap.resourceFlags);
     board = new Graph(*vgMap.board);
+    buildingCount = new int(*vgMap.buildingCount);
 }
 
 VGMap::~VGMap(){
     delete resourceFlags;
     delete board;
+    delete buildingCount;
 };
 
 string VGMap::getName(){
@@ -134,6 +137,14 @@ string VGMap::getWest(string position){
             return neighbors.at(i);
     }
     return "";
+}
+
+int VGMap::getBuildingCount(){
+    return *buildingCount;
+}
+
+void VGMap::incrementBuildingCount(){
+    buildingCount++;
 }
 
 vector<string> VGMap::toStrings(){

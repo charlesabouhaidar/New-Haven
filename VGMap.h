@@ -14,6 +14,7 @@ class VGMap{
 private:
     string villageName;
     vector<bool>* resourceFlags;
+    int* buildingCount;
 public:
     Graph *board;
     VGMap(string name);
@@ -30,6 +31,8 @@ public:
     string getSouth(string position);
     string getEast(string position);
     string getWest(string position);
+    int getBuildingCount();
+    void incrementBuildingCount();
     vector<string> toStrings();
 };
 #endif //COMP345_VGMAP_H
