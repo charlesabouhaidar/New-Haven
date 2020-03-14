@@ -9,9 +9,13 @@ using std::cin;
 using std::string;
 
 int round_num, activePlayer, playercount;
+bool usedDelivery;
 RevealedBuildings* revealedBuildings;
 Player* players[4];
 GBMap* gameBoard;
+BuildingDeck* buildingDeck;
+HarvestTileDeck* harvestTileDeck;
+vector<int>* resourceTracker;
 
 void display_gamestate(){
     cout << string(50, '\n');
@@ -19,7 +23,7 @@ void display_gamestate(){
 
     //get string data
     vector<string> gameBoardStrings = gameBoard->toStrings();
-    vector<string> village[4];
+    vector<string> village[playercount];
     for(int i = 0; i < playercount; i++){
         village[i] = players[i]->getVillage()->toStrings();
     }
@@ -68,7 +72,7 @@ void display_gamestate(){
     cout << "\n";
 }
 
-int main(){
+void initialize(){
     //set player count
     string playercountstr;
     while(!(playercountstr == "2" || playercountstr == "3" || playercountstr == "4")) {
@@ -94,104 +98,140 @@ int main(){
 
     //set decks
     //*not random harvest tiles?
-    BuildingDeck* buildings = new BuildingDeck();
-    HarvestTileDeck* harvestTiles = new HarvestTileDeck();
+    buildingDeck = new BuildingDeck();
+    harvestTileDeck = new HarvestTileDeck();
 
     //set face up buildings pool
     revealedBuildings = new RevealedBuildings();
     for(int i = 0; i < 5; i++) {
-        revealedBuildings->addBuilding(buildings->drawBuilding());
+        revealedBuildings->addBuilding(buildingDeck->drawBuilding());
     }
 
     //set hands, 6 buildings, 2 harvest tiles, 1 shipment tile
     for(int i = 0; i < playercount; i++){
         for(int j = 0; j < 6; j++){
-            players[i]->DrawBuilding(buildings);
+            players[i]->DrawBuilding(buildingDeck);
         }
-        players[i]->DrawHarvestTile(harvestTiles);
-        players[i]->DrawHarvestTile(harvestTiles);
-        players[i]->getHand()->setDeliveryTile(harvestTiles->drawHarvestTile());
+        players[i]->DrawHarvestTile(harvestTileDeck);
+        players[i]->DrawHarvestTile(harvestTileDeck);
+        players[i]->getHand()->setDeliveryTile(harvestTileDeck->drawHarvestTile());
+    }
+}
+
+void placeTile(){
+
+}
+
+void placeBuildings(){
+
+}
+
+void draw(){
+    //draw buildings
+    bool fromPool = false;
+    for(int i=0; i<4; i++){
+        if(resourceTracker->at(i) == 0){
+            display_gamestate();
+            cout << "Player " << to_string(activePlayer+1) << "'s " <<*players[activePlayer]->getHand() << "\n";
+            if(!fromPool){
+                string selectedstr = "";
+                int selected = 5;
+                while(selected >= revealedBuildings->getSize()) {
+                    cout << "Draw a revealed building:";
+                    cin >> selectedstr;
+                    if (selectedstr == "0" || selectedstr == "1" || selectedstr == "2" ||
+                        selectedstr == "3" || selectedstr == "4") {
+                        selected = stoi(selectedstr);
+                    }
+                }
+                players[activePlayer]->getHand()->addBuilding(revealedBuildings->DrawBuilding(selected));
+                fromPool = true;
+            }
+            else{
+                string option = "";
+                cout << "Draw from revealed (0) or Draw from deck (1)\n";
+                while(!(option == "0" || option == "1")){
+                    cout << "Draw Location:";
+                    cin >> option;
+                }
+                if(option == "0"){
+                    string selectedstr;
+                    int selected = 5;
+                    while(selected >= revealedBuildings->getSize()) {
+                        cout << "Draw a revealed building:";
+                        cin >> selectedstr;
+                        if (selectedstr == "0" || selectedstr == "1" || selectedstr == "2" ||
+                            selectedstr == "3" || selectedstr == "4") {
+                            selected = stoi(selectedstr);
+                        }
+                    }
+                    players[activePlayer]->getHand()->addBuilding(revealedBuildings->DrawBuilding(selected));
+                    fromPool = true;
+                }
+                else{
+                    players[activePlayer]->DrawBuilding(buildingDeck);
+                }
+            }
+        }
     }
 
+    //draw harvest tile
+    if(!usedDelivery){
+        players[activePlayer]->DrawHarvestTile(harvestTileDeck);
+    }
+}
+
+void replenish(){
+    int missing = 5 - revealedBuildings->getSize();
+    for(int i = 0; i < missing; i++){
+        revealedBuildings->addBuilding(buildingDeck->drawBuilding());
+    }
+}
+
+void end(){
+    //calculate scores, declare winner
+
+
+    string end = "Press enter to end the game";
+    cout << end;
+    cin >> end;
+}
+
+int main(){
+    //initialize game
+    initialize();
+
+    //game loop
     for(round_num = 1; round_num < 11; round_num++){
         for(activePlayer = 0; activePlayer < playercount; activePlayer++){
             //set active resource tracker
-            vector<int>* resourceTracker = players[activePlayer]->ResourceTracker();
+            resourceTracker = players[activePlayer]->ResourceTracker();
 
             //place tile, generate resources
-            bool usedDelivery = false;
+            placeTile();
 
+            //each player place buildings
+            placeBuildings();
 
-            //place buildings, next players
-
-
-            //draw buildings
-            bool fromPool = false;
-            for(int i=0; i<4; i++){
-                if(resourceTracker->at(i) == 0){
-                    display_gamestate();
-                    cout << *players[activePlayer]->getHand();
-                    if(!fromPool){
-                        string selectedstr = "";
-                        int selected = 5;
-                        while(selected >= revealedBuildings->getSize()) {
-                            cout << "Draw Building:";
-                            cin >> selectedstr;
-                            if (selectedstr == "0" || selectedstr == "1" || selectedstr == "2" ||
-                                selectedstr == "3" || selectedstr == "4") {
-                                selected = stoi(selectedstr);
-                            }
-                        }
-                        players[activePlayer]->getHand()->addBuilding(revealedBuildings->DrawBuilding(selected));
-                        fromPool = true;
-                    }
-                    else{
-                        string option = "";
-                        cout << "0:Draw from revealed   1:Draw from deck\nDraw Location:";
-                        while(!(option == "0" || option == "1")){
-                            cin >> option;
-                        }
-                        if(option == "0"){
-                            string selectedstr;
-                            int selected = 5;
-                            while(selected >= revealedBuildings->getSize()) {
-                                cout << "Draw Building:";
-                                cin >> selectedstr;
-                                if (selectedstr == "0" || selectedstr == "1" || selectedstr == "2" ||
-                                    selectedstr == "3" || selectedstr == "4") {
-                                    selected = stoi(selectedstr);
-                                }
-                            }
-                            players[activePlayer]->getHand()->addBuilding(revealedBuildings->DrawBuilding(selected));
-                            fromPool = true;
-                        }
-                        else{
-                            players[activePlayer]->DrawBuilding(buildings);
-                        }
-                    }
-                }
-            }
-
-            //draw harvest tile
-            if(!usedDelivery){
-                players[activePlayer]->DrawHarvestTile(harvestTiles);
-            }
+            //draw buildings and harvest tile
+            draw();
 
             //replenish face up pool
-            int missing = 5 - revealedBuildings->getSize();
-            for(int i = 0; i < missing; i++){
-                revealedBuildings->addBuilding(buildings->drawBuilding());
-            }
+            replenish();
 
-            //reset resource tracker
+            //reset resource tracker and flags
             resourceTracker->assign(4, 0);
+            usedDelivery = false;
         }
     }
+
+    //calculate scores, declare winner, end the game
+    end();
 
     for(int i = 0; i < playercount; i++)
         delete players[i];
     delete gameBoard;
-    delete buildings;
-    delete harvestTiles;
+    delete buildingDeck;
+    delete harvestTileDeck;
     delete revealedBuildings;
 }
