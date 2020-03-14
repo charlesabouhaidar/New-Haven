@@ -333,7 +333,7 @@ void Hand::exchange(GBMap* board, int playerID, int indexOfHarvestTile, string p
 
 	HarvestTile* pointer = &(harvestTiles->at(indexOfHarvestTile));
 
-	for(int i = 1; i < orientation; i++ ) {
+	for(int i = 0; i < orientation; i++ ) {
 		// Store top left resource temporarily
 		string* temp = pointer->getTopLeftResource();
 		// Shift resources on tile 90 degrees

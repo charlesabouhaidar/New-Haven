@@ -8,14 +8,14 @@ using std::cout;
 using std::cin;
 using std::string;
 
-int round_num, activePlayer, playercount;
+int round_num, activePlayer, playercount, deliveryPos;
 bool usedDelivery;
+HarvestTile* deliveryTile;
 RevealedBuildings* revealedBuildings;
 Player* players[4];
 GBMap* gameBoard;
 BuildingDeck* buildingDeck;
 HarvestTileDeck* harvestTileDeck;
-vector<int>* resourceTracker;
 
 void display_gamestate(){
     cout << string(50, '\n');
@@ -72,6 +72,29 @@ void display_gamestate(){
     cout << "\n";
 }
 
+bool valid_tile_pos(string pos){
+    bool valid = false;
+    if(playercount >= 2){
+        if(pos == "0" || pos == "1" || pos == "2" || pos == "3" || pos == "4" || pos == "5" || pos == "6"
+        || pos == "7" || pos == "8" || pos == "9" || pos == "10" || pos == "11" || pos == "12" || pos == "13"
+        || pos == "14" || pos == "15" || pos == "16" || pos == "17" || pos == "18" || pos == "19" || pos == "20"
+        || pos == "21" || pos == "22" || pos == "23" || pos == "24")
+            valid = true;
+
+    }
+    if(playercount >= 3){
+        if(pos == "25" || pos == "26" || pos == "27" || pos == "28" || pos == "29" || pos == "30" || pos == "31"
+           || pos == "32" || pos == "33" || pos == "34")
+            valid = true;
+    }
+    if(playercount == 4){
+        if(pos == "35" || pos == "36" || pos == "37" || pos == "38" || pos == "39" || pos == "40" || pos == "41"
+           || pos == "42" || pos == "43" || pos == "44")
+            valid = true;
+    }
+    return valid;
+}
+
 void initialize(){
     //set player count
     string playercountstr;
@@ -116,10 +139,73 @@ void initialize(){
         players[i]->DrawHarvestTile(harvestTileDeck);
         players[i]->getHand()->setDeliveryTile(harvestTileDeck->drawHarvestTile());
     }
+
+    deliveryTile = new HarvestTile();
+    usedDelivery = false;
 }
 
 void placeTile(){
+    display_gamestate();
+    cout << "Player " << to_string(activePlayer+1) << "'s " <<*players[activePlayer]->getHand() << "\n";
+    string tilestr = "";
+    bool validTile = false;
+    while(!validTile) {
+        cout << "Select harvest tile to play:";
+        cin >> tilestr;
+        if(tilestr == "0" || tilestr == "1")
+            validTile = true;
+        else if(tilestr == "2" && players[activePlayer]->getHand()->hasDeliveryTile())
+            validTile = true;
+    }
+    int tile = stoi(tilestr);
+    //using delivery tile
+    if(tile == 2){
+        usedDelivery = true;
+        string data[4] = {"","","",""};
+        string mes[4] = {"top left", "top right", "bottom left", "bottom right"};
+        HarvestTile* placedTile = new HarvestTile();
+        *deliveryTile = players[activePlayer]->getHand()->useDeliveryTile();
+        cout << "Select tile data (Wheat, Timber, Rock, Sheep)\n";
+        for(int i=0; i < 4; i++) {
+            while (data[i] != "Wheat" && data[i] != "Timber" && data[i] != "Rock" && data[i] != "Sheep") {
+                cout << "Select " << mes[i] << " data:";
+                cin >> data[i];
+            }
+        }
+        placedTile->setTopLeftResource(&data[0]);
+        placedTile->setTopRightResource(&data[1]);
+        placedTile->setBottomLeftResource(&data[2]);
+        placedTile->setBottomRightResource(&data[3]);
+        players[activePlayer]->getHand()->addHarvestTile(*placedTile);
 
+        string posstr = "";
+        bool validPos = false;
+        while(!validPos){
+            cout << "Select position for tile:";
+            cin >> posstr;
+            if(valid_tile_pos(posstr)) {
+                deliveryPos = stoi(posstr);
+                validPos = players[activePlayer]->PlaceHarvestTile(gameBoard, 2, deliveryPos, 0);
+            }
+        }
+        delete placedTile;
+    }
+    //using normal tile
+    else{
+        string rotstring = "";
+        while(rotstring != "0" && rotstring != "1" && rotstring != "2" && rotstring != "3") {
+            cout << "Select rotation (0:none 1:90cw 2:180cw 3:270cw):";
+            cin >> rotstring;
+        }
+        string posstr = "";
+        bool validPos = false;
+        while(!validPos){
+            cout << "Select position for tile:";
+            cin >> posstr;
+            if(valid_tile_pos(posstr))
+                validPos = players[activePlayer]->PlaceHarvestTile(gameBoard, tile, stoi(posstr), stoi(rotstring));
+        }
+    }
 }
 
 void placeBuildings(){
@@ -130,7 +216,7 @@ void draw(){
     //draw buildings
     bool fromPool = false;
     for(int i=0; i<4; i++){
-        if(resourceTracker->at(i) == 0){
+        if(players[activePlayer]->ResourceTracker()->at(i) == 0){
             display_gamestate();
             cout << "Player " << to_string(activePlayer+1) << "'s " <<*players[activePlayer]->getHand() << "\n";
             if(!fromPool){
@@ -181,11 +267,22 @@ void draw(){
     }
 }
 
-void replenish(){
+void reset(){
+    //replenish face up buildings
     int missing = 5 - revealedBuildings->getSize();
     for(int i = 0; i < missing; i++){
         revealedBuildings->addBuilding(buildingDeck->drawBuilding());
     }
+
+    //flip used delivery tile
+    if(usedDelivery) {
+        players[activePlayer]->getHand()->addHarvestTile(*deliveryTile);
+        players[activePlayer]->getHand()->exchange(gameBoard, activePlayer + 1, 2, to_string(deliveryPos), 0);
+    }
+
+    //reset
+    players[activePlayer]->ResourceTracker()->assign(4, 0);
+    usedDelivery = false;
 }
 
 void end(){
@@ -204,9 +301,6 @@ int main(){
     //game loop
     for(round_num = 1; round_num < 11; round_num++){
         for(activePlayer = 0; activePlayer < playercount; activePlayer++){
-            //set active resource tracker
-            resourceTracker = players[activePlayer]->ResourceTracker();
-
             //place tile, generate resources
             placeTile();
 
@@ -216,12 +310,8 @@ int main(){
             //draw buildings and harvest tile
             draw();
 
-            //replenish face up pool
-            replenish();
-
-            //reset resource tracker and flags
-            resourceTracker->assign(4, 0);
-            usedDelivery = false;
+            //replenish face up pool, reset vars and flip delivery if used
+            reset();
         }
     }
 
@@ -230,6 +320,7 @@ int main(){
 
     for(int i = 0; i < playercount; i++)
         delete players[i];
+    delete deliveryTile;
     delete gameBoard;
     delete buildingDeck;
     delete harvestTileDeck;
