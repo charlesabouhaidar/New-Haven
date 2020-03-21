@@ -124,11 +124,11 @@ void initialize(){
     playercount = stoi(playercountstr);
 
     //set gameboard
-    //*use gamemaploader
+    //**use gamemaploader
     gameBoard = new GBMap(playercount);
 
     //set players
-    //*use villagemaploader
+    //**use villagemaploader
     for(int i = 0; i < playercount; i++){
         string villageName;
         cout << "Enter village name for Player " << i+1 << ":";
@@ -139,7 +139,7 @@ void initialize(){
     }
 
     //set decks
-    //*not random harvest tiles?
+    //**not random harvest tiles
     buildingDeck = new BuildingDeck();
     harvestTileDeck = new HarvestTileDeck();
 
@@ -430,23 +430,42 @@ void ComputeScore(){
 
 int main(){
     //initialize game
+    cout << "Part 1 game initialization\n";
     initialize();
+    display_gamestate();
+    for(int i = 0; i < playercount; i++){
+        cout << "Player " << to_string(i+1) << "'s " <<*players[i]->getHand() << "\n";
+    }
 
-    //game loop
-    for(round_num = 1; round_num < 11; round_num++){
-        for(activePlayer = 0; activePlayer < playercount; activePlayer++){
-            //place tile, generate resources
-            placeTile();
+    string mode = "";
+    while(mode != "1" && mode != "2"){
+        cout << "Test game loop for parts 2 and 3 (1) or test game end for part 4 (2):";
+        cin >> mode;
+    }
 
-            //each player place buildings
-            placeBuildings();
+    if(mode == "1") {
+        //game loop
+        for (round_num = 1; round_num < 11; round_num++) {
+            for (activePlayer = 0; activePlayer < playercount; activePlayer++) {
+                //place tile, generate resources
+                placeTile();
 
-            //draw buildings and harvest tile
-            draw();
+                //each player place buildings
+                placeBuildings();
 
-            //replenish face up pool, reset vars and flip delivery if used
-            reset();
+                //draw buildings and harvest tile
+                draw();
+
+                //replenish face up pool, reset vars and flip delivery if used
+                reset();
+            }
         }
+    }
+
+    if(mode == "2"){
+        //**set boards
+
+        display_gamestate();
     }
 
     //calculate scores, declare winner, end the game
