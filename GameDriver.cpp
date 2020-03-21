@@ -1,3 +1,5 @@
+//Driver for parts 1,2,3,4
+
 #include "GBMap.h"
 #include "Player.h"
 #include "Resources.h"
@@ -415,7 +417,7 @@ void ComputeScore(){
     }
     cout << " WIN!\n\n";
 
-    string end = "Press enter to end the game";
+    string end = "Enter anything to end the game";
     cout << end;
     cin >> end;
 
