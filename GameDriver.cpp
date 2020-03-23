@@ -5,10 +5,15 @@
 #include "Resources.h"
 #include <iostream>
 #include <string>
+#include <random>
+#include <ctime>
 
 using std::cout;
 using std::cin;
 using std::string;
+using std::random_device;
+using std::mt19937;
+using std::uniform_real_distribution;
 
 int round_num, activePlayer, playercount, deliveryPos;
 bool usedDelivery;
@@ -465,9 +470,21 @@ int main(){
     }
 
     if(mode == "2"){
-        //**set boards
+        //set a random row in villages
+        srand( time( nullptr ) );
+        int row;
+        for(int i = 0; i < playercount; i++){
+            row = rand() % 6;
+            for(int j = 0; j < 5; j++){
+                int pos = row*5 + j;
+                players[i]->getVillage()->setTileData(to_string(pos), 111);
+            }
+        }
 
         display_gamestate();
+        for(int i = 0; i < playercount; i++){
+            cout << "Player " << to_string(i+1) << "'s " <<*players[i]->getHand() << "\n";
+        }
     }
 
     //calculate scores, declare winner, end the game

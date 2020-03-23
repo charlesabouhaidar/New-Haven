@@ -8,14 +8,11 @@
 #include <string>
 #include <vector>
 #include <cmath>
-#include <random>
-#include <algorithm>
 #include <chrono>
 
 using std::string;
 using std::vector;
 using std::to_string;
-using std::chrono::system_clock;
 
 // HARVEST TILE CLASS ------------------------------------------------------------------------------------------
 
@@ -131,6 +128,7 @@ void HarvestTile::setBottomRightResource(string* resource) {
 // Constructor
 HarvestTileDeck::HarvestTileDeck() {
     harvestTiles = new vector<HarvestTile>;
+    srand(time(nullptr));
 	if (harvestTiles->size() == 0) {
 		for (int i = 0; i < 60; i++) {
 			HarvestTile* pointer = new HarvestTile(rand() % 24 + 1);
@@ -273,7 +271,7 @@ BuildingDeck::~BuildingDeck() {
 
 // Method that returns a pointer to the building drawn from the deck
 Building BuildingDeck::drawBuilding() {
-    srand(system_clock::now().time_since_epoch().count());
+    srand(time(nullptr));
     int a = rand() % buildings->size();
 	Building temp = buildings->at(a);
 	buildings->erase(buildings->begin()+a);
