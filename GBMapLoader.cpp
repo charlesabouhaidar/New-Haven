@@ -11,8 +11,9 @@ using std::endl;
 
 GBMapLoader::GBMapLoader() {
     ifstream myFile("../GBMapLoad.txt");
-    string mystring, data, nodeNumber;
-    Graph *board = new Graph(false);
+    string mystring, data, nodeNumber, numOfPlayers = 0;
+    GBMap *gbMap;
+   // Graph *board = new Graph(false);
     if (!myFile.is_open()) {
         perror("Error opening");
         exit(EXIT_FAILURE);
@@ -28,14 +29,20 @@ GBMapLoader::GBMapLoader() {
             }
             istringstream var(mystring);
             var >> nodeNumber >> data; //first number is the node number, second number is the data inside of that node(topRight,topLeft,bottomRight,bottomLeft, playerID)
-            output(nodeNumber, data);
-            board->addNode(stod(data), nodeNumber);
+            string num = data.back(); //get last character of string to find playerID (1-4) !!!ASSUME THAT ALL PLAYERS HAVE PLAYED AT LEAST ONE MOVE!!!
+            if(numOfPlayers > num){
+                numOfPlayers = num;
+            }
+            *gbMap = new GBMap(numOfPlayers);
+            //output(nodeNumber, data); check if values are taken in correctly
+            *gbMap->board->addNode(stod(data), nodeNumber);
         }
         myFile.close();
     }
 }
-
+/*
 void GBMapLoader::output(string nodeNumber, string data){
     cout << "\nNode number: " << nodeNumber << endl;
     cout << "Data: " << data << endl;
 }
+*/
