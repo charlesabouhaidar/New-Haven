@@ -9,7 +9,7 @@ using std::istringstream;
 using std::cout;
 using std::endl;
 
-GBMapLoader::GBMapLoader(int numberOfPlayers) {
+GBMap* GBMapLoader::gbMapLoader(int numberOfPlayers) {
     ifstream myFile("../GBMapLoad.txt");
     string mystring, data, nodeNumber;
     GBMap *gbMap = new GBMap(numberOfPlayers);
@@ -40,7 +40,8 @@ GBMapLoader::GBMapLoader(int numberOfPlayers) {
                 gbMap->getBoard()->addNode(stod(data), nodeNumber);
             }
             myFile.close();
-        
+            return gbMap;
+
     }
 }
 
