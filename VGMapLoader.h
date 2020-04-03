@@ -12,8 +12,7 @@ using std::string;
 class VGMapLoader {
 
 public:
-    VGMapLoader();
-    void output(string nodeNumber, string data);
+    VGMap* vgMapLoader(String villageName);
 
 };
 
