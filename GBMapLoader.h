@@ -2,14 +2,14 @@
 #define COMP345_GBMAPLOADER_H
 
 #include <string>
+#include <fstream>
 #include "GBMap.h"
 
 using std::string;
 
 class GBMapLoader {
 public:
-    GBMapLoader();
-    void output(string nodeNumber, string data);
+    GBMap* gbMapLoader(int numberOfPlayers);
 };
 
 #endif //COMP345_GBMAPLOADER_H
