@@ -10,19 +10,18 @@ using std::cout;
 using std::endl;
 
 
-VGMapLoader::VGMapLoader() {
+VGMap* VGMapLoader::vgMapLoader(String villageName) {
     ifstream myFile("../VGMapLoad.txt");
     string mystring, data, nodeNumber;
-   // Graph *board = new Graph(false);
+    VGMap *vgMap = new VGMap(villageName);
+    // Graph *board = new Graph(false);
     if(!myFile.is_open()){
         perror("Error opening");
         exit(EXIT_FAILURE);
     }
     else {
-        if(myFile.peek() == std::ifstream::traits_type.eof()){
-            VGMap *vgMap = new VGMap();
-        }
-        else{
+
+            VGMap *vgMap = new VGMap(villageName);
             while (getline(myFile, mystring)) {
                 if(mystring.empty()){ //if empty line just skip
                     continue;
@@ -31,7 +30,7 @@ VGMapLoader::VGMapLoader() {
                     perror("Incorrect format, map can't load");
                     exit(EXIT_FAILURE);
                 }
-                VGMap *vgMap = new VGMap();
+                VGMap *vgMap = new VGMap(villageName);
                 istringstream var(mystring);
                 var >> nodeNumber >> data; //first number is the node number, followed by type, numValue, flipped or not
                 vgMap->getBoard()->addNode(stod(data), nodeNumber); //add data to nodeNumber in vgMap
@@ -39,7 +38,8 @@ VGMapLoader::VGMapLoader() {
                 // board->addNode(stod(data), nodeNumber);
             }
             myFile.close();
-        }
+            return vgMap;
+
     }
 }
 /*
