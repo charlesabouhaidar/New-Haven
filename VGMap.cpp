@@ -8,7 +8,7 @@ using std::to_string;
 VGMap::VGMap(string name){
     resourceFlags = new vector<bool>;
     resourceFlags->assign(4, false);
-    villageName = name;
+    villageName = new string(name);
     board = new Graph(false);
     buildingCount = new int(0);
     vector<string> reachableNodes;
@@ -87,7 +87,7 @@ VGMap::~VGMap(){
 };
 
 string VGMap::getName(){
-    return villageName;
+    return *villageName;
 }
 
 Graph* VGMap::getBoard() {

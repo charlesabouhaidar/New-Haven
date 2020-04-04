@@ -9,7 +9,7 @@ using std::string;
 
 class GBMapLoader {
 public:
-    GBMap* gbMapLoader(int numberOfPlayers);
+    GBMap* load(int numberOfPlayers);
 };
 
 #endif //COMP345_GBMAPLOADER_H

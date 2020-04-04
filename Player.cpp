@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "VGMapLoader.h"
 
 using std::string;
 using std::vector;
@@ -117,7 +118,8 @@ int ScoreCounter::CalculateScore(VGMap* village) {
 
 Player::Player(){
     playerID = new int(0);
-    village = new VGMap();
+    VGMapLoader vgloader;
+    village = vgloader.load("Unspecified");
     hand = new Hand();
     resourceTracker = new vector<int>;
     resourceTracker->assign(4, 0);
@@ -127,7 +129,8 @@ Player::Player(){
 
 Player::Player(int id, string villageName) {
     playerID = new int(id);
-    village = new VGMap(villageName);
+    VGMapLoader vgloader;
+    village = vgloader.load(villageName);
     hand = new Hand();
     resourceTracker = new vector<int>;
     resourceTracker->assign(4, 0);

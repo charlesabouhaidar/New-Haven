@@ -3,6 +3,7 @@
 #include "GBMap.h"
 #include "Player.h"
 #include "Resources.h"
+#include "GBMapLoader.h"
 #include <iostream>
 #include <string>
 #include <random>
@@ -24,6 +25,7 @@ GBMap* gameBoard;
 BuildingDeck* buildingDeck;
 HarvestTileDeck* harvestTileDeck;
 
+//Prints the state of game objects
 void display_gamestate(){
     cout << string(50, '\n');
     cout << "ROUND " << to_string(round_num) << "  PLAYER " << to_string(activePlayer+1) << "'S TURN\n";
@@ -46,7 +48,7 @@ void display_gamestate(){
     }
     for(int i=0; i < playercount; i++){
         string name = players[i]->getVillage()->getName();
-        cout << players[i]->getVillage()->getName();
+        cout << name;
         cout << string(22-name.length(), ' ');
     }
     cout << "\n";
@@ -79,6 +81,7 @@ void display_gamestate(){
     cout << "\n";
 }
 
+//Checks if a position input is valid
 bool valid_tile_pos(string pos){
     bool valid = false;
     if(playercount >= 2){
@@ -121,6 +124,7 @@ bool is_number(string str)
     return isNumber;
 }
 
+//Initializes the game
 void initialize(){
     //set player count
     string playercountstr;
@@ -131,11 +135,10 @@ void initialize(){
     playercount = stoi(playercountstr);
 
     //set gameboard
-    //**use gamemaploader
-    gameBoard = new GBMap(playercount);
+    GBMapLoader gbloader;
+    gameBoard = gbloader.load(playercount);
 
     //set players
-    //**use villagemaploader
     for(int i = 0; i < playercount; i++){
         string villageName;
         cout << "Enter village name for Player " << i+1 << ":";
@@ -146,7 +149,6 @@ void initialize(){
     }
 
     //set decks
-    //**not random harvest tiles
     buildingDeck = new BuildingDeck();
     harvestTileDeck = new HarvestTileDeck();
 
@@ -170,6 +172,7 @@ void initialize(){
     usedDelivery = false;
 }
 
+//Tile placement logic
 void placeTile(){
     display_gamestate();
     cout << "Player " << to_string(activePlayer+1) << "'s " <<*players[activePlayer]->getHand() << "\n";
@@ -234,6 +237,7 @@ void placeTile(){
     }
 }
 
+//Building placement logic
 void placeBuildings(){
     for(int i=0; i < playercount; i++){
         bool placing = true;
@@ -292,6 +296,7 @@ void placeBuildings(){
     }
 }
 
+//Building and tile drawing logic
 void draw(){
     //draw buildings
     bool fromPool = false;
@@ -347,6 +352,7 @@ void draw(){
     }
 }
 
+//Resets game state after turn end
 void reset(){
     //replenish face up buildings
     int missing = 5 - revealedBuildings->getSize();
@@ -365,6 +371,7 @@ void reset(){
     usedDelivery = false;
 }
 
+//Identify winner and end the game
 void ComputeScore(){
     //get scores and counts
     int scores[playercount];

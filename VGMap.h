@@ -12,7 +12,7 @@ using std::ostream;
 
 class VGMap{
 private:
-    string villageName;
+    string* villageName;
     vector<bool>* resourceFlags;
     int* buildingCount;
 public:
