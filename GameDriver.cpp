@@ -444,53 +444,22 @@ void ComputeScore(){
 
 int main(){
     //initialize game
-    cout << "Part 1 game initialization\n";
     initialize();
-    display_gamestate();
-    for(int i = 0; i < playercount; i++){
-        cout << "Player " << to_string(i+1) << "'s " <<*players[i]->getHand() << "\n";
-    }
 
-    string mode = "";
-    while(mode != "1" && mode != "2"){
-        cout << "Test game loop for parts 2 and 3 (1) or test game end for part 4 (2):";
-        cin >> mode;
-    }
+    //game loop
+    for (round_num = 1; round_num < 11; round_num++) {
+        for (activePlayer = 0; activePlayer < playercount; activePlayer++) {
+            //place tile, generate resources
+            placeTile();
 
-    if(mode == "1") {
-        //game loop
-        for (round_num = 1; round_num < 11; round_num++) {
-            for (activePlayer = 0; activePlayer < playercount; activePlayer++) {
-                //place tile, generate resources
-                placeTile();
+            //each player place buildings
+            placeBuildings();
 
-                //each player place buildings
-                placeBuildings();
+            //draw buildings and harvest tile
+            draw();
 
-                //draw buildings and harvest tile
-                draw();
-
-                //replenish face up pool, reset vars and flip delivery if used
-                reset();
-            }
-        }
-    }
-
-    if(mode == "2"){
-        //set a random row in villages
-        srand( time( nullptr ) );
-        int row;
-        for(int i = 0; i < playercount; i++){
-            row = rand() % 6;
-            for(int j = 0; j < 5; j++){
-                int pos = row*5 + j;
-                players[i]->getVillage()->setTileData(to_string(pos), 111);
-            }
-        }
-
-        display_gamestate();
-        for(int i = 0; i < playercount; i++){
-            cout << "Player " << to_string(i+1) << "'s " <<*players[i]->getHand() << "\n";
+            //replenish face up pool, reset vars and flip delivery if used
+            reset();
         }
     }
 
