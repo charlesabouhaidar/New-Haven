@@ -81,6 +81,7 @@ VGMap::VGMap(const VGMap &vgMap){
 }
 
 VGMap::~VGMap(){
+    delete villageName;
     delete resourceFlags;
     delete board;
     delete buildingCount;
