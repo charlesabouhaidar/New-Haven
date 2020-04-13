@@ -23,20 +23,4 @@ private:
     list<Observer*> *_observers;
 };
 
-class TurnSubject : public Subject{
-
-};
-
-class TurnObserver : public Observer{
-
-};
-
-class StatSubject : public Subject{
-
-};
-
-class StatObserver : public Observer{
-
-};
-
 #endif //GAME_GAMEOBSERVERS_H
