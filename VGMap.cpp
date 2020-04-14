@@ -145,7 +145,7 @@ int VGMap::getBuildingCount(){
 }
 
 void VGMap::incrementBuildingCount(){
-    buildingCount++;
+    *buildingCount = *buildingCount+1;
 }
 
 vector<string> VGMap::toStrings(){
