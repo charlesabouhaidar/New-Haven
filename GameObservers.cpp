@@ -344,9 +344,9 @@ void Game::ComputeScore() {
     *phase = "GAME OVER";
     *handPlayer = -1;
     //get scores and counts
-    int scores[*playercount];
-    int buildingCount[*playercount];
-    int handBuildings[*playercount];
+    int scores[4];
+    int buildingCount[4];
+    int handBuildings[4];
     for(int i=0; i < *playercount; i++){
         scores[i] = players[i]->getScoreCounter()->CalculateScore(players[i]->getVillage());
         buildingCount[i] = players[i]->getVillage()->getBuildingCount();
