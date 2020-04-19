@@ -9,6 +9,7 @@
 
 using std::list;
 
+//Observer base class
 class Observer{
 public:
     ~Observer();
@@ -17,6 +18,7 @@ protected:
     Observer();
 };
 
+//Subject base class
 class Subject{
 public:
     virtual void Attach(Observer* o);
@@ -28,6 +30,10 @@ private:
     list<Observer*> *_observers;
 };
 
+/**
+ * Concrete subject for the game
+ * Performs all game operations
+ */
 class Game : public Subject{
     friend int main();
 private:
@@ -49,30 +55,34 @@ private:
     bool valid_building_pos(string pos);
     bool is_number(string str);
 public:
-    Game();
-    ~Game();
-    void initialize();
-    void placeTilePhase();
-    void placeBuildingsPhase();
-    void drawPhase();
-    void nextTurn();
-    void ComputeScore();
-    bool gameDone();
-    int getRound();
-    int getActivePlayer();
-    int getPlayerCount();
-    vector<string> getGameBoardStrs();
-    vector<vector<string>> getVillagesStrs();
-    string getRevealedBuildingsStr();
-    vector<string> getVillageNames();
-    string getTrackerStr();
-    int getHandPlayer();
-    void printCurrentHand();
-    string getPhase();
-    vector<string> getStatsStrs();
-    string getWinnerStr();
+    Game();                                     //Constructor
+    ~Game();                                    //Destructor
+    void initialize();                          //sets up the game
+    void placeTilePhase();                      //place tile and generate resources
+    void placeBuildingsPhase();                 //each player place buildings
+    void drawPhase();                           //draw buildings and harvest tile
+    void nextTurn();                            //set game for next turn
+    void ComputeScore();                        //calculate scores, set winner, end the game
+    bool gameDone();                            //returns if the game is done or not
+    int getRound();                             //gets the current game round
+    int getActivePlayer();                      //gets which player's turn it currently is
+    int getPlayerCount();                       //gets the number of players in the game
+    vector<string> getGameBoardStrs();          //gets the game board as a vector of strings
+    vector<vector<string>> getVillagesStrs();   //gets all the villages each as a vector of strings
+    string getRevealedBuildingsStr();           //gets the pool of revealed buildings as a string
+    vector<string> getVillageNames();           //gets the village names
+    string getTrackerStr();                     //gets the currently active resource tracker as a string
+    int getHandPlayer();                        //gets the relevant player for the current game action
+    void printCurrentHand();                    //prints the hand of the relevant player for the current game action
+    string getPhase();                          //gets the current game phase
+    vector<string> getStatsStrs();              //gets the win condition statistics for each player as strings
+    string getWinnerStr();                      //gets the winner declaration
 };
 
+/**
+ * Concrete observer for part 1
+ * View for relevant turn playing information
+ */
 class TurnObserver : public Observer{
 public:
     TurnObserver();
@@ -84,6 +94,10 @@ private:
     Game* _subject;
 };
 
+/**
+ * Concrete observer for part 2
+ * View for win condition statistics
+ */
 class StatsObserver : public Observer{
 public:
     StatsObserver();

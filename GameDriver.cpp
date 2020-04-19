@@ -10,21 +10,17 @@ int main(){
     TurnObserver* turnObserver = new TurnObserver(game);
     StatsObserver* statsObserver = new StatsObserver(game);
 
-    //initialize game
     game->initialize();
 
     //game loop
     while (!game->gameDone()) {
-        //place tile, generate resources
+
         game->placeTilePhase();
 
-        //each player place buildings
         game->placeBuildingsPhase();
 
-        //draw buildings and harvest tile
         game->drawPhase();
 
-        //set game for next turn
         game->nextTurn();
 
         //option to skip to game end for testing
@@ -40,7 +36,6 @@ int main(){
         }
     }
 
-    //calculate scores, declare winner, end the game
     game->ComputeScore();
 
     string end = "Enter anything to end the game";
