@@ -1,5 +1,6 @@
 #include "GameObservers.h"
 #include <iostream>
+#include <climits>
 
 using std::cout;
 using std::cin;
